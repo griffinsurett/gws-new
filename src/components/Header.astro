@@ -5,22 +5,19 @@ import Menu from "@/components/Menu/Menu.astro";
 import MenuItem from "@/components/Menu/MenuItem.astro";
 import Submenu from "@/components/Menu/Submenu.astro";
 import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
+import GifLogo from './GifLogo';
 
 const breakpoint = "lg";
 ---
 
-<header class="flex justify-between items-center p-[var(--spacing-md)] bg-bg">
+<header class="flex justify-between items-center p-[var(--spacing-md)] bg-bg sticky top-0 z-[9999]">
   <!-- Logo / site identity -->
   <a href="/" class="flex items-center">
-    <Image
-      src={SiteData.logo.src}
-      alt={`${SiteData.title} logo`}
-      class="h-10 w-auto"
-      format="webp"
-      loading="eager"
-      fetchpriority="high"
-      aria-hidden="true"
-    />
+    <GifLogo
+        alt="Company Logo"
+        className="h-13 w-auto"
+        client:load
+      />
     <div class="ml-[var(--spacing-sm)]">
       <div class="text-xl font-bold">{SiteData.title}</div>
       <div class="text-sm text-text">{SiteData.tagline}</div>
