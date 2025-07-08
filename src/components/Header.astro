@@ -5,7 +5,7 @@ import Menu from "@/components/Menu/Menu.astro";
 import MenuItem from "@/components/Menu/MenuItem.astro";
 import Submenu from "@/components/Menu/Submenu.astro";
 import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
-import GifLogo from './GifLogo';
+import VideoLogo from './VideoLogo';
 
 const breakpoint = "lg";
 ---
@@ -13,9 +13,9 @@ const breakpoint = "lg";
 <header class="flex justify-between items-center p-[var(--spacing-md)] sticky top-0 z-[9999]">
   <!-- Logo / site identity -->
   <a href="/" class="flex items-center">
-    <GifLogo
+    <VideoLogo
         alt="Company Logo"
-        className="h-13 w-auto"
+        className="h-full w-auto"
         client:load
       />
     <div class="ml-[var(--spacing-sm)]">

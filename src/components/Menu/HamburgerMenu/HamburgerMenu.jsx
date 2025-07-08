@@ -42,8 +42,8 @@ export default function HamburgerMenu({
   return (
     <Modal
       isOpen={open}
-      className="w-full h-full flex flex-col items-center justify-center bg-primary text-bg"
-      overlayClass="bg-black bg-opacity-75"
+      className="w-full h-full flex flex-col items-center justify-center bg-bg text-bg"
+      overlayClass="bg-bg bg-opacity-75"
       closeButton={false}
       closeButtonClass="absolute top-4 right-4 p-2"
       onClose={closeMenu}
