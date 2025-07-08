@@ -6,23 +6,14 @@ import MenuItem from "@/components/Menu/MenuItem.astro";
 import Submenu from "@/components/Menu/Submenu.astro";
 import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
 import VideoLogo from './VideoLogo';
+import Logo from "@/components/Logo.astro";
 
 const breakpoint = "lg";
 ---
 
 <header class="flex justify-between items-center p-[var(--spacing-md)] sticky top-0 z-[9999]">
   <!-- Logo / site identity -->
-  <a href="/" class="flex items-center">
-    <VideoLogo
-        alt="Company Logo"
-        className="h-full w-auto"
-        client:load
-      />
-    <div class="ml-[var(--spacing-sm)]">
-      <div class="text-xl font-bold">{SiteData.title}</div>
-      <div class="text-sm text-text">{SiteData.tagline}</div>
-    </div>
-  </a>
+<Logo/>
 
   <Menu
     collection="menuItems"

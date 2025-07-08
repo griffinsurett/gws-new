@@ -11,69 +11,62 @@ export default function VideoLogo({
 }) {
   const containerRef = useRef(null);
   const videoRef     = useRef(null);
-
-  // inView → when we've scrolled into view at least 10%
   const [inView, setInView] = useState(false);
+  const pauseTimeout = useRef(null);
 
-  // track last scroll Y
-  const lastScrollY = useRef(0);
-
-  // a ref to hold our “pause after scrolling stops” timer
-  const stopTimeout = useRef(null);
-
-  // 1️⃣ Lazy-load the video when it scrolls into view
+  // 1️⃣ Lazy‐load via IntersectionObserver
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-
-    const obs = new IntersectionObserver(
+    const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          obs.disconnect();
+          io.disconnect();
         }
       },
       { threshold: 0.1 }
     );
-
-    obs.observe(el);
-    return () => obs.disconnect();
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
-  // 2️⃣ Once in view, listen to scroll and drive playback
+  // 2️⃣ Wheel handler drives forward or reverse, loops instantly, pauses only after no wheel for 100ms
   useEffect(() => {
     if (!inView) return;
+    const vid = videoRef.current;
+    if (!vid) return;
 
-    // initialize
-    lastScrollY.current = window.scrollY;
+    const reverseStep = 0.02;   // half‐speed step backwards
+    const HALF_SPEED   = 0.5;   // half the normal rate
 
-    const onScroll = () => {
-      const vid = videoRef.current;
-      if (!vid) return;
+    function onWheel(e) {
+      // cancel any pending pause
+      clearTimeout(pauseTimeout.current);
 
-      // determine direction
-      const delta = window.scrollY - lastScrollY.current;
-      lastScrollY.current = window.scrollY;
+      if (e.deltaY > 0) {
+        // ▶️ scroll down → play forward at half speed
+        vid.playbackRate = HALF_SPEED;
+        vid.play().catch(() => {});
+      } else {
+        // ◀️ scroll up → pause then step backwards one chunk, looping seamlessly
+        vid.pause();
+        vid.currentTime =
+          vid.currentTime > reverseStep
+            ? vid.currentTime - reverseStep
+            : vid.duration;
+      }
 
-      // set forward/reverse
-      vid.playbackRate = delta > 0 ? 1 : -1;
-
-      // play (if paused, this restarts)
-      vid.play().catch(() => {});
-
-      // clear any pending pause
-      clearTimeout(stopTimeout.current);
-
-      // schedule a pause once scrolling stops (after 100ms of no scroll)
-      stopTimeout.current = setTimeout(() => {
+      // once wheel stops for 100ms, pause
+      pauseTimeout.current = setTimeout(() => {
         vid.pause();
       }, 100);
-    };
+    }
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("wheel", onWheel, { passive: true });
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      clearTimeout(stopTimeout.current);
+      window.removeEventListener("wheel", onWheel);
+      clearTimeout(pauseTimeout.current);
     };
   }, [inView]);
 
