@@ -10,7 +10,7 @@ import GifLogo from './GifLogo';
 const breakpoint = "lg";
 ---
 
-<header class="flex justify-between items-center p-[var(--spacing-md)] bg-bg sticky top-0 z-[9999]">
+<header class="flex justify-between items-center p-[var(--spacing-md)] sticky top-0 z-[9999]">
   <!-- Logo / site identity -->
   <a href="/" class="flex items-center">
     <GifLogo
@@ -31,10 +31,10 @@ const breakpoint = "lg";
     manualOrder={true}
     responsive={true}
     breakpoint={breakpoint}
-    hamburgerOnly={false}
+    hamburgerOnly={true}
 
     desktop={{
-      itemsClass: "flex gap-[var(--spacing-md)]",
+      itemsClass: "flex gap-[var(--spacing-md)] bg-bg",
       itemClass: "",
       menuItem: {
         // component: MenuItem,

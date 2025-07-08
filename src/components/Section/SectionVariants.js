@@ -12,14 +12,7 @@ export const SectionVariants = {
   primaryHero: {
     sectionClass: 
       "min-h-[80vh] md:min-h-[70vh] flex items-center justify-center " +
-      "bg-cover bg-fixed bg-center z-10 md:p-[var(--spacing-lg)] text-bg text-xl",
-    backgroundMedia: {
-      image: {
-        src: HeroBg,
-        imageClass: "filter brightness-50 bg-cover bg-center xl:bg-fixed",
-      },
-      overlayClass: "bg-text opacity-50",
-    },
+      "bg-cover bg-fixed bg-center z-10 md:p-[var(--spacing-lg)] text-xl",
     contentClass: "relative z-20 text-center space-y-[var(--spacing-md)]",
     buttonsSectionClass: "mt-[var(--spacing-xl)] flex flex-wrap gap-[var(--spacing-md)] justify-center",
   },

@@ -44,7 +44,7 @@ export default function HamburgerMenu({
       isOpen={open}
       className="w-full h-full flex flex-col items-center justify-center bg-primary text-bg"
       overlayClass="bg-black bg-opacity-75"
-      closeButton={true}
+      closeButton={false}
       closeButtonClass="absolute top-4 right-4 p-2"
       onClose={closeMenu}
     >
