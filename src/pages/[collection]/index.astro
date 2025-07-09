@@ -47,7 +47,7 @@ try {
 }
 
 // 4) Load the layout
-const spec = meta.layout || "../../layouts/ExtendedLayout.astro";
+const spec = meta.layout || "../../layouts/BaseLayout.astro";
 const layoutMap = import.meta.glob("../../layouts/**/*.astro");
 const importer  = layoutMap[spec];
 if (!importer) throw new Error(`Unknown layout: ${spec}`);

@@ -17,7 +17,7 @@ export default function AccordionItem({
       className={`
         accordion-item
         hover-border-effect
-        ${!open ? "hover-animation" : ""}
+        ${!open ? "hover-animation hover:scale-102" : ""}
         ${itemClass}
       `}
     >

@@ -110,7 +110,7 @@
   }
 
     .hover-animation {
-    @apply hover:scale-102 transition-transform duration-300 ease-in-out;
+    @apply transition-transform duration-300 ease-in-out;
   }
 
   .border-effect {

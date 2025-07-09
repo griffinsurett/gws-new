@@ -25,7 +25,7 @@ export default function Card({ item, itemClass, collectionName, HasPage }) {
 
   if (effectiveHasPage) {
     return (
-      <a href={href} className={`block w-full hover-border-effect hover-animation ${baseClasses}`} aria-label={`View more about ${item.data.title}`}>
+      <a href={href} className={`block w-full hover-border-effect hover-animation hover:scale-102 ${baseClasses}`} aria-label={`View more about ${item.data.title}`}>
         <article>
           {content}
         </article>

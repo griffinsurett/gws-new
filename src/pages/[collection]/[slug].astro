@@ -54,7 +54,7 @@ try {
 
 // 2) Default layout specifier (must match the glob keys)
 const spec =
-  meta.itemsLayout || meta.layout || "../../layouts/ExtendedLayout.astro";
+  meta.itemsLayout || meta.layout || "../../layouts/BaseLayout.astro";
 
 // 3) Register all layouts two levels up
 const layoutImporters = import.meta.glob("../../layouts/**/*.astro");

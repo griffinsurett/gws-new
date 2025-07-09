@@ -29,11 +29,11 @@ export default function MobileMenuItem({
   const link = getMenuLink(item, collectionName);
 
   return (
-    <div className={`menu-item group ${itemClass}`}>                    
-    <div className={`flex w-full items-center justify-between`}>
+<div className={`menu-item ${itemClass}`}>
+      <div className="flex w-full items-center justify-between group">
       <Button
         as="a"
-        variant="link"
+        variant={hasKids ? "linkNoIcon" : "link"}
         href={link}
         className={`flex-1 text-left ${linkClass}`}  
         onClick={onItemClick}
@@ -44,7 +44,7 @@ export default function MobileMenuItem({
       {hasKids && (
         <Button
           as="button"
-          variant="linkNoIcon"
+          variant={hasKids ? "linkNoIcon" : "link"}
           tabIndex={0}
           onClick={() => setOpen(o => !o)}
           onKeyDown={(e) => {
@@ -53,7 +53,7 @@ export default function MobileMenuItem({
               setOpen(o => !o);
             }
           }}
-          className={`ml-2 p-1 ${itemClass} ${linkClass}`}     
+          className={`ml-2 p-1 ${linkClass}`}     
           aria-haspopup="true"
           aria-expanded={open}
         >
