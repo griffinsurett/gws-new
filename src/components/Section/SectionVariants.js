@@ -12,9 +12,9 @@ export const SectionVariants = {
   primaryHero: {
     sectionClass:
       "flex flex-col items-center min-h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-fixed bg-center z-10 text-xl",
-    contentClass: "min-h-screen md:min-h-full relative md:py-0 w-auto h-full flex flex-col md:flex-row z-20 md:gap-[var(--spacing-xs)]",
+    contentClass: "relative md:py-0 w-auto h-full flex flex-col md:flex-row z-20 md:gap-[var(--spacing-xs)]",
     topContentClass:
-      "basis-4/7 w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
+      "basis-4/7 min-h-screen lg:h-auto w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
     imageColumnClass: "basis-3/7 flex items-end justify-center md:justify-end",
     buttonsPlacement: "top-content-section",
     headingAreaClass: "space-y-[var(--spacing-md)]",
