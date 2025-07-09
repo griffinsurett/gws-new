@@ -6,21 +6,28 @@
 /* ───────────────────────────────────────────────────── */
 @theme {
   /* Colors */
-  --color-bg:        #0e0e0e;
+  --color-bg:        #0F0F0F;
+  --color-bg2:      #1d1d1e;
   --color-text:      #f9fafb;
   --color-primary:   #5e76f6;
   --color-secondary: #ec4899;
   --color-accent:    #34d399;
   --color-neutral:   #374151;
 
+  /* Gradients */
+  --cardGradient: linear-gradient(145deg,var(--color-bg),var(--color-bg2));
+
   /* Typography */
   --font-base:    'Inter', sans-serif;
   --font-heading: 'Poppins', sans-serif;
 
   /* Spacing tokens */
+  --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1.2rem;
+  --spacing-xl: 1.5rem;
+  --spacing-2xl: 2rem;
 
   /* Border Radius */
   --radius-xs: 0.125rem;
@@ -63,22 +70,30 @@
   }
 
   /* Container for centered layouts */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--spacing-md);
+  .page-container {
+    @apply w-8/10 lg:w-9/10 mx-auto;
   }
 
   /* Global header styles */
-  .h1 { @apply text-2xl font-bold    text-[var(--color-text)]; }
-  .h2 { @apply text-2xl font-semibold text-[var(--color-text)]; }
-  .h3 { @apply text-xl font-semibold  text-[var(--color-text)] md:text-2xl; }
-  .h4 { @apply text-lg font-medium    text-[var(--color-text)] md:text-xl; }
+  .h1 { @apply text-3xl md:text-4xl lg:text-5xl font-bold;    }
+  .h2 { @apply text-3xl lg:text-4xl font-semibold; }
+  .h3 { @apply text-2xl font-semibold md:text-2xl; }
+  .h4 { @apply text-xl font-medium md:text-xl; }
   .h5,
-  .h6 { @apply text-base font-medium  text-[var(--color-text)] md:text-lg; }
+  .h6 { @apply text-base font-medium md:text-lg; }
   
   p {
     @apply mb-4 leading-relaxed text-base;
+  }
+}
+
+@layer components {
+    .card {
+    @apply [background-image:var(--cardGradient)] rounded-2xl;
+  }
+
+  .accordion-item {
+    @apply [background-image:var(--cardGradient)] rounded-2xl
   }
 }
 
@@ -92,5 +107,17 @@
   }
   .hide-scrollbar::-webkit-scrollbar {
     display: none;             /* Chrome, Safari, Opera */
+  }
+
+    .hover-animation {
+    @apply hover:scale-102 transition-transform duration-300 ease-in-out;
+  }
+
+  .border-effect {
+    @apply border border-primary;
+  }
+
+  .hover-border-effect {
+    @apply hover:border border-bg2 hover:border-primary;
   }
 }

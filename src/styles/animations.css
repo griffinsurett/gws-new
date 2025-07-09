@@ -20,6 +20,10 @@
     animation-name: fade-in;
   }
 
+  .scale-in {
+    animation: scale-in 0.5s ease-out both;
+  }
+
   .animate-on-appear {
     animation-name: fade-in-up;
   }
@@ -120,6 +124,7 @@
     transition-delay: var(--transition-delay-default);
   }
   }
+  
 }
 
 /* 2️⃣ IntersectionObserver fallback when timeline isn’t supported */
@@ -165,7 +170,18 @@
     .load.scale-up.visible {
       animation: scale-up 1s both;
     }
+      /* utility to run that spin exactly once over 0.5s */
+  .animate-spin-once {
+    animation: spin-once 0.5s ease-in-out both;
   }
+  /* hover variant if you only want it on hover */
+  .group-hover\:animate-spin-once:hover {
+    animation: spin-once 0.5s ease-in-out both;
+  }
+  .spin-twice {
+    animation: spin-twice 0.5s ease-in-out both;
+  }
+}
 }
 
 /* 3️⃣ Shared keyframes */
@@ -247,5 +263,23 @@
       opacity: 1;
       transform: scale(1);
     }
+  }
+  @keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+    @keyframes spin-once {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes spin-twice {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(720deg); }
   }
 }

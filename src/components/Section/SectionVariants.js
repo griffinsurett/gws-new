@@ -13,8 +13,8 @@ export const SectionVariants = {
     sectionClass: 
       "min-h-[80vh] md:min-h-[70vh] flex items-center justify-center " +
       "bg-cover bg-fixed bg-center z-10 md:p-[var(--spacing-lg)] text-xl",
-    contentClass: "relative z-20 text-center space-y-[var(--spacing-md)]",
-    buttonsSectionClass: "mt-[var(--spacing-xl)] flex flex-wrap gap-[var(--spacing-md)] justify-center",
+    contentClass: "relative z-20 text-left space-y-[var(--spacing-md)]",
+    buttonsSectionClass: "mt-[var(--spacing-xl)] flex flex-wrap gap-[var(--spacing-md)] justify-start",
   },
 
   /**
@@ -22,7 +22,7 @@ export const SectionVariants = {
    */
   secondaryHero: {
     sectionClass: "flex items-center justify-center",
-    contentClass: "container mx-auto text-center space-y-[var(--spacing-md)]",
+    contentClass: "mx-auto text-center space-y-[var(--spacing-md)]",
     backgroundMedia: {
       image: {
         src: HeroBg,

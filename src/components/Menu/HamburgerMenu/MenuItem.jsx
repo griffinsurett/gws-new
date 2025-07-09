@@ -29,45 +29,38 @@ export default function MobileMenuItem({
   const link = getMenuLink(item, collectionName);
 
   return (
-    <div className={`menu-item ${itemClass}`}>
-      <div className={`flex w-full items-center justify-between ${linkClass}`}>
-        {/* Title always navigates */}
-        <Button
-          as="a"
-          variant="link"
-          href={link}
-          className="flex-1 text-left"
-          onClick={onItemClick}
-        >
-          {item.data.title}
-        </Button>
+    <div className={`menu-item group ${itemClass}`}>                    
+    <div className={`flex w-full items-center justify-between`}>
+      <Button
+        as="a"
+        variant="link"
+        href={link}
+        className={`flex-1 text-left ${linkClass}`}  
+        onClick={onItemClick}
+      >
+        {item.data.title}
+      </Button>
 
-        {/* Only show a toggle arrow if there are children */}
-        {hasKids && (
-          <Button
-            as="button"
-            variant="link"
-            tabIndex={0}
-            onClick={() => setOpen((prev) => !prev)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                setOpen((prev) => !prev);
-              }
-            }}
-            className="ml-2 p-1"
-            aria-haspopup="true"
-            aria-expanded={open}
-          >
-            <span
-              className={`submenu-arrow`}
-              aria-hidden="true"
-            >
-              ▼
-            </span>
-          </Button>
-        )}
-      </div>
+      {hasKids && (
+        <Button
+          as="button"
+          variant="linkNoIcon"
+          tabIndex={0}
+          onClick={() => setOpen(o => !o)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setOpen(o => !o);
+            }
+          }}
+          className={`ml-2 p-1 ${itemClass} ${linkClass}`}     
+          aria-haspopup="true"
+          aria-expanded={open}
+        >
+          <span className="submenu-arrow">▼</span>
+        </Button>
+      )}
+    </div>
 
       {hasKids && open && (
         <div className="ml-4 border-l border-gray-200">

@@ -1,0 +1,18 @@
+---
+import TextLogo from "@/components/Logo/TextLogo";
+import { SiteData } from "@/content/SiteData";
+import VideoLogo from "@/components/Logo/VideoLogo";
+---
+<a href="/" class="flex items-center gap-[var(--spacing-xs)]">
+  <VideoLogo
+    alt="Griffin's Web Services Animated Logo"
+    client:load
+  />
+  <div>
+    <TextLogo
+      title={SiteData.title}
+      className="flex flex-col p-0 m-0"
+      client:load
+    />
+  </div>
+</a>

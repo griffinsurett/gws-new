@@ -5,15 +5,17 @@ import Menu from "@/components/Menu/Menu.astro";
 import MenuItem from "@/components/Menu/MenuItem.astro";
 import Submenu from "@/components/Menu/Submenu.astro";
 import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
-import VideoLogo from './VideoLogo';
-import Logo from "@/components/Logo.astro";
+import VideoLogo from "./VideoLogo";
+import Logo from "@/components/Logo/Logo.astro";
 
 const breakpoint = "lg";
 ---
 
-<header class="flex justify-between items-center p-[var(--spacing-md)] sticky top-0 z-[9999]">
+<header
+  class="flex justify-between items-center p-[var(--spacing-xs)] lg:p-[var(--spacing-md)] sticky top-0 z-[9999]"
+>
   <!-- Logo / site identity -->
-<Logo/>
+  <Logo />
 
   <Menu
     collection="menuItems"
@@ -23,14 +25,13 @@ const breakpoint = "lg";
     responsive={true}
     breakpoint={breakpoint}
     hamburgerOnly={true}
-
     desktop={{
       itemsClass: "flex gap-[var(--spacing-md)] bg-bg",
       itemClass: "",
       menuItem: {
         // component: MenuItem,
         props: {
-          itemClass: "px-2 py-1 text-primary hover:text-secondary",
+          itemClass: "px-2 py-1 text-primary hover:text-primary",
           linkClass:
             "flex items-center space-x-[var(--spacing-xs)] font-bold transition-colors duration-200",
           hierarchical: true,
@@ -42,7 +43,7 @@ const breakpoint = "lg";
               component: MenuItem,
               props: {
                 itemClass:
-                  "px-4 py-2 hover:bg-gray-100 text-primary hover:text-secondary",
+                  "px-4 py-2 hover:bg-gray-100 text-primary hover:text-primary",
                 linkClass:
                   "flex items-center space-x-[var(--spacing-xs)] font-medium transition-colors duration-200",
                 hierarchical: true,
@@ -53,17 +54,15 @@ const breakpoint = "lg";
         },
       },
     }}
-
     mobile={{
       itemsClass: "flex flex-col gap-[var(--spacing-md)]",
-      itemClass: "p-[var(--spacing-sm)]",
       hamburgerTransform: true,
       menuItem: {
         component: MobileMenuItem,
         props: {
           itemClass:
-            "p-[var(--spacing-sm)] text-lg text-primary hover:text-secondary",
-          linkClass: "w-full text-left",
+            "p-[var(--spacing-sm)] h2 text-primary hover:text-primary",
+          linkClass: "w-full text-left justify-center items-center",
           hierarchical: true,
           submenu: {
             component: MobileMenuItem,

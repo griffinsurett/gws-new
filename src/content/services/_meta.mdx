@@ -3,7 +3,7 @@ hasPage: true
 itemsHasPage: true
 heading:
   - before: "Our "
-    beforeClass: "text-secondary"
+    beforeClass: "text-primary"
     text: Services
     after: " that we offer"
     afterClass: "text-primary"
@@ -45,15 +45,12 @@ itemsAddToMenu:
     parent: "services"
     # respectHierarchy: true
 ---
-import Section from '@/components/Section/Section.astro'
+
+import Section from "@/components/Section/Section.astro";
 
 <Section collection="services" query="getAll" />
 
-<Section
-  collection="projects"
-  query="related"
-  heading="Related Projects"
-/>
+<Section collection="projects" query="related" heading="Related Projects" />
 
 <Section
   collection="testimonials"
@@ -61,7 +58,4 @@ import Section from '@/components/Section/Section.astro'
   heading="Client Testimonials"
 />
 
-<Section
-  collection="clients"
-  query="related"
-/>
+<Section collection="clients" query="related" />

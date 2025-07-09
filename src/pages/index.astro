@@ -1,18 +1,18 @@
 ---
 // src/pages/index.astro
-import ExtendedLayout from "@/layouts/ExtendedLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/Section/Section.astro";
 import Card from "@/components/LoopComponents/Card";
+import { SiteData } from "@/content/SiteData";
 ---
-<ExtendedLayout title="Welcome to Greactstro!" description="Your gateway to amazing projects.">
+<BaseLayout title="Welcome to Greactstro!" description="Your gateway to amazing projects.">
   <!-- Hero Section -->
 <Section
   variant="primaryHero"
-  heading={{ before:"Welcome to ", text: "Greactstro", tagName: "h1" }}
-  description="Welcome to Greactstro!"
+  heading={{ text: SiteData.tagline, tagName: "h1", class: "h1" }}
+  description={SiteData.description}
   buttons={[
-    { text: "See Our CTA", link: "/contact-us", variant: "secondary" },
-    { text: "Learn More About Us", link: "/about-us" },
+    { text: "See Our CTA", link: "/contact-us", variant: "primary" },
   ]}
 />
 
@@ -46,4 +46,4 @@ import Card from "@/components/LoopComponents/Card";
 
   <Section collection="faq" query="getAll" />
 
-</ExtendedLayout>
+</BaseLayout>
