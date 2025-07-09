@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 // ← Update these paths as needed:
 const POSTER_SRC = "/GWS-animated.png";
 const VIDEO_SRC  = "/GWS-animated.webm";
+const mediaClasses = "block w-[30px] md:w-[40px] lg:w-[50px] h-auto";
 
 export default function VideoLogo({
   alt = "",
@@ -73,14 +74,14 @@ export default function VideoLogo({
           playsInline
           preload="metadata"
           aria-label={alt}
-          className={`${className} block w-[40px] md:w-[50px] lg:w-[60px] h-auto`}
+          className={`${className} ${mediaClasses}`}
         />
       ) : (
         <img
           src={POSTER_SRC}
           alt={alt}
           loading="lazy"
-          className={`${className} block w-[40px] md:w-[50px] lg:w-[60px] h-auto`}
+          className={`${className} ${mediaClasses}`}
         />
       )}
     </div>
