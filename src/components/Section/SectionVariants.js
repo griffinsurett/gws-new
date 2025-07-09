@@ -11,11 +11,11 @@ export const SectionVariants = {
    */
   primaryHero: {
     sectionClass:
-      "flex flex-col items-center h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-fixed bg-center z-10 text-xl",
-    contentClass: "relative w-full h-full flex flex-col md:flex-row z-20",
+      "flex flex-col items-center min-h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-fixed bg-center z-10 text-xl",
+    contentClass: "relative w-9/10 py-[150px] md:py-0 md:w-auto h-full flex flex-col md:flex-row z-20",
     topContentClass:
-      "basis-3/5 flex items-center justify-center md:items-start md:justify-center flex-col pl-[20px] md:pl-[80px]",
-    imageColumnClass: "basis-2/5 flex items-end justify-center md:justify-end",
+      "basis-4/7 flex items-start justify-center md:justify-center flex-col pl-[20px] md:pl-[80px]",
+    imageColumnClass: "basis-3/7 flex items-end justify-center md:justify-end",
     buttonsPlacement: "top-content-section",
     headingAreaClass: "space-y-[var(--spacing-md)]",
     descriptionClass: "md:pr-[var(--spacing-xl)] font-thin text-lg md:text-xl",
