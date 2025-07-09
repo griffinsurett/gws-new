@@ -7,6 +7,8 @@ import Submenu from "@/components/Menu/Submenu.astro";
 import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
 import VideoLogo from "./VideoLogo";
 import Logo from "@/components/Logo/Logo.astro";
+import { CircleCheckbox } from "./CircleCheckbox";
+// import { ThemeToggle } from "./ThemeToggle"
 
 const breakpoint = "lg";
 ---
@@ -16,6 +18,9 @@ const breakpoint = "lg";
 >
   <!-- Logo / site identity -->
   <Logo />
+
+  <CircleCheckbox/>
+  <!-- <ThemeToggle/> -->
 
   <Menu
     collection="menuItems"
