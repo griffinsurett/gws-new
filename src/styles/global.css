@@ -6,20 +6,25 @@
 /* ───────────────────────────────────────────────────── */
 @theme {
   /* Colors */
-  --color-bg:        #0F0F0F;
-  --color-bg2:      #1d1d1e;
-  --color-text:      #f9fafb;
-  --color-primary:   #5e76f6;
+  --color-bg: #0f0f0f;
+  --color-bg2: #1d1d1e;
+  --color-text: #f9fafb;
+  --color-primary: #5e76f6;
   --color-secondary: #ec4899;
-  --color-accent:    #34d399;
-  --color-neutral:   #374151;
+  --color-accent: #34d399;
+  --color-neutral: #374151;
 
   /* Gradients */
-  --cardGradient: linear-gradient(145deg,var(--color-bg),var(--color-bg2));
+  --heroGradient: linear-gradient(
+    323.34deg,
+    var(--color-primary) -85.13%,
+    var(--color-bg) 40.1%
+  );
+  --cardGradient: linear-gradient(145deg, var(--color-bg), var(--color-bg2));
 
   /* Typography */
-  --font-base:    'Inter', sans-serif;
-  --font-heading: 'Poppins', sans-serif;
+  --font-base: "Inter", sans-serif;
+  --font-heading: "Poppins", sans-serif;
 
   /* Spacing tokens */
   --spacing-xs: 0.25rem;
@@ -28,6 +33,8 @@
   --spacing-lg: 1.2rem;
   --spacing-xl: 1.5rem;
   --spacing-2xl: 2rem;
+  --spacing-3xl: 2.5rem;
+  --spacing-4xl: 3rem;
 
   /* Border Radius */
   --radius-xs: 0.125rem;
@@ -36,11 +43,11 @@
   --radius-lg: 0.5rem;
 
   /* Shadows */
-  --shadow-xs:  0 1px 2px rgba(0,0,0,0.05);
-  --shadow-sm:  0 1px 3px rgba(0,0,0,0.1);
-  --shadow:     0 4px 6px rgba(0,0,0,0.1);
-  --shadow-md:  0 10px 15px rgba(0,0,0,0.1);
-  --shadow-lg:  0 20px 25px rgba(0,0,0,0.1);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* ───────────────────────────────────────────────────── */
@@ -49,12 +56,12 @@
 @media (prefers-color-scheme: light) {
   :root {
     /* Light-mode tokens (only needed if you want to override) */
-    --color-bg:        #ffffff;
-    --color-text:      #111111;
-    --color-primary:   #1d4ed8;
+    --color-bg: #ffffff;
+    --color-text: #111111;
+    --color-primary: #1d4ed8;
     --color-secondary: #f43f5e;
-    --color-accent:    #10b981;
-    --color-neutral:   #f3f4f6;
+    --color-accent: #10b981;
+    --color-neutral: #f3f4f6;
   }
 }
 
@@ -64,9 +71,9 @@
 @layer base {
   /* Base element styling */
   body {
-    font-family:      var(--font-base);
+    font-family: var(--font-base);
     background-color: var(--color-bg);
-    color:            var(--color-text);
+    color: var(--color-text);
   }
 
   /* Container for centered layouts */
@@ -75,25 +82,35 @@
   }
 
   /* Global header styles */
-  .h1 { @apply text-3xl md:text-4xl lg:text-5xl font-bold;    }
-  .h2 { @apply text-3xl lg:text-4xl font-semibold; }
-  .h3 { @apply text-2xl font-semibold md:text-2xl; }
-  .h4 { @apply text-xl font-medium md:text-xl; }
+  .h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+  }
+  .h2 {
+    @apply text-3xl lg:text-4xl font-semibold;
+  }
+  .h3 {
+    @apply text-2xl font-semibold md:text-2xl;
+  }
+  .h4 {
+    @apply text-xl font-medium md:text-xl;
+  }
   .h5,
-  .h6 { @apply text-base font-medium md:text-lg; }
-  
+  .h6 {
+    @apply text-base font-medium md:text-lg;
+  }
+
   p {
     @apply mb-4 leading-relaxed text-base;
   }
 }
 
 @layer components {
-    .card {
+  .card {
     @apply [background-image:var(--cardGradient)] rounded-2xl;
   }
 
   .accordion-item {
-    @apply [background-image:var(--cardGradient)] rounded-2xl
+    @apply [background-image:var(--cardGradient)] rounded-2xl;
   }
 }
 
@@ -102,14 +119,14 @@
 /* ───────────────────────────────────────────────────── */
 @layer utilities {
   .hide-scrollbar {
-    -ms-overflow-style: none;  /* IE & Edge */
-    scrollbar-width: none;     /* Firefox */
+    -ms-overflow-style: none; /* IE & Edge */
+    scrollbar-width: none; /* Firefox */
   }
   .hide-scrollbar::-webkit-scrollbar {
-    display: none;             /* Chrome, Safari, Opera */
+    display: none; /* Chrome, Safari, Opera */
   }
 
-    .hover-animation {
+  .hover-animation {
     @apply transition-transform duration-300 ease-in-out;
   }
 

@@ -11,10 +11,14 @@ export const SectionVariants = {
    */
   primaryHero: {
     sectionClass: 
-      "min-h-[80vh] md:min-h-[70vh] flex items-center justify-center " +
-      "bg-cover bg-fixed bg-center z-10 md:p-[var(--spacing-lg)] text-xl",
-    contentClass: "relative z-20 text-left space-y-[var(--spacing-md)]",
+      "flex items-center h-screen lg:h-auto justify-center [background-image:var(--heroGradient)] bg-cover bg-fixed bg-center z-10 text-xl",
+    contentClass: "relative h-full md:h-auto flex flex-col items-end md:items-center justify-end md:justify-center md:flex-row z-20 text-left",
     buttonsSectionClass: "mt-[var(--spacing-xl)] flex flex-wrap gap-[var(--spacing-md)] justify-start",
+    topContentClass: "flex items-start justify-center mt-[-30px] lg:mt-[80px] md:w-1/2 flex-col pl-[20px] md:pl-[80px] flex-shrink",
+    imageColumnClass: "flex justify-end items-end w-1/2",
+    buttonsPlacement: "top-content-section",
+    headingAreaClass: "space-y-[var(--spacing-md)]",
+    descriptionClass: "md:pr-[var(--spacing-xl)] font-thin text-lg md:text-xl",
   },
 
   /**

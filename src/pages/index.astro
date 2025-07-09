@@ -4,6 +4,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/Section/Section.astro";
 import Card from "@/components/LoopComponents/Card";
 import { SiteData } from "@/content/SiteData";
+import { Image } from "astro:assets";
+import HeroImage from "@/assets/computer-guy.png"
 ---
 <BaseLayout title="Welcome to Greactstro!" description="Your gateway to amazing projects.">
   <!-- Hero Section -->
@@ -14,8 +16,18 @@ import { SiteData } from "@/content/SiteData";
   buttons={[
     { text: "See Our CTA", link: "/contact-us", variant: "primary" },
   ]}
-/>
+>
+<div class="block" slot="imageColumn">
+<Image
+  src={HeroImage}
+  alt="Hero Image"
+  class="w-auto h-full object-cover z-30"
+  />
+</div>
 
+
+</Section>
+<div class="page-container">
   <!-- Services -->
   <Section
     collection="services"
@@ -45,5 +57,5 @@ import { SiteData } from "@/content/SiteData";
 
 
   <Section collection="faq" query="getAll" />
-
+</div>
 </BaseLayout>
