@@ -10,12 +10,12 @@ export const SectionVariants = {
    * Primary Hero variant – full-screen hero with background image, overlay, heading, description, and buttons.
    */
   primaryHero: {
-    sectionClass: 
-      "flex items-center h-screen lg:h-auto justify-center [background-image:var(--heroGradient)] bg-cover bg-fixed bg-center z-10 text-xl",
-    contentClass: "relative h-full md:h-auto flex flex-col items-end md:items-center justify-end md:justify-center md:flex-row z-20 text-left",
-    buttonsSectionClass: "mt-[var(--spacing-xl)] flex flex-wrap gap-[var(--spacing-md)] justify-start",
-    topContentClass: "flex items-start justify-center mt-[-30px] lg:mt-[80px] md:w-1/2 flex-col pl-[20px] md:pl-[80px] flex-shrink",
-    imageColumnClass: "flex justify-end items-end w-1/2",
+    sectionClass:
+      "flex flex-col items-center h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-fixed bg-center z-10 text-xl",
+    contentClass: "relative w-full h-full flex flex-col md:flex-row z-20",
+    topContentClass:
+      "basis-3/5 flex items-center justify-center md:items-start md:justify-center flex-col pl-[20px] md:pl-[80px]",
+    imageColumnClass: "basis-2/5 flex items-end justify-center md:justify-end",
     buttonsPlacement: "top-content-section",
     headingAreaClass: "space-y-[var(--spacing-md)]",
     descriptionClass: "md:pr-[var(--spacing-xl)] font-thin text-lg md:text-xl",
