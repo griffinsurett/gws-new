@@ -65,6 +65,16 @@
   }
 }
 
+/* 2. Light via data-theme attribute */
+:root[data-theme="light"] {
+  --color-bg:        #ffffff;
+  --color-text:      #111111;
+  --color-primary:   #1d4ed8;
+  --color-secondary: #f43f5e;
+  --color-accent:    #10b981;
+  --color-neutral:   #f3f4f6;
+}
+
 /* ───────────────────────────────────────────────────── */
 /* 3. BASE LAYER                                        */
 /* ───────────────────────────────────────────────────── */
