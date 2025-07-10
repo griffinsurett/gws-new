@@ -17,7 +17,7 @@
   /* Gradients */
   --heroGradient: linear-gradient(
     323.34deg,
-    var(--color-primary) -85.13%,
+    var(--color-accent) -85.13%,
     var(--color-bg) 40.1%
   );
   --cardGradient: linear-gradient(145deg, var(--color-bg), var(--color-bg2));
@@ -60,7 +60,6 @@
     --color-text:      #111111;
     --color-primary:   var(--color-text);  /* primary = text in light mode */
     --color-secondary: #f43f5e;
-    --color-accent:    #10b981;
     --color-neutral:   #f3f4f6;
   }
 }
@@ -71,7 +70,6 @@
   --color-text:      #111111;
   --color-primary:   var(--color-text);  /* primary = text in light mode */
   --color-secondary: #f43f5e;
-  --color-accent:    #10b981;
   --color-neutral:   #f3f4f6;
 }
 

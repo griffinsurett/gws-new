@@ -21,8 +21,8 @@ export function CircleCheckbox({ checked, onChange, label, ...props }) {
           border-2
           border-bg2            
           bg-bg2
-          peer-checked:border-primary
-          peer-checked:bg-primary
+          peer-checked:border-accent
+          peer-checked:bg-accent
           transition-all  
         "
       />
