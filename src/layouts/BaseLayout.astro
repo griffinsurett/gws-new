@@ -40,16 +40,6 @@ resetSectionIds();
     />
     <Theme />
     <slot name="head" />
-    <script>
-;(function() {
-  const ls = localStorage.getItem('theme');
-  if (ls === 'light' || ls === 'dark') {
-    document.documentElement.setAttribute('data-theme', ls);
-  } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-    document.documentElement.setAttribute('data-theme', 'light');
-  }
-})();
-</script>
   </head>
   <body class="m-0 p-0 w-full h-full">
     <BodyTags />
