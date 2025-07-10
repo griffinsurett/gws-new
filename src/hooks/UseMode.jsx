@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export function useTheme() {
+export function UseMode() {
   // start false (dark), then correct on mount
   const [isLight, setIsLight] = useState(false);
 

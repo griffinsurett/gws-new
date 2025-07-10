@@ -3,10 +3,10 @@ import { CircleCheckbox } from './CircleCheckbox';
 // import Icon from './Icon/Icon';
 // import { ReactComponent as SunIcon } from '../assets/icons/sun.svg';
 // import { ReactComponent as MoonIcon } from '../assets/icons/moon.svg';
-import { useTheme } from '../hooks/useTheme';
+import { UseMode } from '../hooks/UseMode';
 
 export default function ThemeToggle() {
-  const [isLight, setIsLight] = useTheme();
+  const [isLight, setIsLight] = UseMode();
 
   return (
     <div className="flex items-center gap-[var(--spacing-xs)]">
