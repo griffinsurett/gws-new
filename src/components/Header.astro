@@ -8,7 +8,7 @@ import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
 import VideoLogo from "./VideoLogo";
 import Logo from "@/components/Logo/Logo.astro";
 import { CircleCheckbox } from "./CircleCheckbox";
-// import { ThemeToggle } from "./ThemeToggle"
+import ThemeToggle from "./ThemeToggle"
 
 const breakpoint = "lg";
 ---
@@ -18,9 +18,10 @@ const breakpoint = "lg";
 >
   <!-- Logo / site identity -->
   <Logo />
-
-  <CircleCheckbox/>
+<div class="absolute top-1/2 left-1/2 transform -translate-1/2">
+  <ThemeToggle client:load/>
   <!-- <ThemeToggle/> -->
+</div>
 
   <Menu
     collection="menuItems"

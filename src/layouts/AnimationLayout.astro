@@ -1,10 +1,6 @@
 ---
 import "@/styles/animations.css";
 ---
-  <head>
-    <slot name="head" />
-  </head>
-  <body>
     <slot />
 
     <!-- Only run observer fallback when scroll‑timeline is NOT supported -->
@@ -25,4 +21,3 @@ import "@/styles/animations.css";
         document.querySelectorAll('.load').forEach(el => io.observe(el));
       }
     </script>
-  </body>

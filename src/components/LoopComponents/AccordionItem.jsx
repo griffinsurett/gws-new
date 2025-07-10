@@ -17,7 +17,7 @@ export default function AccordionItem({
       className={`
         accordion-item
         hover-border-effect
-        ${!open ? "hover-animation hover:scale-102" : ""}
+        ${!open ? "hover-animation" : ""}
         ${itemClass}
       `}
     >
@@ -37,7 +37,12 @@ export default function AccordionItem({
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </div>
 

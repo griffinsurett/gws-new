@@ -16,14 +16,14 @@ export function CircleCheckbox({ checked, onChange, label, ...props }) {
       {/* 2. The visible circle */}
       <span
         className="
-          w-8 h-8              /* size */
-          rounded-full         /* circle shape */
+          w-8 h-8            
+          rounded-full     
           border-2
-          border-bg2             /* border thickness */
+          border-bg2            
           bg-bg2
           peer-checked:border-primary
-          peer-checked:bg-primary /* checked styles */
-          transition-colors     /* smooth transition */
+          peer-checked:bg-primary
+          transition-all  
         "
       />
     </label>
