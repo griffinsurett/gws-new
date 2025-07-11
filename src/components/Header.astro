@@ -7,6 +7,7 @@ import Submenu from "@/components/Menu/Submenu.astro";
 import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
 import VideoLogo from "./VideoLogo";
 import Logo from "@/components/Logo/Logo.astro";
+import AccentPicker from "./AccentPicker";
 import { CircleCheckbox } from "./CircleCheckbox";
 import ThemeToggle from "./ThemeToggle"
 
@@ -18,9 +19,9 @@ const breakpoint = "lg";
 >
   <!-- Logo / site identity -->
   <Logo />
-<div class="absolute top-1/2 left-1/2 transform -translate-1/2">
+<div class="flex gap-[var(--spacing-sm)] absolute top-1/2 left-1/2 transform -translate-1/2">
   <ThemeToggle client:load/>
-  <!-- <ThemeToggle/> -->
+  <AccentPicker client:load />
 </div>
 
   <Menu
