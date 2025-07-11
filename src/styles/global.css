@@ -50,27 +50,22 @@
   --shadow-lg:  0 20px 25px rgba(0,0,0,0.1);
 }
 
-/* 1) Define your light-mode tokens once */
-@layer utilities {
-  .light-mode-tokens {
-    --color-bg:   #f0f0f0; /* inverse of #0f0f0f */
-    --color-bg2:  #e2e2e1; /* inverse of #1d1d1e */
-    --color-text: #060504; /* inverse of #f9fafb */
-    --color-primary:   var(--color-text);  /* primary = text in light */
+/* ───────────────────────────────────────────────────── */
+/* 2. OPTIONAL LIGHT MODE OVERRIDES                     */
+/* ───────────────────────────────────────────────────── */
+/* via OS preference */
+    @media (prefers-color-scheme: light) {
+    :root {
+      --color-bg:   #f0f0f0; /* inverse of #0f0f0f */
+      --color-bg2:  #e2e2e1; /* inverse of #1d1d1e */
+      --color-text: #060504; /* inverse of #f9fafb */
+    }
   }
-}
-
-/* 2) Apply them for OS preference */
-@media (prefers-color-scheme: light) {
-  :root {
-    @apply light-mode-tokens;
-  }
-}
-
-/* 3) Apply them when you set data-theme */
-:root[data-theme="light"] {
-  @apply light-mode-tokens;
-}
+    :root[data-theme="light"] {
+      --color-bg:   #f0f0f0; /* inverse of #0f0f0f */
+      --color-bg2:  #e2e2e1; /* inverse of #1d1d1e */
+      --color-text: #060504; /* inverse of #f9fafb */
+    }
 
 /* ───────────────────────────────────────────────────── */
 /* 3. BASE LAYER                                        */
