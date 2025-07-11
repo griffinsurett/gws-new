@@ -20,7 +20,7 @@ export default function HamburgerIcon({
   return (
     <div
       className={`
-        relative w-6 h-5 cursor-pointer
+        relative w-5 h-4 md:w-6 md:h-5 cursor-pointer
         flex flex-col justify-between items-start
         group ${className}
       `}

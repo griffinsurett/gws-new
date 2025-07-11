@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from "react";
 // ← Update these paths as needed:
 const POSTER_SRC = "/GWS-animated.png";
 const VIDEO_SRC  = "/GWS-animated.webm";
-const mediaClasses = "block w-[30px] md:w-[40px] lg:w-[50px] h-auto";
+const mediaClasses = "block w-[35px] md:w-[40px] lg:w-[50px] h-auto";
 
 export default function VideoLogo({
   alt = "",
