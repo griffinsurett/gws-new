@@ -1,62 +1,57 @@
 // src/components/AccentPicker.jsx
-import { useState } from 'react';
-import { CircleCheckbox } from './CircleCheckbox';
-import Modal from './Modal';
+import { useState, useRef, useEffect } from 'react';
 import { useAccentColor } from '../hooks/useAccentColor';
+import { CircleCheckbox } from './CircleCheckbox';
+import { SquareCheckbox } from './SquareCheckbox';
 
 export default function AccentPicker() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [accent, setAccent, accents] = useAccentColor();
+  const containerRef = useRef(null);
+
+  // Close if clicked outside
+  useEffect(() => {
+    function onClick(e) {
+      if (containerRef.current?.contains(e.target)) return;
+      setOpen(false);
+    }
+    document.addEventListener('mousedown', onClick);
+    return () => document.removeEventListener('mousedown', onClick);
+  }, []);
 
   return (
-    <>
+    <div ref={containerRef} className="relative contents">
+      {/* trigger */}
       <CircleCheckbox
-        checked={modalOpen}
-        onChange={() => setModalOpen(open => !open)}
+        checked={open}
+        onChange={() => setOpen(o => !o)}
         aria-label="Pick accent color"
         className='border-accent bg-accent'
       />
 
-      <Modal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-
-        /* --------- Overrides --------- */
-        /* semi-transparent black backdrop (optional) */
-        overlayClass="bg-bg/50"
-
-        /* make the panel itself fully transparent, no padding, no shadow */
-        className="bg-bg w-60 h-auto p-[var(--spacing-sm)] shadow-none"
-      >
-        <h2 className="text-xl font-semibold mb-4 text-[var(--color-text)]">
-          Choose an accent
-        </h2>
-        <div className="grid grid-cols-4 gap-4">
-          {accents.map(color => (
-            <label key={color} className="inline-flex items-center cursor-pointer">
-              <input
-                type="radio"
-                name="accent"
-                value={color}
-                checked={accent === color}
-                onChange={() => setAccent(color)}
-                className="sr-only peer"
-              />
-              <span
-                className={`
-                    w-8 h-8 rounded border-2
-                    peer-checked:border-[var(--color-text)]
-                    ${accent === color 
-                       ? 'border-[var(--color-text)]' 
-                       : 'border-neutral'
-                    }
-                  `}
-                style={{ backgroundColor: color }}
-              />
-            </label>
-          ))}
+      {/* dropdown panel */}
+      {open && (
+        <div
+          className="
+            absolute top-full mt-2 left-0
+            bg-[var(--color-bg2)] rounded-xl p-3
+            flex space-x-3 overflow-x-auto hide-scrollbar
+            shadow-lg z-50
+          "
+        >
+         {accents.map(color => (
+            <SquareCheckbox
+              key={color}
+              color={color}
+              checked={accent === color}
+              onChange={() => {
+                setAccent(color);
+                setOpen(false);
+              }}
+            />
+         ))}
         </div>
-      </Modal>
-    </>
+      )}
+    </div>
   );
 }
