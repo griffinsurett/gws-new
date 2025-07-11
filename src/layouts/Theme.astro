@@ -8,14 +8,27 @@ import "../styles/global.css";
 <meta name="theme-color" content="" />
 <meta name="apple-mobile-web-app-status-bar-style" content="#0000FE" />
 <script>
-  // wait till DOM is ready
   document.addEventListener("DOMContentLoaded", () => {
-    const rootStyles = getComputedStyle(document.documentElement);
-    const primary = rootStyles.getPropertyValue("--color-bg").trim();
-    if (primary) {
-      document
-        .querySelector('meta[name="theme-color"]')
-        ?.setAttribute("content", primary);
-    }
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) return;
+
+    // Function to read --color-bg and update the meta tag
+    const updateThemeColor = () => {
+      const bg = getComputedStyle(document.documentElement)
+        .getPropertyValue("--color-bg")
+        .trim();
+      if (bg) meta.setAttribute("content", bg);
+    };
+
+    // Initial set
+    updateThemeColor();
+
+    // Watch for changes to data-theme or inline style
+    const observer = new MutationObserver(updateThemeColor);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "style"],
+    });
   });
 </script>
+
