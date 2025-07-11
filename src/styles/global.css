@@ -50,27 +50,27 @@
   --shadow-lg:  0 20px 25px rgba(0,0,0,0.1);
 }
 
-/* ───────────────────────────────────────────────────── */
-/* 2. OPTIONAL LIGHT MODE OVERRIDES                     */
-/* ───────────────────────────────────────────────────── */
-/* via OS preference */
-@media (prefers-color-scheme: light) {
-  :root {
+/* 1) Define your light-mode tokens once */
+@layer utilities {
+  .light-mode-tokens {
     --color-bg:        #ffffff;
     --color-text:      #111111;
-    --color-primary:   var(--color-text);  /* primary = text in light mode */
+    --color-primary:   var(--color-text);  /* primary = text in light */
     --color-secondary: #f43f5e;
     --color-neutral:   #f3f4f6;
   }
 }
 
-/* via data-theme attribute */
+/* 2) Apply them for OS preference */
+@media (prefers-color-scheme: light) {
+  :root {
+    @apply light-mode-tokens;
+  }
+}
+
+/* 3) Apply them when you set data-theme */
 :root[data-theme="light"] {
-  --color-bg:        #ffffff;
-  --color-text:      #111111;
-  --color-primary:   var(--color-text);  /* primary = text in light mode */
-  --color-secondary: #f43f5e;
-  --color-neutral:   #f3f4f6;
+  @apply light-mode-tokens;
 }
 
 /* ───────────────────────────────────────────────────── */
