@@ -23,76 +23,42 @@ const breakpoint = "lg";
   <ThemeToggle client:load/>
   <AccentPicker client:load />
 </div>
+<Menu
+collection="menuItems"
+  query="relatedItem:menus:mainMenu"
+  sortOrder="asc"
+  manualOrder={true}
 
-  <Menu
-    collection="menuItems"
-    query="relatedItem:menus:mainMenu"
-    sortOrder="asc"
-    manualOrder={true}
-    responsive={true}
-    breakpoint={breakpoint}
-    hamburgerOnly={true}
-    desktop={{
-      itemsClass: "flex gap-[var(--spacing-md)] bg-bg",
-      itemClass: "",
-      menuItem: {
-        // component: MenuItem,
-        props: {
-          itemClass: "px-2 py-1 text-primary hover:text-primary",
-          linkClass:
-            "flex items-center space-x-[var(--spacing-xs)] font-bold transition-colors duration-200",
-          hierarchical: true,
-          submenu: {
-            component: Submenu,
-            itemsClass:
-              "submenu absolute left-0 top-full w-fit bg-gray-50 border border-gray-200 shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 ease-in-out z-[100]",
-            subMenuItem: {
-              component: MenuItem,
-              props: {
-                itemClass:
-                  "px-4 py-2 hover:bg-gray-100 text-primary hover:text-primary",
-                linkClass:
-                  "flex items-center space-x-[var(--spacing-xs)] font-medium transition-colors duration-200",
-                hierarchical: true,
-                subMenuItem: null,
-              },
-            },
-          },
-        },
-      },
-    }}
-    mobile={{
-      itemsClass: "flex flex-col gap-[var(--spacing-md)]",
-      hamburgerTransform: true,
-      menuItem: {
+  hamburgerOnly={true}
+
+  checkboxId="hamburger-menu-toggle"
+  menuItem={{
+    component: MobileMenuItem,
+    props: {
+      itemClass: "p-[var(--spacing-sm)] h2 text-primary hover:text-primary",
+      linkClass: "w-full text-left justify-center items-center",
+      hierarchical: true,
+      submenu: {
         component: MobileMenuItem,
-        props: {
-          itemClass:
-            "p-[var(--spacing-sm)] h2 text-primary hover:text-primary",
-          linkClass: "w-full text-left justify-center items-center",
-          hierarchical: true,
-          submenu: {
-            component: MobileMenuItem,
-            itemsClass: "ml-4 border-l border-gray-200",
-            subMenuItem: {
-              component: MobileMenuItem,
-              props: {
-                itemClass: "p-[var(--spacing-sm)] text-base text-primary",
-                linkClass: "w-full text-left",
-                hierarchical: true,
-                subMenuItem: null,
-              },
-            },
+        itemsClass: "ml-4 border-l border-gray-200",
+        subMenuItem: {
+          props: {
+            itemClass: "p-[var(--spacing-sm)] text-base text-primary",
+            linkClass: "w-full text-left",
+            hierarchical: true,
+            subMenuItem: null,
           },
         },
       },
-      shared: {
-        collection: "menuItems",
-        query: "relatedItem:menus:mainMenu",
-        sortOrder: "asc",
-        HasPage: true,
-      },
-      checkboxId: "hamburger-menu-toggle",
-    }}
+    },
+  }}
+
+  itemsClass="flex flex-col gap-[var(--spacing-md)]"
+  shared={{
+    collection: "menuItems",
+    query:      "relatedItem:menus:mainMenu",
+    sortOrder:  "asc",
+    HasPage:    true,
+  }}
   />
 </header>
