@@ -53,11 +53,10 @@
 /* 1) Define your light-mode tokens once */
 @layer utilities {
   .light-mode-tokens {
-    --color-bg:        #ffffff;
-    --color-text:      #111111;
+    --color-bg:   #f0f0f0; /* inverse of #0f0f0f */
+    --color-bg2:  #e2e2e1; /* inverse of #1d1d1e */
+    --color-text: #060504; /* inverse of #f9fafb */
     --color-primary:   var(--color-text);  /* primary = text in light */
-    --color-secondary: #f43f5e;
-    --color-neutral:   #f3f4f6;
   }
 }
 

@@ -1,3 +1,4 @@
+// hooks/UseMode.jsx
 import { useState, useEffect } from 'react';
 
 export function UseMode() {
