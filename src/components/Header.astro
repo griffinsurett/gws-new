@@ -1,7 +1,7 @@
 ---
 import Menu from "@/components/Menu/Menu.astro";
 import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
-import ThemeControls from "@/components/ThemeControls/ThemeControls.astro";
+import ThemeControls from "@/components/ThemeControls/ThemeControls";
 import Logo from "@/components/Logo/Logo.astro";
 
 const breakpoint = "lg";
@@ -12,7 +12,7 @@ const breakpoint = "lg";
 >
   <!-- Logo / site identity -->
   <Logo />
-<ThemeControls />
+<ThemeControls client:load />
 <Menu
 collection="menuItems"
   query="relatedItem:menus:mainMenu"

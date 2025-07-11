@@ -1,66 +1,39 @@
 // src/components/VideoLogo.jsx
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
-// ← Update these paths as needed:
+// ← Update these paths if your assets live elsewhere
 const POSTER_SRC = "/GWS-animated.png";
 const VIDEO_SRC  = "/GWS-animated.webm";
+
+// shared sizing classes
 const mediaClasses = "block w-[35px] md:w-[40px] lg:w-[50px] h-auto";
 
 export default function VideoLogo({
-  alt = "",
-  className = "light:filter light:invert",    // e.g. "h-16 w-auto"
+  alt       = "",
+  className = "light:filter light:invert", // e.g. "h-16 w-auto"
 }) {
   const containerRef = useRef(null);
   const videoRef     = useRef(null);
-  const [inView, setInView] = useState(false);
-  const pauseTimeout = useRef(null);
 
-  // lazy‐load
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  // wheel → play
-  useEffect(() => {
-    if (!inView) return;
-    const vid = videoRef.current;
-    if (!vid) return;
-
-    const reverseStep = 0.02;
-    const HALF_SPEED  = 0.5;
-
-    function onWheel(e) {
-      clearTimeout(pauseTimeout.current);
-      if (e.deltaY > 0) {
-        vid.playbackRate = HALF_SPEED;
-        vid.play().catch(() => {});
-      } else {
-        vid.pause();
-        vid.currentTime = vid.currentTime > reverseStep
-          ? vid.currentTime - reverseStep
-          : vid.duration;
-      }
-      pauseTimeout.current = setTimeout(() => vid.pause(), 100);
-    }
-
-    window.addEventListener("wheel", onWheel, { passive: true });
-    return () => {
-      window.removeEventListener("wheel", onWheel);
-      clearTimeout(pauseTimeout.current);
-    };
-  }, [inView]);
+  // hook wires up IO + wheel → callbacks
+  const inView = useScrollAnimation(containerRef, {
+    threshold: 0.1,
+    pauseDelay: 100,
+    onForward: () => {
+      const vid = videoRef.current;
+      vid.playbackRate = 0.5;
+      vid.play().catch(() => {});
+    },
+    onBackward: () => {
+      const vid = videoRef.current;
+      const reverseStep = 0.02;
+      vid.pause();
+      vid.currentTime = vid.currentTime > reverseStep
+        ? vid.currentTime - reverseStep
+        : vid.duration;
+    },
+  });
 
   return (
     <div ref={containerRef}>

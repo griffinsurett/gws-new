@@ -35,4 +35,15 @@ export const SectionVariants = {
       overlayClass: "bg-text opacity-50",
     },
   },
+  primary: {
+    // ① put both items and buttons into the top-content wrapper
+    itemPlacement: "top-content-section",
+    buttonsPlacement: "top-content-section",
+
+    // ② mobile: static in the flow (items come first, then the button)
+    //    md+: pin the button top-right
+    buttonsSectionClass:
+      "flex items-center justify-center " +        // mobile: center under items
+      "md:justify-end md:absolute md:top-0 md:right-0 md:z-20",
+  },
 };
