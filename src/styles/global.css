@@ -1,6 +1,12 @@
 /* src/styles/global.css */
 @import "tailwindcss";
+/* ───────────────────────────────────────────────────── */
+/* 0. CUSTOM VARIANTS FOR LIGHT + DARK                  */
+/* ───────────────────────────────────────────────────── */
+/* light: scoped under [data-theme="light"] */
 @custom-variant light  (&:where([data-theme="light"], [data-theme="light"] *));
+/* dark: scoped under [data-theme="dark"] */
+@custom-variant dark   (&:where([data-theme="dark"],  [data-theme="dark"]  *));
 
 /* ───────────────────────────────────────────────────── */
 /* 1. DESIGN TOKENS (default = dark mode)              */
