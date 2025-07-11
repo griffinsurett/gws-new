@@ -1,15 +1,8 @@
 ---
-import { SiteData } from "@/content/SiteData";
-import { Image } from "astro:assets";
 import Menu from "@/components/Menu/Menu.astro";
-import MenuItem from "@/components/Menu/MenuItem.astro";
-import Submenu from "@/components/Menu/Submenu.astro";
 import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
-import VideoLogo from "./VideoLogo";
+import ThemeControls from "@/components/ThemeControls/ThemeControls.astro";
 import Logo from "@/components/Logo/Logo.astro";
-import AccentPicker from "./AccentPicker";
-import { CircleCheckbox } from "./CircleCheckbox";
-import ThemeToggle from "./ThemeToggle"
 
 const breakpoint = "lg";
 ---
@@ -19,10 +12,7 @@ const breakpoint = "lg";
 >
   <!-- Logo / site identity -->
   <Logo />
-<div class="flex gap-[var(--spacing-sm)] absolute top-1/2 left-1/2 transform -translate-1/2">
-  <ThemeToggle client:load/>
-  <AccentPicker client:load />
-</div>
+<ThemeControls />
 <Menu
 collection="menuItems"
   query="relatedItem:menus:mainMenu"
