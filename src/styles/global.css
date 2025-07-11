@@ -59,14 +59,14 @@
       --color-bg:   #f0f0f0; /* inverse of #0f0f0f */
       --color-bg2:  #e2e2e1; /* inverse of #1d1d1e */
       --color-text: #060504; /* inverse of #f9fafb */
-      --color-text:   var(--color-text);   /* now equals accent in dark mode */
+      --color-text: var(--color-text);   /* now equals accent in dark mode */
     }
   }
     :root[data-theme="light"] {
       --color-bg:   #f0f0f0; /* inverse of #0f0f0f */
       --color-bg2:  #e2e2e1; /* inverse of #1d1d1e */
       --color-text: #060504; /* inverse of #f9fafb */
-      --color-text:   var(--color-text);   /* now equals accent in dark mode */
+      --color-text: var(--color-text);   /* now equals accent in dark mode */
     }
 
 /* ───────────────────────────────────────────────────── */
