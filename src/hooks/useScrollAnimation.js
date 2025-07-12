@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-
 /**
  * useScrollAnimation
  * — lazy-loads via IntersectionObserver
