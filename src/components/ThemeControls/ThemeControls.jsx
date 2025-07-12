@@ -8,29 +8,41 @@ export default function ThemeControls({ className = "" }) {
   const containerRef = useRef(null);
   const [hidden, setHidden] = useState(false);
 
-  // scroll-down → hide, scroll-up → show
   useScrollAnimation(containerRef, {
     threshold: 0,
     pauseDelay: 100,
     onForward: () => setHidden(true),
-    onBackward: () => setHidden(false),
+    onBackward: () => {
+      // only show when scrolled fully back to top
+      if (window.pageYOffset === 0) {
+        setHidden(false);
+      }
+    },
   });
 
   return (
     <div
       ref={containerRef}
       className={[
-        // 1) fixed center
-        "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center gap-[var(--spacing-sm)] justify-center",
-        // 2) dynamic Y + fade
+        // 1️⃣ absolute + center in its parent (parent must be `relative`)
+        "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+
+        // 2️⃣ flex layout
+        "flex items-center gap-[var(--spacing-sm)]",
+
+        // 3️⃣ fade in/out
         hidden
-          ? "-translate-y-[100vh] opacity-0"
-          : "-translate-y-1/2 opacity-100",
-        // 3) nice transition
-        "transition-all duration-300 ease-in-out",
-        // 4) allow extra overrides
+          ? "opacity-0 pointer-events-none"
+          : "opacity-100 pointer-events-auto",
+
+        // 4️⃣ smooth transition
+        "transition-opacity duration-300 ease-in-out",
+
+        // 5️⃣ any overrides
         className,
-      ].join(" ")}
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <ThemeToggle />
       <AccentPicker />
