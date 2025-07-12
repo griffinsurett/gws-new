@@ -12,12 +12,14 @@ export default function VideoLogo({
   const containerRef = useRef(null);
   const videoRef     = useRef(null);
 
-  // ① in‐view vs. activated states
+  // ① track when we're in view
   const [inView,    setInView]    = useState(false);
+  // ② track when the user has scrolled down enough to "activate" the video
   const [activated, setActivated] = useState(false);
-  const pauseTimeout = useRef();
+  const pauseTimeout = useRef(null);
+  const lastScrollY = useRef(0);
 
-  // ② lazy‐load IntersectionObserver
+  // lazy‐load trigger
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -34,45 +36,60 @@ export default function VideoLogo({
     return () => io.disconnect();
   }, []);
 
-  // ③ wheel handler: first scroll‐down “activates” video,
-  //    scroll-up rewinds, then auto-pause
+  // scroll/wheel handler
   useEffect(() => {
     if (!inView) return;
     const vid = videoRef.current;
 
-    function onWheel(e) {
+    // Initialize lastScrollY once
+    lastScrollY.current = window.pageYOffset;
+
+    function handleMovement(deltaY) {
       clearTimeout(pauseTimeout.current);
 
-      if (e.deltaY > 0) {
-        // first downward scroll
+      if (deltaY > 0) {
+        // first downward scroll → activate
         if (!activated) setActivated(true);
-
-        // play the video
+        // play forward
         vid.playbackRate = 0.5;
         vid.play().catch(() => {});
-      } else {
-        // rewind on any scroll-up
+      } else if (deltaY < 0) {
+        // rewind on scroll-up
         vid.pause();
         const reverseStep = 0.02;
         vid.currentTime =
           vid.currentTime > reverseStep ? vid.currentTime - reverseStep : vid.duration;
 
-        // if we’ve also hit the very top of the page, reset fully and replay:
+        // if we're back at the very top, reset fully & replay
         if (window.pageYOffset <= 0) {
           vid.currentTime = 0;
           vid.play().catch(() => {});
         }
       }
 
-      // auto-pause after 100ms of no wheel
+      // auto-pause after short delay
       pauseTimeout.current = setTimeout(() => {
         vid.pause();
       }, 100);
     }
 
+    function onWheel(e) {
+      handleMovement(e.deltaY);
+    }
+
+    function onScroll() {
+      const currentY = window.pageYOffset;
+      const deltaY = currentY - lastScrollY.current;
+      lastScrollY.current = currentY;
+      handleMovement(deltaY);
+    }
+
     window.addEventListener("wheel", onWheel, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     return () => {
       window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("scroll", onScroll);
       clearTimeout(pauseTimeout.current);
     };
   }, [inView, activated]);
