@@ -7,7 +7,7 @@ import HeroBg from "@/assets/background.svg";
  */
 const sectionDefaults = {
   primary: {
-      itemPlacement: "top-content-section",
+    itemPlacement: "top-content-section",
     buttonsPlacement: "top-content-section",
     buttonsSectionClass:
       "flex items-center justify-center " +
@@ -16,7 +16,7 @@ const sectionDefaults = {
   },
 
   secondary: {
-       // 1️⃣ We don’t need any absolute trickery—just a simple vertical flow.
+    // 1️⃣ We don’t need any absolute trickery—just a simple vertical flow.
     //    The <Section> will render heading/description first, then
     //    items (content-section), then buttons (also content-section).
     // pull everything into a centered column (optional—adjust as you like)
@@ -33,7 +33,7 @@ const sectionDefaults = {
     //    after the items, every time.
     buttonsPlacement: "content-section",
     buttonsSectionClass: "mt-[var(--spacing-lg)] flex justify-center",
-        //  use a grid or flex here—example with grid 1–3 cols:
+    //  use a grid or flex here—example with grid 1–3 cols:
   },
 };
 
@@ -47,11 +47,11 @@ export const SectionVariants = {
     contentClass:
       "relative md:py-0 w-auto h-full flex flex-col md:flex-row z-20 md:gap-[var(--spacing-xs)]",
     topContentClass:
-      "basis-4/7 min-h-screen lg:h-auto w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
+      "basis-4/7 min-h-screen space-y-[var(--spacing-2xl)] lg:h-auto w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
     imageColumnClass:
       "basis-3/7 flex items-end justify-center md:justify-end slide-up",
     buttonsPlacement: "top-content-section",
-    headingAreaClass: "space-y-[var(--spacing-md)]",
+    headingAreaClass: "space-y-[var(--spacing-sm)]",
     descriptionClass: "md:pr-[var(--spacing-xl)] font-thin text-lg md:text-xl",
   },
 
@@ -72,16 +72,16 @@ export const SectionVariants = {
   primary: {
     ...sectionDefaults.primary,
     itemsClass:
-      "w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--spacing-lg)]",
+      "w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--spacing-xl)]",
     // no need for basis-*, just size the height
     itemClass: "h-[30vh] flex flex-col justify-center items-center text-center",
   },
   secondary: {
     ...sectionDefaults.secondary,
-itemsClass:
-     "w-full grid grid-cols-1 md:grid-cols-2 gap-[var(--spacing-lg)] " +
-     "grid-auto-rows-[30vh]",
+  itemsClass:
+      "w-full grid grid-cols-1 md:grid-cols-2 gap-[var(--spacing-xl)]",
 
-   // make each card fill its grid‐cell
+    // make each card fill its grid‐cell
     itemClass: "h-[30vh] flex flex-col justify-center items-center text-center",
-}};
+  },
+};

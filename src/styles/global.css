@@ -142,9 +142,9 @@
   }
 
   .border-effect {
-    @apply border border-primary;
+    @apply border border-primary light:border-text;
   }
   .hover-border-effect {
-    @apply hover:border border-bg2 hover:border-primary;
+    @apply border border-transparent dark:hover:border-primary light:hover:border-bg;
   }
 }
