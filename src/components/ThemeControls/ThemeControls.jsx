@@ -10,14 +10,8 @@ export default function ThemeControls({ className = "" }) {
 
   useEffect(() => {
     function handleScroll() {
-if (window.pageYOffset < lastY) {
-     // any upward motion
-     setIsAtTop(true);
-   } else if (window.pageYOffset > lastY) {
-     // downward
-     setIsAtTop(false);
-   }
-   lastY = window.pageYOffset;    }
+      setIsAtTop(window.pageYOffset === 0);
+    }
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
