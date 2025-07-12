@@ -1,35 +1,32 @@
+// src/hooks/useScrollAnimation.js
 import { useEffect, useState, useRef } from "react";
+
 /**
  * useScrollAnimation
- * — lazy-loads via IntersectionObserver
- * — when in-view, listens for wheel and calls the provided
- *   forward() / backward() callbacks (or toggles classes).
- *
- * @param {React.RefObject<HTMLElement>} ref
- * @param {Object}            options
- * @param {number}            options.threshold    IO threshold
- * @param {() => void}        options.onForward   called on scroll down
- * @param {() => void}        options.onBackward  called on scroll up
+ *  - lazy-loads via IntersectionObserver
+ *  - when in-view, listens for scroll (and wheel) and calls
+ *    onForward() on scroll down, onBackward() on scroll up
  */
 export function useScrollAnimation(
   ref,
   {
     threshold   = 0.1,
+    pauseDelay  = 100,
     onForward   = () => {},
     onBackward  = () => {},
-    pauseDelay  = 100,
   } = {}
 ) {
   const [inView, setInView] = useState(false);
   const pauseTimeout = useRef();
+  const lastY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
 
-  // 1️⃣ Lazy-load
+  // 1️⃣ Lazy-load intersection
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
+      ([e]) => {
+        if (e.isIntersecting) {
           setInView(true);
           io.disconnect();
         }
@@ -40,23 +37,39 @@ export function useScrollAnimation(
     return () => io.disconnect();
   }, [ref, threshold]);
 
-  // 2️⃣ Wheel → callbacks
+  // 2️⃣ Scroll & Wheel → direction callbacks
   useEffect(() => {
     if (!inView) return;
-    function onWheel(e) {
+
+    const handler = (e) => {
       clearTimeout(pauseTimeout.current);
-      if (e.deltaY > 0) {
-        onForward();
+
+      // determine delta: try wheel, fallback to scroll
+      let delta = 0;
+      if (e.type === "wheel") {
+        delta = e.deltaY;
       } else {
+        const cur = window.scrollY;
+        delta = cur - lastY.current;
+        lastY.current = cur;
+      }
+
+      if (delta > 0) {
+        onForward();
+      } else if (delta < 0) {
         onBackward();
       }
+
       pauseTimeout.current = setTimeout(() => {
-        // you could call an onPause() hook here if you want
+        /* you could fire an onPause() here */
       }, pauseDelay);
-    }
-    window.addEventListener("wheel", onWheel, { passive: true });
+    };
+
+    window.addEventListener("wheel", handler, { passive: true });
+    window.addEventListener("scroll", handler, { passive: true });
     return () => {
-      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("wheel", handler);
+      window.removeEventListener("scroll", handler);
       clearTimeout(pauseTimeout.current);
     };
   }, [inView, onForward, onBackward, pauseDelay]);
