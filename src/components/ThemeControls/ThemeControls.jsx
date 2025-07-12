@@ -1,44 +1,34 @@
 // src/components/ThemeControls.jsx
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ThemeToggle from "./DarkLightToggle.jsx";
 import AccentPicker from "./AccentPicker.jsx";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function ThemeControls({ className = "" }) {
-  const containerRef = useRef(null);
-  const [hidden, setHidden] = useState(false);
+  const [isAtTop, setIsAtTop] = useState(
+    typeof window !== "undefined" ? window.pageYOffset === 0 : true
+  );
 
-  useScrollAnimation(containerRef, {
-    threshold: 0,
-    pauseDelay: 100,
-    onForward: () => setHidden(true),
-    onBackward: () => {
-      // only show when scrolled fully back to top
-      if (window.pageYOffset === 0) {
-        setHidden(false);
-      }
-    },
-  });
+  useEffect(() => {
+    function handleScroll() {
+      setIsAtTop(window.pageYOffset === 0);
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div
-      ref={containerRef}
       className={[
-        // 1️⃣ absolute + center in its parent (parent must be `relative`)
+        // ① center inside your hero (parent must be relative)
         "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-
-        // 2️⃣ flex layout
+        // ② horizontal layout
         "flex items-center gap-[var(--spacing-sm)]",
-
-        // 3️⃣ fade in/out
-        hidden
-          ? "opacity-0 pointer-events-none"
-          : "opacity-100 pointer-events-auto",
-
-        // 4️⃣ smooth transition
+        // ③ fade in/out
         "transition-opacity duration-300 ease-in-out",
-
-        // 5️⃣ any overrides
+        isAtTop
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none",
+        // ④ any extra overrides
         className,
       ]
         .filter(Boolean)
