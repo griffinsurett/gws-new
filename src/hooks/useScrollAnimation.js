@@ -1,32 +1,26 @@
 // src/hooks/useScrollAnimation.js
 import { useEffect, useState, useRef } from "react";
 
-/**
- * useScrollAnimation
- *  - lazy-loads via IntersectionObserver
- *  - when in-view, listens for scroll (and wheel) and calls
- *    onForward() on scroll down, onBackward() on scroll up
- */
 export function useScrollAnimation(
   ref,
   {
     threshold   = 0.1,
-    pauseDelay  = 100,
     onForward   = () => {},
     onBackward  = () => {},
+    pauseDelay  = 100,
   } = {}
 ) {
   const [inView, setInView] = useState(false);
   const pauseTimeout = useRef();
-  const lastY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
+  const lastY = useRef(typeof window !== "undefined" ? window.pageYOffset : 0);
 
-  // 1️⃣ Lazy-load intersection
+  // 1️⃣ Lazy-load via IntersectionObserver
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
+      ([entry]) => {
+        if (entry.isIntersecting) {
           setInView(true);
           io.disconnect();
         }
@@ -37,39 +31,37 @@ export function useScrollAnimation(
     return () => io.disconnect();
   }, [ref, threshold]);
 
-  // 2️⃣ Scroll & Wheel → direction callbacks
+  // 2️⃣ Scroll & Wheel → callbacks
   useEffect(() => {
     if (!inView) return;
 
-    const handler = (e) => {
+    function handleMovement(deltaY) {
       clearTimeout(pauseTimeout.current);
-
-      // determine delta: try wheel, fallback to scroll
-      let delta = 0;
-      if (e.type === "wheel") {
-        delta = e.deltaY;
-      } else {
-        const cur = window.scrollY;
-        delta = cur - lastY.current;
-        lastY.current = cur;
-      }
-
-      if (delta > 0) {
-        onForward();
-      } else if (delta < 0) {
-        onBackward();
-      }
+      if (deltaY > 0) onForward();
+      else if (deltaY < 0) onBackward();
 
       pauseTimeout.current = setTimeout(() => {
-        /* you could fire an onPause() here */
+        // optional: onPause()
       }, pauseDelay);
-    };
+    }
 
-    window.addEventListener("wheel", handler, { passive: true });
-    window.addEventListener("scroll", handler, { passive: true });
+    function onWheel(e) {
+      handleMovement(e.deltaY);
+    }
+
+    function onScroll() {
+      const currentY = window.pageYOffset;
+      const deltaY = currentY - lastY.current;
+      handleMovement(deltaY);
+      lastY.current = currentY;
+    }
+
+    window.addEventListener("wheel", onWheel, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     return () => {
-      window.removeEventListener("wheel", handler);
-      window.removeEventListener("scroll", handler);
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("scroll", onScroll);
       clearTimeout(pauseTimeout.current);
     };
   }, [inView, onForward, onBackward, pauseDelay]);
