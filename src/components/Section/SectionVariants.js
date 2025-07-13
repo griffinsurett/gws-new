@@ -84,4 +84,7 @@ export const SectionVariants = {
     // make each card fill its grid‐cell
     itemClass: "h-[30vh] flex flex-col justify-center items-center text-center",
   },
+   testimonials: {
+    ...sectionDefaults.secondary,
+  },
 };
