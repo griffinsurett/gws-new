@@ -57,7 +57,7 @@ export const SectionVariants = {
       "basis-3/7 flex items-end justify-center md:justify-end slide-up",
     buttonsPlacement: "top-content-section",
     headingAreaClass: "space-y-[var(--spacing-md)]",
-    descriptionClass: "md:pr-[var(--spacing-xl)] font-thin text-lg md:text-xl",
+    descriptionClass: "md:pr-[var(--spacing-xl)] font-thin text-md md:text-lg",
   },
 
   /**
