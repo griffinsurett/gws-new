@@ -123,7 +123,7 @@
   }
 
   .small-text {
-    @apply text-xs uppercase tracking-[var(--spacing-2xs)] md:text-sm;
+    @apply text-xs uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-sm;
   }
 
   .large-text {
