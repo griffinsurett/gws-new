@@ -7,11 +7,16 @@ import HeroBg from "@/assets/background.svg";
  */
 const sectionDefaults = {
   primary: {
+    contentClass: "flex flex-wrap",
     itemPlacement: "top-content-section",
     buttonsPlacement: "top-content-section",
+    topContentClass: "flex justify-center md:justify-between items-center w-full flex-wrap space-y-[var(--spacing-xs)]",
+    headingAreaClass: "order-1 md:w-1/2 flex justify-center items-start flex-col space-y-[var(--spacing-xs)]",
+    itemsClass:
+      "order-2 md:order-last w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--spacing-xl)]",
     buttonsSectionClass:
-      "flex items-center justify-center " +
-      "md:justify-end md:absolute md:top-0 md:right-0 md:z-20",
+      "flex items-center justify-center md:w-1/2" +
+      "md:justify-end md:z-20 order-last md:order-2",
     // instead of flex/flex-wrap
   },
 
@@ -71,10 +76,9 @@ export const SectionVariants = {
   },
   primary: {
     ...sectionDefaults.primary,
-    itemsClass:
-      "w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--spacing-xl)]",
     // no need for basis-*, just size the height
     itemClass: "h-[30vh] flex flex-col justify-center items-center text-center",
+    descriptionClass: "hidden"
   },
   secondary: {
     ...sectionDefaults.secondary,
