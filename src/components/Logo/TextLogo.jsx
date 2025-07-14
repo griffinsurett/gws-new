@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 export default function TextLogo({
   title = "",
   className = "",
-  firstClass = "font-bold text-xl lg:text-3xl",
+  firstClass = "font-bold text-xl lg:text-3xl text-heading",
   restClass  = "small-text",
   fadeDuration = 1200,    // fade time in ms
   threshold    = 100,     // show only when scrollY < threshold
