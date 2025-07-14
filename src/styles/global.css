@@ -13,11 +13,17 @@
 /* ───────────────────────────────────────────────────── */
 @theme {
   /* Colors */
-  --color-bg:        #0f0f0f;
-  --color-bg2:       #1d1d1e;
-  --color-text:      #f9fafb;
+  --color-primary-dark: #0f0f0f; 
+  --color-primary-light: #f0f0f0;
+  --color-secondary-dark: #1d1d1e;
+  --color-secondary-light: #A5ACB6;
+
+  /* Color Palette */
+  --color-bg:        var(--color-primary-dark);
+  --color-bg2:       var(--color-secondary-dark);
+  --color-heading:    var(--color-primary-light);
+  --color-text:      var(--color-secondary-light);
   --color-primary:   var(--color-accent);   /* now equals accent in dark mode */
-  --color-secondary: #ec4899;
   --color-accent:    #5e76f6;
   --color-neutral:   #374151;
 
@@ -33,7 +39,10 @@
   --font-base:    "Helvetica Neue","Mukta",sans-serif;
   --font-heading: "Poppins", sans-serif;
 
+
+
   /* Spacing tokens */
+  --spacing-2xs: 0.2rem;
   --spacing-xs:  0.25rem;
   --spacing-sm:  0.5rem;
   --spacing-md:  0.75rem;
@@ -63,17 +72,19 @@
 /* via OS preference */
     @media (prefers-color-scheme: light) {
     :root {
-      --color-bg:   #f0f0f0; /* inverse of #0f0f0f */
-      --color-bg2:  #e2e2e1; /* inverse of #1d1d1e */
-      --color-text: #060504; /* inverse of #f9fafb */
-      --color-primary: var(--color-text);   /* now equals accent in dark mode */
+      --color-bg:   var(--color-primary-light); /* inverse of #0f0f0f */
+      --color-bg2:  var(--color-secondary-light); /* inverse of #1d1d1e */
+      --color-heading: var(--color-primary-dark); /* inverse of #f0f0f0 */
+      --color-text: var(--color-secondary-dark); /* inverse of #f9fafb */
+      --color-primary: var(--color-primary-dark);   /* now equals accent in dark mode */
     }
   }
     :root[data-theme="light"] {
-      --color-bg:   #f0f0f0; /* inverse of #0f0f0f */
-      --color-bg2:  #e2e2e1; /* inverse of #1d1d1e */
-      --color-text: #060504; /* inverse of #f9fafb */
-      --color-primary: var(--color-text);   /* now equals accent in dark mode */
+      --color-bg:   var(--color-primary-light); /* inverse of #0f0f0f */
+      --color-bg2:  var(--color-secondary-light); /* inverse of #1d1d1e */
+      --color-heading: var(--color-primary-dark); /* inverse of #f0f0f0 */
+      --color-text: var(--color-secondary-dark); /* inverse of #f9fafb */
+      --color-primary: var(--color-primary-dark);   /* now equals accent in dark mode */
     }
 
 /* ───────────────────────────────────────────────────── */
@@ -91,24 +102,32 @@
   }
 
   .h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-heading;
   }
   .h2 {
-    @apply text-3xl lg:text-4xl font-semibold;
+    @apply text-3xl lg:text-4xl font-semibold text-heading;
   }
   .h3 {
-    @apply text-2xl font-semibold md:text-2xl;
+    @apply text-2xl font-semibold md:text-2xl text-heading;
   }
   .h4 {
-    @apply text-xl font-medium md:text-xl;
+    @apply text-xl font-medium md:text-xl text-heading;
   }
   .h5,
   .h6 {
-    @apply text-base font-medium md:text-lg;
+    @apply text-base font-medium md:text-lg text-heading;
   }
 
   p {
-    @apply mb-4 tracking-[0.2em] uppercase leading-relaxed text-base font-thin;
+    @apply mb-4 tracking-[var(--spacing-2xs)] uppercase leading-relaxed text-base font-thin;
+  }
+
+  .small-text {
+    @apply text-xs uppercase tracking-[var(--spacing-2xs)] md:text-sm;
+  }
+
+  .large-text {
+    @apply text-lg uppercase tracking-[var(--spacing-2xs)] md:text-xl;
   }
 }
 
