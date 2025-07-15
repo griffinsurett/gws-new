@@ -163,6 +163,12 @@
   .hover-animation:hover {
     @apply scale-105;
   }
+  .hover-animation-lg {
+    @apply transition-all duration-700 ease-in-out;
+  }
+  .hover-animation-lg:hover {
+    @apply scale-115;
+  }
   .background-effect {
     @apply bg-primary light:[background-image:var(--cardGradient)];
   }

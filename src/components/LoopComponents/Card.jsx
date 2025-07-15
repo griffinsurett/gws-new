@@ -13,11 +13,12 @@ export default function Card({ item, itemClass, collectionName, HasPage }) {
 
   const href = `/${collectionName}/${getItemKey(item)}`;
   const baseClasses = `card p-[var(--spacing-sm)] ${itemClass}`;
+  const hoverClasses = `block w-full hover-border-effect hover-animation`
 
   const content = (
     <>
       {item.data.icon && (
-        <div className="mb-[var(--spacing-sm)] aspect-square w-14 h-auto background-effect flex justify-center items-center rounded-full">
+        <div className="mb-[var(--spacing-sm)] aspect-square w-14 h-auto background-effect hover-animation-lg flex justify-center items-center rounded-full">
           <Icon icon={item.data.icon} className="text-2xl grayscale" />
         </div>
       )}
@@ -34,10 +35,10 @@ export default function Card({ item, itemClass, collectionName, HasPage }) {
     return (
       <a
         href={href}
-        className={`block w-full hover-border-effect hover-animation ${baseClasses}`}
+        className={`${hoverClasses} ${baseClasses}`}
         aria-label={`View more about ${item.data.title}`}
       >
-        <article className={baseClasses}>{content}</article>
+        <article>{content}</article>
       </a>
     );
   }
