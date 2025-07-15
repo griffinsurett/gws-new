@@ -3,7 +3,7 @@ import { CircleCheckbox } from "./checkboxes/CircleCheckbox";
 // import Icon from './Icon/Icon';
 // import { ReactComponent as SunIcon } from '../assets/icons/sun.svg';
 // import { ReactComponent as MoonIcon } from '../assets/icons/moon.svg';
-import { UseMode } from "../../hooks/UseMode";
+import { UseMode } from "../../hooks/UseMode.js";
 
 export default function ThemeToggle() {
   const [isLight, setIsLight] = UseMode();

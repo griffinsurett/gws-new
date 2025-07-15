@@ -1,6 +1,6 @@
 // src/components/AccentPicker.jsx
 import { useState, useRef, useEffect } from "react";
-import { useAccentColor } from "../../hooks/useAccentColor";
+import { useAccentColor } from "../../hooks/useAccentColor.js";
 import { CircleCheckbox } from "./checkboxes/CircleCheckbox";
 import { SquareCheckbox } from "./checkboxes/SquareCheckbox";
 
