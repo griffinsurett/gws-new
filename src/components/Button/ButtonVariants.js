@@ -35,7 +35,7 @@ export const ButtonVariants = {
     iconDefaults: { icon: GWSLogo.src, hoverOnly: false, animateIcon: false },
   },
   link: {
-    variantClasses: "text-text hover:text-primary",
+    variantClasses: "flex justify-center items-center text-text hover:text-primary",
     iconDefaults: { ...sharedIconDefaults },
   },
   linkNoIcon: {

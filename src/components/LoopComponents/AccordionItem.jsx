@@ -16,6 +16,7 @@ export default function AccordionItem({
       id={"accordion-item-" + getItemKey(item)}
       className={`
         accordion-item
+        load scale-up
         hover-border-effect
         ${!open ? "hover-transition" : ""}
         ${itemClass}
