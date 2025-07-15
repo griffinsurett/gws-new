@@ -1,4 +1,3 @@
-// src/components/Carousel.jsx
 import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { getItemKey } from "@/utils/getItemKey.js";
 
@@ -23,7 +22,11 @@ export default function Carousel({
   autoplay = false,
   autoplaySpeed = 3000,
   arrows = true,
-  itemsClass = "",   // ✅ now applied to <ul>
+  dots = false,
+  dotContainerClass = "flex justify-center mt-4 gap-2",
+  dotClass = "w-3 h-3 rounded-full bg-gray-300",
+  dotActiveClass = "bg-black scale-125",
+  itemsClass = "",
   itemClass = "",
   slidesToShow = 1,
   renderItem,
@@ -113,6 +116,8 @@ export default function Carousel({
 
   const arrowStyles = "absolute top-1/2 transform -translate-y-1/2 z-10 p-2 text-xl";
 
+  const pageCount = Math.ceil(total / slidesToScroll);
+
   return (
     <>
       {arrows && (
@@ -161,6 +166,21 @@ export default function Carousel({
           );
         })}
       </ul>
+
+      {dots && (
+        <div className={dotContainerClass}>
+          {Array.from({ length: pageCount }).map((_, dotIndex) => {
+            const isActive = Math.floor(index / slidesToScroll) === dotIndex;
+            return (
+              <button
+                key={dotIndex}
+                onClick={() => setIndex(dotIndex * slidesToScroll)}
+                className={`${dotClass} ${isActive ? dotActiveClass : ""}`}
+              />
+            );
+          })}
+        </div>
+      )}
     </>
   );
 }

@@ -99,7 +99,7 @@
   }
 
   .page-container {
-    @apply w-8/10 lg:w-16/20 py-[var(--spacing-3xl)] md:py-0 mx-auto;
+    @apply w-8/10 lg:w-17/20 py-[var(--spacing-3xl)] md:py-0 mx-auto;
   }
 
   .section {

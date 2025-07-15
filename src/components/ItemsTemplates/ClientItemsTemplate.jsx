@@ -50,7 +50,11 @@ export default function ClientItemsTemplate({
           autoplay={slider.autoplay}
           autoplaySpeed={slider.autoplaySpeed}
           arrows={slider.arrows}
-          itemsClass={itemsClass} // ← now applies to Carousel outer wrapper
+          dots={slider.dots}
+          dotContainerClass={slider.dotContainerClass}
+          dotClass={slider.dotClass}
+          dotActiveClass={slider.dotActiveClass}
+          itemsClass={itemsClass}
           itemClass={itemClass}
           renderItem={(item) => (
             <Comp

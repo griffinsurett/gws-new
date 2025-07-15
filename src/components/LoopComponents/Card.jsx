@@ -29,7 +29,7 @@ export default function Card({ item, itemClass = "", collectionName, HasPage }) 
         </div>
       )}
      <div className="card-content px-[var(--spacing-lg)]">
-       <Heading tagName="h3" className="h3 mb-[var(--spacing-sm)] text-[var(--color-text)]">
+       <Heading tagName="h3" className="mb-[var(--spacing-sm)]">
         {item.data.title}
       </Heading>
       <p className="mb-[var(--spacing-sm)]">
