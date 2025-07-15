@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function CircleCheckbox({ checked, className=
-        "border-bg2 bg-bg2",
+        "circle-box",
         onChange, label, ...props }) {
   return (
     <label className="inline-flex items-center cursor-pointer">
@@ -17,7 +17,7 @@ export function CircleCheckbox({ checked, className=
 
       {/* 2. The visible circle */}
       <span
-        className={`${className} border-2 w-6 h-6 md:w-8 md:h-8 rounded-full peer-checked:border-primary peer-checked:bg-primary transition-all`}
+        className={`${className} border-2 w-6 h-6 md:w-8 md:h-8 rounded-full transition-all`}
       />
     </label>
   );

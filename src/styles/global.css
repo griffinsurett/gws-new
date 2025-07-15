@@ -132,6 +132,9 @@
 }
 
 @layer components {
+  .circle-box {
+    @apply border-bg2 [background-image:var(--cardGradient)] rounded-full;
+  }
   .card {
     @apply [background-image:var(--cardGradient)] rounded-2xl;
   }

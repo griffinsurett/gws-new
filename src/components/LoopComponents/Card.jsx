@@ -2,18 +2,23 @@
 import { getItemKey } from "@/utils/getItemKey";
 import Icon from "@/components/Icon/Icon";
 
-/**
- * Card component for rendering an individual item.
- * If the page exists, the whole card becomes a link.
- * Displays an icon dynamically based on item.data.icon.
- */
-export default function Card({ item, itemClass, collectionName, HasPage }) {
+export default function Card({ item, itemClass = "", collectionName, HasPage }) {
   const effectiveHasPage =
     item.data.hasPage !== undefined ? item.data.hasPage : HasPage;
 
   const href = `/${collectionName}/${getItemKey(item)}`;
-  const baseClasses = `card p-[var(--spacing-sm)] ${itemClass}`;
-  const hoverClasses = `block w-full hover-border-effect hover-animation`
+
+  // 🔷 Classes applied to the outermost wrapper (<a> or <article>)
+  const outerClasses = 
+    "w-full card";
+
+  // 🔷 Classes always on <article>
+  const articleClasses = 
+    "flex flex-col justify-center items-center h-[50vh] p-[var(--spacing-sm)]";
+
+  // 🔷 Only applied when wrapping in a link
+  const linkOnlyClasses =
+    "hover-animation hover-border-effect";
 
   const content = (
     <>
@@ -31,17 +36,18 @@ export default function Card({ item, itemClass, collectionName, HasPage }) {
     </>
   );
 
+  // 🔁 Render logic
   if (effectiveHasPage) {
     return (
-      <a
-        href={href}
-        className={`${hoverClasses} ${baseClasses}`}
-        aria-label={`View more about ${item.data.title}`}
-      >
-        <article>{content}</article>
+      <a href={href} className={`${outerClasses} ${linkOnlyClasses}`} aria-label={`View more about ${item.data.title}`}>
+        <article className={articleClasses}>{content}</article>
       </a>
     );
   }
 
-  return <article className={baseClasses}>{content}</article>;
+  return (
+    <article className={`${outerClasses} ${articleClasses}`}>
+      {content}
+    </article>
+  );
 }
