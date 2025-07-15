@@ -103,7 +103,7 @@
   }
 
   .section {
-    @apply min-h-screen justify-center items-center flex flex-col py-[var(--spacing-5xl)] md:py-0
+    @apply min-h-screen justify-center items-center flex flex-col py-[var(--spacing-5xl)] lg:py-0
   }
 
   .between-heading-items {

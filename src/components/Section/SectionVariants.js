@@ -2,7 +2,7 @@
 import HeroBg from "@/assets/background.svg";
 
 const primaryItemsClassDefaults =
-  "order-2 md:order-last w-full gap-[var(--spacing-xl)]";
+  "order-2 md:order-last w-full gap-[var(--spacing-3xl)]";
 /**
  * SectionVariants defines reusable layout and styling for different section types.
  * Use via <Section variant="<key>" ... /> to apply these defaults.
@@ -98,4 +98,11 @@ export const SectionVariants = {
     ...sectionDefaults.secondary,
     itemsClass: `${primaryItemsClassDefaults}`,
   },
+  faq: {
+    sectionClass: "section",
+    contentClass: "w-full flex flex-col lg:flex-row justify-center items-start gap-[var(--spacing-lg)]",
+    topContentClass: "lg:sticky lg:top w-full lg:w-1/3 flex items-center justify-center m-0",
+    itemsClass: "w-auto lg:w-2/3 h-full flex flex-col gap-[var(--spacing-md)]",
+    imageColumnClass: "hidden",
+  }
 };

@@ -11,7 +11,7 @@ export default function Card({ item, itemClass = "", collectionName, HasPage }) 
 
   // 🔷 Classes applied to the outermost wrapper (<a> or <article>)
   const outerClasses = 
-    "w-full card text-center";
+    "w-full card text-center load scale-up";
 
   // 🔷 Classes always on <article>
   const articleClasses = 
