@@ -4,14 +4,14 @@ import Menu from "@/components/Menu/Menu.astro";
 import { SiteData } from "@/content/SiteData";
 ---
 
-<footer class="p-[var(--spacing-md)]">
+<footer class="p-[var(--spacing-md)] text-center">
   <Menu
     collection="menuItems"
     query="relatedItem:menus:footerMenu"
     sortOrder="desc"
     ItemComponent={MenuItem}
-    itemsClass="flex gap-[var(--spacing-md)]"
-    itemClass=""
+    itemsClass="flex gap-[var(--spacing-md)] justify-center items-center flex-wrap"
+    itemClass="p-[var(--spacing-sm)]"
   />
   <p class="mt-[var(--spacing-md)] text-[var(--font-size-sm)]">
     &copy; {new Date().getFullYear()} {SiteData.title} LLC All rights reserved.

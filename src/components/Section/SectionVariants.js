@@ -1,19 +1,22 @@
 // src/components/Section/SectionVariants.js
 import HeroBg from "@/assets/background.svg";
 
+const primaryItemsClassDefaults =
+  "order-2 md:order-last w-full gap-[var(--spacing-xl)]";
 /**
  * SectionVariants defines reusable layout and styling for different section types.
  * Use via <Section variant="<key>" ... /> to apply these defaults.
  */
 const sectionDefaults = {
   primary: {
+    sectionClass: "section",
     contentClass: "flex flex-wrap",
     itemPlacement: "top-content-section",
     buttonsPlacement: "top-content-section",
-    topContentClass: "flex justify-center md:justify-between items-center w-full flex-wrap space-y-[var(--spacing-xs)]",
-    headingAreaClass: "order-1 md:w-1/2 flex justify-center items-start flex-col space-y-[var(--spacing-xs)]",
-    itemsClass:
-      "order-2 md:order-last w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--spacing-xl)]",
+    topContentClass:
+      "flex justify-center md:justify-between items-center w-full flex-wrap between-heading-items",
+    headingAreaClass:
+      "order-1 md:w-1/2 flex justify-center text-center md:items-start flex-col gap-[var(--spacing-md)] md:gap-0",
     buttonsSectionClass:
       "flex items-center justify-center md:w-1/2" +
       "md:justify-end md:z-20 order-last md:order-2",
@@ -26,13 +29,16 @@ const sectionDefaults = {
     //    items (content-section), then buttons (also content-section).
     // pull everything into a centered column (optional—adjust as you like)
     // center your text & constrain width
-    topContentClass: "w-full",
+    sectionClass: "section",
+    contentClass: "",
+    topContentClass: "w-full flex flex-col m-0 p-0 between-heading-items",
+    descriptionClass: "text-center md:text-right large-text",
     // heading area needs no special flex—just stacked text
     headingAreaClass:
-      "w-full flex flex-col md:flex-row justify-between items-center",
+      "w-full flex flex-col md:flex-row justify-between items-center gap-[var(--spacing-md)] md:gap-0",
 
     // 2️⃣ items go in the “content-section” (immediately after heading)
-    itemPlacement: "content-section",
+    itemPlacement: "top-content-section",
 
     // 3️⃣ buttons also in content-section, which now places them
     //    after the items, every time.
@@ -52,7 +58,7 @@ export const SectionVariants = {
     contentClass:
       "relative md:py-0 w-auto h-full flex flex-col md:flex-row z-20 md:gap-[var(--spacing-xs)]",
     topContentClass:
-      "basis-4/7 min-h-screen space-y-[var(--spacing-2xl)] md:h-auto w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
+      "basis-4/7 min-h-screen space-y-[var(--spacing-xl)] md:h-auto w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
     imageColumnClass:
       "basis-3/7 flex items-end justify-center md:justify-end slide-up",
     buttonsPlacement: "top-content-section",
@@ -77,18 +83,19 @@ export const SectionVariants = {
   primary: {
     ...sectionDefaults.primary,
     // no need for basis-*, just size the height
-    itemClass: "h-[30vh] flex flex-col justify-center items-center text-center",
-    descriptionClass: "hidden"
+    itemsClass: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${primaryItemsClassDefaults}`,
+    descriptionClass: "hidden",
   },
   secondary: {
     ...sectionDefaults.secondary,
-  itemsClass:
+    itemsClass:
       "w-full grid grid-cols-1 md:grid-cols-2 gap-[var(--spacing-xl)]",
 
     // make each card fill its grid‐cell
     itemClass: "h-[30vh] flex flex-col justify-center items-center text-center",
   },
-   testimonials: {
+  testimonials: {
     ...sectionDefaults.secondary,
+    itemsClass: `${primaryItemsClassDefaults}`,
   },
 };

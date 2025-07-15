@@ -1,6 +1,7 @@
 // src/components/Card.jsx
 import { getItemKey } from "@/utils/getItemKey";
 import Icon from "@/components/Icon/Icon";
+import Heading from "../Heading";
 
 export default function Card({ item, itemClass = "", collectionName, HasPage }) {
   const effectiveHasPage =
@@ -10,11 +11,11 @@ export default function Card({ item, itemClass = "", collectionName, HasPage }) 
 
   // 🔷 Classes applied to the outermost wrapper (<a> or <article>)
   const outerClasses = 
-    "w-full card";
+    "w-full card text-center";
 
   // 🔷 Classes always on <article>
   const articleClasses = 
-    "flex flex-col justify-center items-center h-[50vh] p-[var(--spacing-sm)]";
+    "flex flex-col justify-center items-center h-[35vh] md:h-[50vh] px-[var(--spacing-lg)] py-[var(--spacing-sm)] gap-[var(--spacing-lg)]";
 
   // 🔷 Only applied when wrapping in a link
   const linkOnlyClasses =
@@ -27,12 +28,14 @@ export default function Card({ item, itemClass = "", collectionName, HasPage }) 
           <Icon icon={item.data.icon} className="text-2xl grayscale" />
         </div>
       )}
-      <h3 className="mb-[var(--spacing-sm)] text-[var(--color-text)]">
+     <div className="card-content px-[var(--spacing-lg)]">
+       <Heading tagName="h3" className="h3 mb-[var(--spacing-sm)] text-[var(--color-text)]">
         {item.data.title}
-      </h3>
+      </Heading>
       <p className="mb-[var(--spacing-sm)]">
         {item.data.description || item.body}
       </p>
+     </div>
     </>
   );
 

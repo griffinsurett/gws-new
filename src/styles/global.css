@@ -50,7 +50,8 @@
   --spacing-xl:  1.5rem;
   --spacing-2xl: 2rem;
   --spacing-3xl: 2.5rem;
-  --spacing-4xl: 3rem;
+  --spacing-4xl: 4rem;
+  --spacing-5xl: 5.5rem;
 
   /* Border Radius */
   --radius-xs:  0.125rem;
@@ -98,7 +99,15 @@
   }
 
   .page-container {
-    @apply w-8/10 lg:w-9/10 mx-auto;
+    @apply w-8/10 lg:w-9/10 py-[var(--spacing-3xl)] md:py-0 mx-auto;
+  }
+
+  .section {
+    @apply min-h-screen justify-center items-center flex flex-col py-[var(--spacing-5xl)] md:py-0
+  }
+
+  .between-heading-items {
+    @apply gap-[var(--spacing-lg)] md:gap-[var(--spacing-xl)];
   }
 
   .h1 {
