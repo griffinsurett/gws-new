@@ -6,7 +6,7 @@ const POSTER_SRC = "/GWS-animated.png";
 const VIDEO_SRC  = "/GWS-animated.webm";
 const mediaClasses = "block w-[35px] md:w-[40px] lg:w-[50px] h-auto";
 
-export default function VideoLogo({ alt = "", className = "light:filter light:invert" }) {
+export default function VideoLogo({ alt = "", className = "logo-class" }) {
   const containerRef = useRef(null);
   const videoRef     = useRef(null);
 

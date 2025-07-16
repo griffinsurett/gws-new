@@ -30,7 +30,7 @@ export default function ButtonIcon({
 
   return (
     <span className={containerClass}>
-      <Icon icon={icon} className="h-auto w-6" />
+      <Icon icon={icon} className="h-auto w-6 logo-class" />
     </span>
   );
 }

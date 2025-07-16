@@ -13,7 +13,7 @@ export function useScrollAnimation(
     // ms to debounce between callbacks
     pauseDelay  = 100,
     // only fire onBackward when scrollY <= this (px)
-    restoreAtTopOffset = 0,
+    restoreAtTopOffset = 200,
   } = {}
 ) {
   const [inView, setInView] = useState(false);

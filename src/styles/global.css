@@ -162,6 +162,10 @@
     transition: all 0.3s ease-in-out;
   }
 
+  .logo-class {
+    @apply light:filter light:invert;
+  }
+
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
