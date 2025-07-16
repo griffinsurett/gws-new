@@ -8,6 +8,7 @@ const sharedIconDefaults = {
   icon: GWSLogo.src,
   hoverOnly: true,
   animateIcon: true,
+  position: "left",
 };
 
 const noIcon = {
