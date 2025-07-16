@@ -4,17 +4,25 @@ import { useEffect, useState, useRef } from "react";
 export function useScrollAnimation(
   ref,
   {
+    // for IntersectionObserver
     threshold   = 0.1,
+    // called when scrolling down
     onForward   = () => {},
+    // called when scrolling up AND within restoreAtTopOffset px of top
     onBackward  = () => {},
+    // ms to debounce between callbacks
     pauseDelay  = 100,
+    // only fire onBackward when scrollY <= this (px)
+    restoreAtTopOffset = 0,
   } = {}
 ) {
   const [inView, setInView] = useState(false);
   const pauseTimeout = useRef();
-  const lastY = useRef(typeof window !== "undefined" ? window.pageYOffset : 0);
+  const lastY = useRef(
+    typeof window !== "undefined" ? window.pageYOffset : 0
+  );
 
-  // 1️⃣ Lazy-load via IntersectionObserver
+  // 1️⃣ wait until element is in view at least once
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -31,17 +39,26 @@ export function useScrollAnimation(
     return () => io.disconnect();
   }, [ref, threshold]);
 
-  // 2️⃣ Scroll & Wheel → callbacks
+  // 2️⃣ only after inView do we listen for scroll/wheel
   useEffect(() => {
     if (!inView) return;
 
     function handleMovement(deltaY) {
       clearTimeout(pauseTimeout.current);
-      if (deltaY > 0) onForward();
-      else if (deltaY < 0) onBackward();
+
+      if (deltaY > 0) {
+        // scrolling down
+        onForward();
+      } else if (deltaY < 0) {
+        // scrolling up — but only if we're back near the top
+        const y = window.pageYOffset;
+        if (y <= restoreAtTopOffset) {
+          onBackward();
+        }
+      }
 
       pauseTimeout.current = setTimeout(() => {
-        // optional: onPause()
+        // you could call onPause() here
       }, pauseDelay);
     }
 
@@ -64,7 +81,7 @@ export function useScrollAnimation(
       window.removeEventListener("scroll", onScroll);
       clearTimeout(pauseTimeout.current);
     };
-  }, [inView, onForward, onBackward, pauseDelay]);
+  }, [inView, onForward, onBackward, pauseDelay, restoreAtTopOffset]);
 
   return inView;
 }

@@ -1,40 +1,39 @@
 // src/components/TextLogo.jsx
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function TextLogo({
   title = "",
   className = "",
   firstClass = "font-bold text-xl lg:text-3xl text-heading",
   restClass  = "small-text",
-  fadeDuration = 1200,    // fade time in ms
-  threshold    = 100,     // show only when scrollY < threshold
+  fadeDuration = 1200,  // in ms
 }) {
   const [firstWord, ...others] = title.split(" ");
   const restOfTitle = others.join(" ");
+  const [hidden, setHidden] = useState(false);
+  const ref = useRef(null);
 
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const onScroll = () => {
-      setVisible(window.scrollY < threshold);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [threshold]);
+  // hide when scrolling down, show when scrolling up
+  useScrollAnimation(ref, {
+    threshold: 0,                  // element enters immediately
+    pauseDelay: fadeDuration,      // so we don’t flip-flop too fast
+    onForward:  () => setHidden(true),
+    onBackward: () => setHidden(false),
+  });
 
   return (
     <div
+      ref={ref}
       className={`
         ${className}
-       transition-opacity duration-[${fadeDuration}ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-       transition-transform duration-[${fadeDuration}ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-       transform
-       ${visible
-         // when showing, fade-in & slide down *from* above
-         ? "opacity-100 translate-y-0"
-         // when hiding, fade-out & slide up *to* above
-         : "opacity-0 -translate-y-4"}
+        transition-opacity duration-[${fadeDuration}ms]
+        transition-transform duration-[${fadeDuration}ms]
+        ease-[cubic-bezier(0.4,0,0.2,1)] transform
+        ${hidden
+          ? "opacity-0 -translate-y-4"
+          : "opacity-100 translate-y-0"
+        }
       `}
     >
       <span className={firstClass}>{firstWord}</span>

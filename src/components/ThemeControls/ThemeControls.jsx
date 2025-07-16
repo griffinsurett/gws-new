@@ -1,47 +1,23 @@
 // src/components/ThemeControls.jsx
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import ThemeToggle from "./DarkLightToggle.jsx";
 import AccentPicker from "./AccentPicker.jsx";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
-export default function ThemeControls({
-  checkboxId = "headerMenu-toggle",    // ← the ID of your <input type="checkbox" />
-  className = ""
-}) {
-  // Track scroll position (your existing “at top” logic)
-  const [isAtTop, setIsAtTop] = useState(
-    typeof window !== "undefined" ? window.pageYOffset === 0 : true
-  );
-  useEffect(() => {
-    function handleScroll() {
-      setIsAtTop(window.pageYOffset === 0);
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+export default function ThemeControls({ className = "" }) {
+  const ref = useRef(null);
+  const [hidden, setHidden] = useState(false);
 
-  // Track menu open/closed via checkbox
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const box = document.getElementById(checkboxId);
-    if (!box) {
-      console.warn(`[ThemeControls] No checkbox found with id=${checkboxId}`);
-      return;
-    }
-
-    const sync = () => {
-      console.log(`[ThemeControls:${checkboxId}] menuOpen=${box.checked}`);
-      setMenuOpen(box.checked);
-    };
-
-    box.addEventListener("change", sync);
-    sync(); // initialize on mount
-
-    return () => box.removeEventListener("change", sync);
-  }, [checkboxId]);
+  useScrollAnimation(ref, {
+    threshold: 0,
+    pauseDelay: 100,
+    onForward:  () => setHidden(true),   // scrolling down → hide
+    onBackward: () => setHidden(false),  // scrolling up   → show
+  });
 
   return (
     <div
+      ref={ref}
       className={[
         // ① center inside your hero (parent must be relative)
         "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
@@ -49,9 +25,9 @@ export default function ThemeControls({
         "flex items-center gap-[var(--spacing-sm)]",
         // ③ fade in/out
         "transition-opacity duration-300 ease-in-out",
-        isAtTop
-          ? "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none",
+        hidden
+          ? "opacity-0 pointer-events-none"
+          : "opacity-100 pointer-events-auto",
         // ④ any extra overrides
         className,
       ]
@@ -60,11 +36,6 @@ export default function ThemeControls({
     >
       <ThemeToggle />
       <AccentPicker />
-
-      {/* live-update the menu’s open state */}
-      <span className="ml-4 font-mono">
-        menuOpen: {menuOpen.toString()}
-      </span>
     </div>
   );
 }
