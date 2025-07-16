@@ -67,10 +67,6 @@
   --shadow-lg:  0 20px 25px rgba(0,0,0,0.1);
 }
 
-*{
-  -webkit-tap-highlight-color: var(--color-accent);
-}
-
 /* ───────────────────────────────────────────────────── */
 /* 2. OPTIONAL LIGHT MODE OVERRIDES                     */
 /* ───────────────────────────────────────────────────── */

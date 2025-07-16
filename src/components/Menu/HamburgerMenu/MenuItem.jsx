@@ -29,38 +29,38 @@ export default function MobileMenuItem({
   const link = getMenuLink(item, collectionName);
 
   return (
-<div className={`menu-item ${itemClass}`}>
+    <div className={`menu-item ${itemClass}`}>
       <div className="flex w-full items-center justify-between group">
-      <Button
-        as="a"
-        variant={hasKids ? "linkNoIcon" : "link"}
-        href={link}
-        className={`flex-1 text-left ${linkClass}`}  
-        onClick={onItemClick}
-      >
-        {item.data.title}
-      </Button>
-
-      {hasKids && (
         <Button
-          as="button"
+          as="a"
           variant={hasKids ? "linkNoIcon" : "link"}
-          tabIndex={0}
-          onClick={() => setOpen(o => !o)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              setOpen(o => !o);
-            }
-          }}
-          className={`ml-2 p-1 ${linkClass}`}     
-          aria-haspopup="true"
-          aria-expanded={open}
+          href={link}
+          className={`flex-1 text-left ${linkClass}`}
+          onClick={onItemClick}
         >
-          <span className="submenu-arrow">▼</span>
+          {item.data.title}
         </Button>
-      )}
-    </div>
+
+        {hasKids && (
+          <Button
+            as="button"
+            variant={hasKids ? "linkNoIcon" : "link"}
+            tabIndex={0}
+            onClick={() => setOpen((o) => !o)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setOpen((o) => !o);
+              }
+            }}
+            className={`ml-2 p-1 ${linkClass}`}
+            aria-haspopup="true"
+            aria-expanded={open}
+          >
+            <span className="submenu-arrow">▼</span>
+          </Button>
+        )}
+      </div>
 
       {hasKids && open && (
         <div className="ml-4 border-l border-gray-200">
