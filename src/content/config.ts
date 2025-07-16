@@ -55,6 +55,24 @@ export const collections = {
       }),
   }),
 
+  /* ─────────────────────────── Solutions ──────────────────────── */
+  solutions: defineCollection({
+    /**
+     * Each Solution represents a packaged offering (e.g., Website, Web Application).
+     * It can reference one or more services that power it.
+     */
+    schema: ({ image }) =>
+      baseSchema({ image }).extend({
+        /**
+         * Link individual services that make up this solution.
+         * Accepts a single reference or an array of references to services collection.
+         */
+        services: z
+          .union([reference("services"), z.array(reference("services"))])
+          .optional(),
+      }),
+  }),
+
   projects: defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({
