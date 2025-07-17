@@ -52,7 +52,7 @@ export const SectionVariants = {
    */
   primaryHero: {
     sectionClass:
-      "flex flex-col items-center min-h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-center z-10 text-xl",
+      "flex flex-col items-center min-h-screen md:min-h-[130vh] lg:min-h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-center z-10 text-xl",
     contentClass:
       "relative lg:py-0 w-auto h-full flex flex-col md:flex-row z-20 lg:gap-[var(--spacing-xs)]",
     topContentClass:

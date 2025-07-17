@@ -99,21 +99,17 @@
     background-color: var(--color-bg);
     color: var(--color-text);
   }
-
   .page-container {
     @apply w-8/10 lg:w-17/20 py-[var(--spacing-3xl)] md:py-0 mx-auto;
   }
-
   .section {
     @apply min-h-screen justify-center items-center flex flex-col py-[var(--spacing-5xl)] lg:py-0;
   }
-
   .between-heading-items {
     @apply gap-[var(--spacing-lg)] md:gap-[var(--spacing-xl)];
   }
-
   .h1 {
-    @apply text-3xl lg:text-4xl xl:text-6xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
+    @apply text-3xl lg:text-4xl xl:text-5xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
   }
   .h2 {
     @apply text-3xl md:text-4xl lg:text-5xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
@@ -124,19 +120,18 @@
   .h4 {
     @apply text-xl font-thin md:text-xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
   }
-  .h5,
-  .h6 {
+  .h5 {
     @apply text-base font-thin md:text-lg tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
   }
-
+  .h6 {
+    @apply text-sm font-thin md:text-base tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
+  }
   p {
     @apply mb-4 tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] uppercase text-base font-thin;
   }
-
   .small-text {
-    @apply text-xs uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-sm;
+    @apply text-sm uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-sm lg:text-base;
   }
-
   .large-text {
     @apply text-base lg:text-lg xl:text-xl uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)];
   }
@@ -149,7 +144,6 @@
   .card {
     @apply [background-image:var(--cardGradient)] rounded-2xl;
   }
-
   .accordion-item {
     @apply [background-image:var(--cardGradient)] rounded-2xl;
   }
@@ -197,7 +191,7 @@
     @apply scale-115;
   }
   .background-effect {
-    @apply bg-primary light:[background-image:var(--cardGradient)];
+    @apply border border-primary light:border-bg2 light:[background-image:var(--cardGradient)];
   }
   .border-effect {
     @apply border border-primary light:border-text;
