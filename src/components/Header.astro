@@ -3,8 +3,6 @@ import Menu from "@/components/Menu/Menu.astro";
 import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
 import ThemeControls from "@/components/ThemeControls/ThemeControls";
 import Logo from "@/components/Logo/Logo.astro";
-
-const breakpoint = "lg";
 ---
 
 <header
@@ -23,7 +21,7 @@ collection="menuItems"
   menuItem={{
     component: MobileMenuItem,
     props: {
-      itemClass: "p-[var(--spacing-sm)] h2 text-heading hover:text-primary",
+      itemClass: "p-[var(--spacing-sm)] h3 text-heading hover:text-primary",
       linkClass: "w-full text-left justify-center items-center",
       hierarchical: true,
       submenu: {

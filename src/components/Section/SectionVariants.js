@@ -12,14 +12,17 @@ const sectionDefaults = {
     sectionClass: "section",
     contentClass: "flex flex-wrap",
     itemPlacement: "top-content-section",
-    buttonsPlacement: "top-content-section",
+    bottomPlacement: "top-content-section",
     topContentClass:
       "flex justify-center md:justify-between items-center w-full flex-wrap between-heading-items",
     headingAreaClass:
       "order-1 md:w-1/2 flex justify-center text-center md:items-start flex-col gap-[var(--spacing-md)] md:gap-0",
-    buttonsSectionClass:
+    bottomContentClass: 
       "flex items-center justify-center md:w-1/2" +
       "md:justify-end md:z-20 order-last md:order-2",
+    // buttonsSectionClass:
+    //   "flex items-center justify-center md:w-1/2" +
+    //   "md:justify-end md:z-20 order-last md:order-2",
     // instead of flex/flex-wrap
   },
 
@@ -61,9 +64,12 @@ export const SectionVariants = {
       "basis-4/7 min-h-screen space-y-[var(--spacing-xl)] md:h-auto w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
     imageColumnClass:
       "basis-3/7 flex items-end justify-center md:justify-end slide-up",
-    buttonsPlacement: "top-content-section",
+    bottomContentClass: "w-full flex flex-row-reverse items-start justify-end",
+    bottomPlacement: "top-content-section",
     headingAreaClass: "space-y-[var(--spacing-md)]",
     descriptionClass: "md:pr-[var(--spacing-xl)] font-thin text-md md:text-lg",
+    childPlacement: "bottom-content-section"
+
   },
 
   /**
