@@ -6,7 +6,7 @@ export default function TextLogo({
   title = "",
   className = "",
   firstClass = "font-normal text-xl lg:text-3xl text-heading",
-  restClass  = "small-text subtitle",
+  restClass  = "text-sm lg:text-lg uppercase subtitle leading-tight tracking-[0.1rem] md:tracking-[var(--spacing-2xs)]",
   fadeDuration = 1200,  // in ms
 }) {
   const [firstWord, ...others] = title.split(" ");
