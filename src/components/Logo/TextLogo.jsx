@@ -5,7 +5,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 export default function TextLogo({
   title = "",
   className = "",
-  firstClass = "font-normal text-xl lg:text-3xl text-heading",
+  firstClass = "font-thin leading-tight tracking-[0.1rem] text-xl lg:text-3xl text-heading",
   restClass  = "text-xs md:text-sm lg:text-lg uppercase subtitle leading-tight tracking-[0.1rem] md:tracking-[var(--spacing-2xs)]",
   fadeDuration = 1200,  // in ms
 }) {
