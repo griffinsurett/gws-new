@@ -20,7 +20,7 @@ const noIcon = {
 export const ButtonVariants = {
   primary: {
     variantClasses:
-      "text-heading h4 bg-transparent border-effect hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] rounded",
+      "text-heading h5 bg-transparent border-effect hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] rounded",
     buttonClasses: baseButtonClasses,
     iconDefaults: { ...noIcon },
   },
