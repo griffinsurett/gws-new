@@ -17,7 +17,7 @@ export function CircleCheckbox({ checked, className=
 
       {/* 2. The visible circle */}
       <span
-        className={`${className} border-2 w-6 h-6 md:w-8 md:h-8 rounded-full transition-all`}
+        className={`${className} border-2 w-7 h-7 md:w-8 md:h-8 rounded-full transition-all`}
       />
     </label>
   );
