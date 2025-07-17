@@ -1,0 +1,53 @@
+---
+// src/components/LoopComponents/CircleImageItem.astro
+import { Image } from "astro:assets";
+import { getItemKey } from "@/utils/getItemKey.js";
+
+const { item, itemClass = "", collectionName, HasPage } = Astro.props;
+
+// decide link vs static
+const effectiveHasPage =
+  item.data.hasPage !== undefined ? item.data.hasPage : HasPage;
+const href = `/${collectionName}/${getItemKey(item)}`;
+
+// pick your source
+const imgSrc = item.data.featuredImage ?? "@/assets/background.svg";
+
+// circle styling
+const circleClasses = `
+  w-14 h-14 rounded-full overflow-hidden flex-shrink-0 
+  bg-gray-200 flex items-center justify-center ${itemClass}
+`;
+---
+
+{
+  effectiveHasPage ? (
+    <a href={href} aria-label={`View details for ${item.data.title || ""}`}>
+      <div class={circleClasses}>
+        <Image
+          src={imgSrc}
+          alt={item.data.title || ""}
+          widths={[56]}
+          formats={["avif", "webp", "jpeg"]}
+          placeholder="blur"
+          class="object-cover w-full h-full"
+          fetchpriority={"high"}
+          loading="eager"
+        />
+      </div>
+    </a>
+  ) : (
+    <div class={circleClasses}>
+      <Image
+        src={imgSrc}
+        alt={item.data.title || ""}
+        widths={[56]}
+        formats={["avif", "webp", "jpeg"]}
+        placeholder="blur"
+        class="object-cover w-full h-full"
+        fetchpriority={"high"}
+        loading="eager"
+      />
+    </div>
+  )
+}
