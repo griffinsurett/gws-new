@@ -22,8 +22,7 @@ export default function CircleImageItem({
 
   // 3️⃣ shared classes for our circle
   const circleClasses =
-    "w-13 h-13 md:w-15 md:h-15 rounded-full overflow-hidden flex-shrink-0 " +
-    "bg-gray-200 flex items-center justify-center";
+    "w-14 h-14 rounded-full overflow-hidden flex-shrink-0 bg-gray-200 flex items-center justify-center";
 
   const imgClasses = "w-full h-full object-cover";
 
