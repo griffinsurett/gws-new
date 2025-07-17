@@ -5,56 +5,50 @@ import Section from "@/components/Section/Section.astro";
 import Card from "@/components/LoopComponents/Card";
 import { SiteData } from "@/content/SiteData";
 import { Image } from "astro:assets";
-import HeroImage from "@/assets/computer-guy.png"
+import HeroImage from "@/assets/computer-guy.png";
+import TestimonialCircleSection from "@/components/StaticSections/TestimonialCircleSection.astro";
 ---
-<BaseLayout title="Welcome to Greactstro!" description="Your gateway to amazing projects.">
-  <!-- Hero Section -->
-<Section
-  variant="primaryHero"
-  heading={{ text: SiteData.tagline, tagName: "h1"}}
-  description={SiteData.description}
-  buttons={[
-    { text: "See Our CTA", link: "/contact-us", variant: "primary" },
-  ]}
+
+<BaseLayout
+  title="Welcome to Greactstro!"
+  description="Your gateway to amazing projects."
 >
-<div class="block" slot="imageColumn">
-<Image
-  src={HeroImage}
-  alt="Hero Image"
-  class="w-auto h-auto md:h-full object-contain md:object-cover z-30"
-  />
-</div>
-Small Testimonial
-
-</Section>
-<div class="page-container">
-  <!-- Services -->
+  <!-- Hero Section -->
   <Section
-    collection="services"
-    query="roots"
-  />
+    variant="primaryHero"
+    heading={{ text: SiteData.tagline, tagName: "h1" }}
+    description={SiteData.description}
+    buttons={[{ text: "See Our CTA", link: "/contact-us", variant: "primary" }]}
+  >
+    <div class="block" slot="imageColumn">
+      <Image
+        src={HeroImage}
+        alt="Hero Image"
+        class="w-auto h-auto md:h-full object-contain md:object-cover z-30"
+      />
+    </div>
 
-  <!-- Clients -->
-  <!-- <Section
+    <TestimonialCircleSection />
+    
+  </Section>
+  <div class="page-container">
+    <!-- Services -->
+    <Section collection="services" query="roots" />
+
+    <!-- Clients -->
+    <!-- <Section
     sectionClass="animate-on-appear"
     collection="clients"
     query="getAll"
     heading={{ text: "Our Clients", tagName: "h2" }}
   /> -->
 
-  <!-- Projects -->
-  <Section
-    collection="projects"
-    query="getAll"
-  />
+    <!-- Projects -->
+    <Section collection="projects" query="getAll" />
 
-<!-- Testimonials -->
-<Section
-  collection="testimonials"
-  query="getAll"
-/>
+    <!-- Testimonials -->
+    <Section collection="testimonials" query="getAll" />
 
-
-  <Section collection="faq" query="getAll" />
-</div>
+    <Section collection="faq" query="getAll" />
+  </div>
 </BaseLayout>

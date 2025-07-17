@@ -1,0 +1,22 @@
+---
+import ItemsTemplate from "@/components/ItemsTemplates/ItemsTemplate.astro";
+import CircleImageItem from "@/components/LoopComponents/CircleImageItem";
+import Heading from "@/components/Heading";
+---
+
+  <div class="testimonials flex justify-center items-center gap-[var(--spacing-md)]">
+      <ItemsTemplate
+      collection="testimonials"
+      query="getAll"
+      ItemComponent={CircleImageItem}
+      itemsClass="flex justify-center items-center"
+    />
+    <div class="flex flex-col items-start gap-[var(--spacing-xs)]">
+      <Heading tagName="h2" className="text-heading h1 p-0 m-0">
+        100+
+      </Heading>
+      <Heading tagName="p" className="text-small ml-[var(--spacing-sm)] my-0">
+        Happy Clients
+      </Heading>
+    </div>
+    </div>

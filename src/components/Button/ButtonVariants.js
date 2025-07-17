@@ -2,7 +2,7 @@
 import GWSLogo from "@/assets/GWS-animated.png";
 
 export const baseButtonClasses =
-  "relative inline-flex items-center group py-[var(--spacing-lg)] px-[var(--spacing-2xl)] md:px-[var(--spacing-4xl)] uppercase font-medium rounded-full hover-animation";
+  "relative inline-flex items-center group py-[var(--spacing-lg)] px-[var(--spacing-3xl)] md:px-[var(--spacing-4xl)] uppercase font-medium rounded-full hover-animation";
 
 const sharedIconDefaults = {
   icon: GWSLogo.src,

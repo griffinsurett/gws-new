@@ -61,10 +61,10 @@ export const SectionVariants = {
     contentClass:
       "relative md:py-0 w-auto h-full flex flex-col md:flex-row z-20 md:gap-[var(--spacing-xs)]",
     topContentClass:
-      "basis-4/7 min-h-screen space-y-[var(--spacing-xl)] md:h-auto w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
+      "basis-4/7 min-h-screen space-y-[var(--spacing-2xl)] md:h-auto w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
     imageColumnClass:
       "basis-3/7 flex items-end justify-center md:justify-end slide-up",
-    bottomContentClass: "w-full flex flex-row-reverse items-start justify-end",
+    bottomContentClass: "w-full flex flex-col-reverse md:flex-row-reverse items-start md:items-center justify-end gap-[var(--spacing-xl)] md:gap-[var(--spacing-xl)]",
     bottomPlacement: "top-content-section",
     headingAreaClass: "space-y-[var(--spacing-md)]",
     descriptionClass: "md:pr-[var(--spacing-xl)] font-thin text-md md:text-lg",
