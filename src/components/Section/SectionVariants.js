@@ -16,9 +16,9 @@ const sectionDefaults = {
     topContentClass:
       "flex justify-center md:justify-between items-center w-full flex-wrap between-heading-items",
     headingAreaClass:
-      "order-1 md:w-1/2 flex justify-center text-center md:items-start flex-col gap-[var(--spacing-md)] md:gap-0",
+      "order-1 md:w-1/2 flex justify-center text-center md:text-left md:items-start flex-col gap-[var(--spacing-md)] md:gap-0",
     bottomContentClass: 
-      "flex items-center justify-center md:w-1/2 md:justify-end md:z-20 order-last md:order-2",
+      "md:z-20 load slide-right order-last sm:order-2",
   },
 
   secondary: {
@@ -30,7 +30,7 @@ const sectionDefaults = {
     sectionClass: "section",
     contentClass: "",
     topContentClass: "w-full flex flex-col m-0 p-0 between-heading-items",
-    descriptionClass: "text-center md:text-right large-text",
+    descriptionClass: "text-center md:text-right large-text load slide-right",
     // heading area needs no special flex—just stacked text
     headingAreaClass:
       "w-full flex flex-col md:flex-row justify-between items-center gap-[var(--spacing-md)] md:gap-0",
@@ -41,7 +41,7 @@ const sectionDefaults = {
     // 3️⃣ buttons also in content-section, which now places them
     //    after the items, every time.
     buttonsPlacement: "content-section",
-    buttonsSectionClass: "mt-[var(--spacing-lg)] flex justify-center",
+    buttonsSectionClass: "mt-[var(--spacing-lg)] flex justify-center load scale-up",
     //  use a grid or flex here—example with grid 1–3 cols:
   },
 };

@@ -2,6 +2,7 @@
 // src/components/LoopComponents/CircleImageItem.astro
 import { Image } from "astro:assets";
 import { getItemKey } from "@/utils/getItemKey.js";
+import ImageFallback from "@/assets/background.svg";
 
 const { item, itemClass = "", collectionName, HasPage } = Astro.props;
 
@@ -11,7 +12,7 @@ const effectiveHasPage =
 const href = `/${collectionName}/${getItemKey(item)}`;
 
 // pick your source
-const imgSrc = item.data.featuredImage ?? "@/assets/background.svg";
+const imgSrc = item.data.featuredImage ?? ImageFallback;
 
 // circle styling
 const circleClasses = `
