@@ -113,7 +113,7 @@
   }
 
   .h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
   }
   .h2 {
     @apply text-3xl md:text-4xl lg:text-5xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
