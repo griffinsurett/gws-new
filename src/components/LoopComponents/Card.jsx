@@ -24,7 +24,7 @@ export default function Card({ item, itemClass = "", collectionName, HasPage }) 
   const content = (
     <>
       {item.data.icon && (
-        <div className="mb-[var(--spacing-sm)] aspect-square w-14 h-auto background-effect hover-animation-lg flex justify-center items-center rounded-full">
+        <div className="mb-[var(--spacing-sm)] aspect-square w-16 h-auto background-effect hover-animation-lg flex justify-center items-center rounded-full">
           <Icon icon={item.data.icon} className="text-2xl grayscale" />
         </div>
       )}

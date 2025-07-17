@@ -130,10 +130,13 @@
     @apply mb-4 tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] uppercase text-base font-thin;
   }
   .small-text {
-    @apply text-sm uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-sm lg:text-base;
+    @apply text-xs uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-sm lg:text-base;
   }
   .large-text {
     @apply text-base lg:text-lg xl:text-xl uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)];
+  }
+  .subtitle {
+    @apply text-primary font-thin text-base lg:text-lg uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)];
   }
 }
 
@@ -191,7 +194,7 @@
     @apply scale-115;
   }
   .background-effect {
-    @apply border border-primary light:border-bg2 light:[background-image:var(--cardGradient)];
+    @apply border-1 border-bg2 [background-image:var(--cardGradient)];
   }
   .border-effect {
     @apply border border-primary light:border-text;

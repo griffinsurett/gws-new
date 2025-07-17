@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 
 // only list the *additional* accents here
 const OTHER_ACCENTS = [
-  '#ec4899',
   '#10b981',
+  '#ec4899',
+  "#FF5F1F",
   '#f59e0b',
   // …etc…
 ];
