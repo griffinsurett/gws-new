@@ -19,10 +19,6 @@ const sectionDefaults = {
       "order-1 md:w-1/2 flex justify-center text-center md:items-start flex-col gap-[var(--spacing-md)] md:gap-0",
     bottomContentClass: 
       "flex items-center justify-center md:w-1/2 md:justify-end md:z-20 order-last md:order-2",
-    // buttonsSectionClass:
-    //   "flex items-center justify-center md:w-1/2" +
-    //   "md:justify-end md:z-20 order-last md:order-2",
-    // instead of flex/flex-wrap
   },
 
   secondary: {
@@ -58,17 +54,16 @@ export const SectionVariants = {
     sectionClass:
       "flex flex-col items-center min-h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-center z-10 text-xl",
     contentClass:
-      "relative md:py-0 w-auto h-full flex flex-col md:flex-row z-20 md:gap-[var(--spacing-xs)]",
+      "relative lg:py-0 w-auto h-full flex flex-col md:flex-row z-20 lg:gap-[var(--spacing-xs)]",
     topContentClass:
-      "basis-4/7 min-h-screen space-y-[var(--spacing-xl)] md:space-y-[var(--spacing-3xl)] md:h-auto w-80/100 mx-auto md:w-auto flex items-start justify-center md:justify-center flex-col md:pl-[80px]",
+      "basis-4/7 min-h-screen space-y-[var(--spacing-xl)] lg:space-y-[var(--spacing-3xl)] lg:h-auto w-80/100 mx-auto lg:w-auto flex items-start justify-center lg:justify-center flex-col md:pl-[80px]",
     imageColumnClass:
       "basis-3/7 flex items-end justify-center md:justify-end slide-up",
-    bottomContentClass: "w-full flex flex-col-reverse md:flex-row-reverse items-start md:items-center justify-end gap-[var(--spacing-md)] md:gap-[var(--spacing-xl)] lg:gap-[var(--spacing-2xl)]",
+    bottomContentClass: "w-full flex flex-col-reverse lg:flex-row-reverse items-start lg:items-center justify-end gap-[var(--spacing-md)] lg:gap-[var(--spacing-xl)] xl:gap-[var(--spacing-2xl)]",
     bottomPlacement: "top-content-section",
-    headingAreaClass: "space-y-[var(--spacing-sm)] md:space-y-[var(--spacing-md)]",
-    descriptionClass: "md:pr-[var(--spacing-xl)] font-thin text-md md:text-lg",
+    headingAreaClass: "space-y-[var(--spacing-sm)] lg:space-y-[var(--spacing-md)]",
+    descriptionClass: "lg:pr-[var(--spacing-xl)] font-thin large-text",
     childPlacement: "bottom-content-section"
-
   },
 
   /**
