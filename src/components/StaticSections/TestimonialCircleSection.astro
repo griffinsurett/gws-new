@@ -5,7 +5,7 @@ import CircleImageItem from "@/components/LoopComponents/CircleImageItem.astro";
 import Heading from "@/components/Heading";
 ---
 
-<div class="testimonials flex items-center gap-[var(--spacing-md)]">
+<div class="testimonials flex items-center gap-[var(--spacing-md)] px-[var(--spacing-md)] md:px-0">
   <!-- clip the overflow so only the “stack” shows -->
     <ItemsTemplate
       collection="testimonials"
@@ -16,7 +16,7 @@ import Heading from "@/components/Heading";
     />
 
   <div class="flex flex-col items-start gap-[var(--spacing-xs)] ml-[var(--spacing-md)]">
-    <Heading tagName="h2" className="text-heading h2 m-0 p-0">100+</Heading>
+    <Heading tagName="h2" className="text-heading m-0 p-0">100+</Heading>
     <Heading tagName="p" className="text-small m-0 ml-[var(--spacing-sm)]">
       Happy Clients
     </Heading>
