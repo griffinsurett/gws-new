@@ -154,15 +154,12 @@
     color: var(--color-accent);
     transition: all 0.3s ease-in-out;
   }
-
   /* .tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] {
     @apply tracking-[0.1rem] md:tracking-[var(--spacing-2xs)];
   } */
-
   .logo-class {
     @apply light:filter light:invert;
   }
-
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -170,11 +167,9 @@
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
-
   .hover-transition {
     @apply transition-all duration-700 ease-in-out;
   }
-
   .hover-animation {
     @apply transition-all duration-700 ease-in-out;
   }
@@ -188,8 +183,7 @@
     @apply scale-115;
   }
   .background-effect {
-    @apply border-1 border-bg2 [background-image:var(--cardGradient)] shadow-md shadow-accent light:shadow-none;
-    box-shadow: 0 0 12px rgba(var(--color-accent), 0.8);
+    @apply [background-image:var(--cardGradient)] shadow-md dark:shadow-[0_0_22px_var(--color-accent)] light:shadow-none;
   }
   .border-effect {
     @apply border border-primary light:border-text;
