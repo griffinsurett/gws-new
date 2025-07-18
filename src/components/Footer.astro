@@ -4,16 +4,16 @@ import Menu from "@/components/Menu/Menu.astro";
 import { SiteData } from "@/content/SiteData";
 ---
 
-<footer class="p-[var(--spacing-md)] text-center">
+<footer class="w-19/20 flex justify-between items-center py-[var(--spacing-sm)] mx-auto">
   <Menu
     collection="menuItems"
     query="relatedItem:menus:footerMenu"
     sortOrder="desc"
     ItemComponent={MenuItem}
-    itemsClass="flex gap-[var(--spacing-md)] justify-center items-center flex-wrap"
+    itemsClass="flex gap-[var(--spacing-md)] justify-center items-center flex-wrap h5 uppercase"
     itemClass="p-[var(--spacing-sm)]"
   />
-  <p class="mt-[var(--spacing-md)] text-[var(--font-size-sm)]">
+  <p class="p-0 m-0 h5">
     &copy; {new Date().getFullYear()} {SiteData.title} LLC All rights reserved.
   </p>
 </footer>

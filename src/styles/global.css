@@ -132,6 +132,9 @@
   .subtitle {
     @apply text-primary font-thin;
   }
+  .header-footer {
+    @apply px-[var(--spacing-sm)] py-[var(--spacing-sm)] z-[9999] flex justify-between items-center;
+  }
 }
 
 @layer components {
