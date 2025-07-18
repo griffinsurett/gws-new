@@ -184,6 +184,14 @@
 }
 }
 
+.heartbeat {
+  animation: heartbeat 0.6s ease-in-out forwards;
+}
+
+.circle {
+  transition: transform 0.3s ease-in-out;
+}
+
 /* 3️⃣ Shared keyframes */
 @layer utilities {
   @keyframes fade-in {
@@ -281,5 +289,14 @@
   @keyframes spin-twice {
     from { transform: rotate(0deg); }
     to   { transform: rotate(720deg); }
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
   }
 }
