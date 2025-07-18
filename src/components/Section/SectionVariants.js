@@ -104,5 +104,6 @@ export const SectionVariants = {
     topContentClass: "lg:sticky lg:top w-full lg:w-1/3 flex items-center justify-center m-0",
     itemsClass: "w-auto lg:w-2/3 h-full flex flex-col gap-[var(--spacing-md)]",
     imageColumnClass: "hidden",
+    descriptionClass: "font-thin large-text",
   }
 };
