@@ -2,7 +2,7 @@
 import GWSLogo from "@/assets/GWS-animated.png";
 
 export const baseButtonClasses =
-  "h6 relative inline-flex items-center group py-[var(--spacing-md)] lg:py-[var(--spacing-lg)] px-[var(--spacing-2xl)] lg:px-[var(--spacing-3xl)] uppercase font-light rounded-full hover-animation";
+  "text-lg relative inline-flex items-center group py-[var(--spacing-md)] lg:py-[var(--spacing-lg)] px-[var(--spacing-2xl)] lg:px-[var(--spacing-3xl)] uppercase font-light rounded-full hover-animation";
 
 const sharedIconDefaults = {
   icon: GWSLogo.src,
@@ -20,7 +20,7 @@ const noIcon = {
 export const ButtonVariants = {
   primary: {
     variantClasses:
-      "text-heading h5 bg-transparent border-effect hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] rounded",
+      "text-heading button-small bg-transparent border-effect hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] rounded",
     buttonClasses: baseButtonClasses,
     iconDefaults: { ...noIcon },
   },

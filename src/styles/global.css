@@ -1,4 +1,5 @@
 /* src/styles/global.css */
+/* Add this at the very top of your CSS file, before @import "tailwindcss" */
 @import "tailwindcss";
 /* ───────────────────────────────────────────────────── */
 /* 0. CUSTOM VARIANTS FOR LIGHT + DARK                  */
@@ -11,7 +12,7 @@
 /* ───────────────────────────────────────────────────── */
 @theme {
   /* Colors */
-  --color-primary-dark: rgb(5.88% 5.88% 5.88%);
+  --color-primary-dark: rgb(5.88% 5.88% 5.88%); /* #0f0f0f */
   --color-primary-light: rgb(94.12% 94.12% 94.12%);
   --color-secondary-dark: rgb(11.37% 11.37% 11.76%);
   --color-secondary-light: rgb(64.71% 67.45% 71.37%);
@@ -35,7 +36,7 @@
 
   /* Typography */
   --font-base: "Helvetica Neue", "Mukta", sans-serif;
-  --font-heading: "Poppins", sans-serif;
+  --font-heading: "Helvetica Neue", "Mukta", sans-serif;
 
   /* Spacing tokens */
   --spacing-2xs: 0.2rem;
@@ -46,7 +47,7 @@
   --spacing-xl: 1.5rem;
   --spacing-2xl: 2.5rem;
   --spacing-3xl: 3.5rem;
-  --spacing-4xl: 5rem;
+  --spacing-4xl: 4.5rem;
   --spacing-5xl: 6.5rem;
 
   /* Border Radius */
@@ -103,13 +104,13 @@
     @apply gap-[var(--spacing-lg)] md:gap-[var(--spacing-xl)];
   }
   .h1 {
-    @apply text-3xl lg:text-4xl xl:text-5xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
+    @apply text-4xl md:text-3xl lg:text-4xl xl:text-5xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
   }
   .h2 {
     @apply text-3xl md:text-4xl lg:text-5xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
   }
   .h3 {
-    @apply text-2xl font-thin md:text-2xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
+    @apply text-3xl font-thin md:text-3xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
   }
   .h4 {
     @apply text-xl font-thin md:text-xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
@@ -120,14 +121,31 @@
   .h6 {
     @apply text-sm font-thin md:text-base tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
   }
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5,
+  .h6 {
+    font-family: var(--font-heading);
+  }
   p {
     @apply mb-4 tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] uppercase text-base font-thin;
+  }
+  .button-small {
+    @apply text-xs uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-sm lg:text-base;
+  }
+  .button-md {
+    @apply text-sm uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-base lg:text-lg;
+  }
+  .button-lg {
+    @apply text-base uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-lg lg:text-xl;
   }
   .small-text {
     @apply text-xs uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-sm lg:text-base;
   }
   .large-text {
-    @apply text-base lg:text-lg xl:text-xl uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)];
+    @apply text-base md:text-sm lg:text-lg xl:text-xl uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)];
   }
   .subtitle {
     @apply text-primary font-thin;

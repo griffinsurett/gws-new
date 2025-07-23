@@ -52,14 +52,14 @@ export const SectionVariants = {
    */
   primaryHero: {
     sectionClass:
-      "flex flex-col items-center min-h-screen md:min-h-[130vh] lg:min-h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-center z-10 text-xl",
+      "flex flex-col items-center min-h-screen md:pt-[var(--spacing-4xl)] lg:pt-0 lg:min-h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-center z-10 text-xl",
     contentClass:
       "relative lg:py-0 w-auto h-full flex flex-col md:flex-row z-20 lg:gap-[var(--spacing-xs)]",
     topContentClass:
       "basis-4/7 min-h-screen space-y-[var(--spacing-xl)] lg:space-y-[var(--spacing-xl)] lg:h-auto w-80/100 mx-auto lg:w-auto flex items-start justify-center lg:justify-center flex-col md:pl-[80px]",
     imageColumnClass:
       "basis-3/7 flex items-end justify-center md:justify-end slide-up",
-    bottomContentClass: "w-full flex flex-col-reverse lg:flex-row-reverse items-start lg:items-center justify-end gap-[var(--spacing-lg)] lg:gap-[var(--spacing-xl)] xl:gap-[var(--spacing-2xl)]",
+    bottomContentClass: "w-full flex flex-col-reverse md:mb-[var(--spacing-xl)] lg:flex-row-reverse items-start lg:items-center justify-end gap-[var(--spacing-lg)] lg:gap-[var(--spacing-xl)] xl:gap-[var(--spacing-2xl)]",
     bottomPlacement: "top-content-section",
     headingAreaClass: "space-y-[var(--spacing-sm)] lg:space-y-[var(--spacing-md)]",
     descriptionClass: "lg:pr-[var(--spacing-xl)] font-thin large-text",

@@ -7,21 +7,21 @@ import Counter from "@/components/Counter.jsx";
 ---
 
 <div
-  class="testimonials flex items-center gap-[var(--spacing-sm)] px-[var(--spacing-md)] md:px-0"
+  class="testimonials flex items-center gap-[var(--spacing-xl)] px-[var(--spacing-md)] md:px-0"
 >
   <!-- clip the overflow so only the “stack” shows -->
   <ItemsTemplate
     collection="testimonials"
     query="getAll"
     ItemComponent={CircleImageItem}
-    itemsClass="flex"
-    itemClass="circle -mr-4 first:ml-0"
+    itemsClass="flex justify-center items-center"
+    itemClass="circle -mr-2 lg:-mr-4 first:ml-0"
   />
 
   <div
-    class="flex flex-col items-start gap-[var(--spacing-xs)] ml-[var(--spacing-md)]"
+    class="flex flex-col items-start"
   >
-    <Heading tagName="h2" className="text-heading m-0 p-0"
+    <Heading tagName="h3" className="text-heading m-0 p-0"
       ><Counter
         client:load
         start={1}
@@ -30,7 +30,7 @@ import Counter from "@/components/Counter.jsx";
         className="inline-block"
       />+</Heading
     >
-    <Heading tagName="p" className="text-small m-0 ml-[var(--spacing-sm)]">
+    <Heading tagName="p" className="text-small m-0 md:px-[var(--spacing-xs)]">
       Happy Clients
     </Heading>
   </div>

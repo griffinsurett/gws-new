@@ -1,0 +1,6 @@
+  @font-face {
+    font-family: 'Dosis';
+    src: url('/fonts/Dosis/Dosis-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; /* Variable font supports weight range */
+    font-style: normal;
+  }

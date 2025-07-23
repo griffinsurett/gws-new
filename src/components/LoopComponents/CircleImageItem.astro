@@ -16,14 +16,14 @@ const imgSrc = item.data.featuredImage ?? ImageFallback;
 
 // circle styling
 const circleClasses = `
-  w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden flex-shrink-0 
+  w-10 h-10 rounded-full overflow-hidden flex-shrink-0 
   bg-gray-200 flex items-center justify-center ${itemClass}
 `;
 ---
 
 {
   effectiveHasPage ? (
-    <a href={href} aria-label={`View details for ${item.data.title || ""}`}>
+    <a class="contents" href={href} aria-label={`View details for ${item.data.title || ""}`}>
       <div class={circleClasses}>
         <Image
           src={imgSrc}
