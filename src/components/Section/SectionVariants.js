@@ -59,7 +59,7 @@ export const SectionVariants = {
       "basis-4/7 min-h-screen space-y-[var(--spacing-xl)] lg:space-y-[var(--spacing-xl)] lg:h-auto w-80/100 mx-auto lg:w-auto flex items-start justify-center lg:justify-center flex-col md:pl-[80px]",
     imageColumnClass:
       "basis-3/7 flex items-end justify-center md:justify-end slide-up",
-    bottomContentClass: "w-full flex flex-col-reverse my-[var(--spacing-lg)] md:my-[var(--spacing-xl)] lg:flex-row-reverse items-start lg:items-center justify-end gap-[var(--spacing-2xl)]",
+    bottomContentClass: "w-full flex flex-col-reverse my-[var(--spacing-lg)] md:my-[var(--spacing-xl)] lg:flex-row-reverse items-start lg:items-center justify-end gap-[var(--spacing-xl)] xl:gap-[var(--spacing-2xl)]",
     bottomPlacement: "top-content-section",
     headingAreaClass: "space-y-[var(--spacing-sm)] lg:space-y-[var(--spacing-md)] m-0",
     descriptionClass: "lg:pr-[var(--spacing-xl)] font-thin large-text",
