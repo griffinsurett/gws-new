@@ -110,7 +110,7 @@
     @apply text-3xl md:text-4xl lg:text-5xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] font-thin text-heading;
   }
   .h3 {
-    @apply text-3xl font-thin md:text-3xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
+    @apply text-2xl font-thin md:text-3xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
   }
   .h4 {
     @apply text-xl font-thin md:text-xl tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] text-heading;
@@ -142,7 +142,7 @@
     @apply text-base uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-lg lg:text-xl;
   }
   .small-text {
-    @apply text-xs uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-sm lg:text-base;
+    @apply text-sm uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)] md:text-base lg:text-base;
   }
   .large-text {
     @apply text-base md:text-sm lg:text-lg xl:text-xl uppercase tracking-[0.1rem] md:tracking-[var(--spacing-2xs)];
