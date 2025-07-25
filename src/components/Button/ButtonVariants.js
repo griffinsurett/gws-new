@@ -7,14 +7,12 @@ export const baseButtonClasses =
 const sharedIconDefaults = {
   icon: GWSLogo.src,
   hoverOnly: true,
-  animateIcon: true,
   position: "left",
 };
 
 const noIcon = {
   icon: null,
   hoverOnly: false,
-  animateIcon: false,
 };
 
 export const ButtonVariants = {
@@ -33,7 +31,7 @@ export const ButtonVariants = {
   underline: {
     variantClasses: "underline text-[var(--color-primary)] hover:text-primary",
     buttonClasses: baseButtonClasses,
-    iconDefaults: { icon: GWSLogo.src, hoverOnly: false, animateIcon: false },
+    iconDefaults: { icon: GWSLogo.src, hoverOnly: false },
   },
   link: {
     variantClasses: "flex justify-center items-center hover:text-primary",

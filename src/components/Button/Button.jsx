@@ -22,7 +22,6 @@ export default function Button({
   const {
     icon: defaultIcon,
     hoverOnly: defaultHover,
-    animateIcon: defaultAnimate,
     position: defaultPosition = "right",
     className: defaultIconClass = ""
   } = iconDefaults;
@@ -30,14 +29,12 @@ export default function Button({
   const {
     icon: overrideIcon,
     hoverOnly: overrideHover,
-    animateIcon: overrideAnimate,
     position: overridePosition,
     className: overrideIconClass
   } = iconProps;
 
   const finalIcon        = overrideIcon      ?? defaultIcon;
   const finalHoverOnly   = overrideHover     ?? defaultHover;
-  const finalAnimateIcon = overrideAnimate   ?? defaultAnimate;
   const finalPosition    = overridePosition  ?? defaultPosition;
   const finalIconClass   = overrideIconClass ?? defaultIconClass;
 
@@ -69,7 +66,6 @@ export default function Button({
         <ButtonIcon
           icon={finalIcon}
           hoverOnly={finalHoverOnly}
-          animateIcon={finalAnimateIcon}
           position="left"
           className={finalIconClass}
         />
@@ -81,7 +77,6 @@ export default function Button({
         <ButtonIcon
           icon={finalIcon}
           hoverOnly={finalHoverOnly}
-          animateIcon={finalAnimateIcon}
           position="right"
           className={finalIconClass}
         />
