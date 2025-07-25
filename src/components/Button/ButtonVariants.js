@@ -8,6 +8,9 @@ const sharedIconDefaults = {
   icon: GWSLogo.src,
   hoverOnly: true,
   position: "left",
+   className:
+     "transform transition-transform duration-300 ease-in-out " +
+     "group-hover:rotate-[-360deg] group-hover:-translate-x-1",
 };
 
 const noIcon = {
