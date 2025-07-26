@@ -6,7 +6,7 @@ import Logo from "@/components/Logo/Logo.astro";
 ---
 
 <header
-  class="fixed inset-x-[1.5%] flex justify-between items-center z-[9999] header-footer"
+  class="fixed inset-x-[1.5%] flex justify-between items-center z-9999 header-footer"
 >
   <!-- Logo / site identity -->
   <Logo />
@@ -21,7 +21,7 @@ collection="menuItems"
   menuItem={{
     component: MobileMenuItem,
     props: {
-      itemClass: "p-[var(--spacing-sm)] h3 text-heading hover:text-primary",
+      itemClass: "p-(--spacing-sm) h3 text-heading hover:text-primary",
       linkClass: "w-full text-left justify-center items-center",
       hierarchical: true,
       submenu: {
@@ -29,7 +29,7 @@ collection="menuItems"
         itemsClass: "",
         subMenuItem: {
           props: {
-            itemClass: "p-[var(--spacing-sm)] text-base text-primary",
+            itemClass: "p-(--spacing-sm) text-base text-primary",
             linkClass: "w-full text-left",
             hierarchical: true,
             subMenuItem: null,
@@ -39,7 +39,7 @@ collection="menuItems"
     },
   }}
 
-  itemsClass="flex flex-col gap-[var(--spacing-md)]"
+  itemsClass="flex flex-col gap-(--spacing-md)"
   shared={{
     collection: "menuItems",
     query:      "relatedItem:menus:mainMenu",

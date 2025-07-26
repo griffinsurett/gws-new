@@ -11,18 +11,18 @@ const {
   formLabel = "",
   labelClass = "",
   formClass = "",
-  submitClass = "w-full mt-[var(--spacing-sm)] justify-center cursor-pointer",
+  submitClass = "w-full mt-(--spacing-sm) justify-center cursor-pointer",
   submitLabel = "Submit",
   enableSuccessBanner = false,
   successBannerMessage = "Thank you for your submission!",
-  successBannerClass = "p-[var(--spacing-sm)] bg-primary text-bg border border-[var(--color-border)]",
+  successBannerClass = "p-(--spacing-sm) bg-primary text-bg border border-(--color-border)",
   // new props:
   showConsent = true,
   consentText = `I consent to have ${SiteData.title} store my submitted information so they can respond`,
   consentLearnMoreLabel = "Learn more",
   consentLearnMoreUrl = "/privacy-policy",
-  consentWrapperClass = "flex items-start text-left text-text mb-[var(--spacing-md)]",
-  consentInputClass = "mr-[var(--spacing-sm)] mt-[4px] w-4 h-4",
+  consentWrapperClass = "flex items-start text-left text-text mb-(--spacing-md)",
+  consentInputClass = "mr-(--spacing-sm) mt-[4px] w-4 h-4",
   consentLabelClass = labelClass + " m-0",
 } = Astro.props;
 ---

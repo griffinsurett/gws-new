@@ -1,7 +1,7 @@
 // src/components/BeforeAfterSlider.jsx
 import React, { useRef, useState, useEffect } from 'react';
 
-const BandAabelClass = "absolute bg-primary text-bg uppercase py-[var(--spacing-xs)] px-[var(--spacing-sm)] rounded select-none"
+const BandAabelClass = "absolute bg-primary text-bg uppercase py-(--spacing-xs) px-(--spacing-sm) rounded select-none"
 
 export default function BeforeAfterSlider({ item, className = '' }) {
   // 1️⃣ pull out just the URLs

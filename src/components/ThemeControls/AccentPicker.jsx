@@ -34,7 +34,7 @@ export default function AccentPicker() {
         <div
           className="
             absolute top-full mt-2 left-0
-            bg-[var(--color-bg2)] rounded-xl p-3
+            bg-(--color-bg2) rounded-xl p-3
             flex space-x-3 overflow-x-auto hide-scrollbar
             shadow-lg z-50
           "

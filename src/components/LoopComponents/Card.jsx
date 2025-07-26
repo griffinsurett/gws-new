@@ -3,54 +3,59 @@ import { getItemKey } from "@/utils/getItemKey";
 import Icon from "@/components/Icon/Icon";
 import Heading from "../Heading";
 
-export default function Card({ item, itemClass = "", collectionName, HasPage }) {
+export default function Card({
+  item,
+  itemClass = "",
+  collectionName,
+  HasPage,
+}) {
   const effectiveHasPage =
     item.data.hasPage !== undefined ? item.data.hasPage : HasPage;
 
   const href = `/${collectionName}/${getItemKey(item)}`;
 
   // 🔷 Classes applied to the outermost wrapper (<a> or <article>)
-  const outerClasses = 
-    "w-full card text-center load scale-up";
+  const outerClasses = "w-full card text-center load scale-up";
 
   // 🔷 Classes always on <article>
-  const articleClasses = 
-    "flex flex-col justify-center items-center h-[35vh] md:h-[50vh] px-[var(--spacing-lg)] py-[var(--spacing-sm)] gap-[var(--spacing-lg)]";
+  const articleClasses =
+    "flex flex-col justify-center items-center h-[35vh] md:h-[50vh] px-(--spacing-lg) py-(--spacing-sm) gap-(--spacing-lg)";
 
   // 🔷 Only applied when wrapping in a link
-  const linkOnlyClasses =
-    "hover-animation hover-border-effect";
+  const linkOnlyClasses = "hover-animation hover-neon-border-effect";
 
   const content = (
     <>
       {item.data.icon && (
-        <div className="mb-[var(--spacing-sm)] aspect-square w-16 h-auto background-effect hover-animation-lg flex justify-center items-center rounded-full">
+        <div className="mb-(--spacing-sm) aspect-square neon-border-effect w-16 h-auto hover-animation-lg flex justify-center items-center rounded-full">
           <Icon icon={item.data.icon} className="text-2xl grayscale" />
         </div>
       )}
-     <div className="card-content px-[var(--spacing-lg)]">
-       <Heading tagName="h3" className="mb-[var(--spacing-sm)]">
-        {item.data.title}
-      </Heading>
-      <p className="mb-[var(--spacing-sm)]">
-        {item.data.description || item.body}
-      </p>
-     </div>
+      <div className="card-content px-(--spacing-lg)">
+        <Heading tagName="h3" className="mb-(--spacing-sm)">
+          {item.data.title}
+        </Heading>
+        <p className="mb-(--spacing-sm)">
+          {item.data.description || item.body}
+        </p>
+      </div>
     </>
   );
 
   // 🔁 Render logic
   if (effectiveHasPage) {
     return (
-      <a href={href} className={`${outerClasses} ${linkOnlyClasses}`} aria-label={`View more about ${item.data.title}`}>
+      <a
+        href={href}
+        className={`${outerClasses} ${linkOnlyClasses}`}
+        aria-label={`View more about ${item.data.title}`}
+      >
         <article className={articleClasses}>{content}</article>
       </a>
     );
   }
 
   return (
-    <article className={`${outerClasses} ${articleClasses}`}>
-      {content}
-    </article>
+    <article className={`${outerClasses} ${articleClasses}`}>{content}</article>
   );
 }

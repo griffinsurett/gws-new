@@ -28,7 +28,7 @@ export default function HamburgerIcon({
       {/* Top bar */}
       <span
         className={`
-          block h-[1px] bg-current transition-all duration-300
+          block h-px bg-current transition-all duration-300
           ${open
             ? "absolute top-1/2 transform -translate-y-1/2 rotate-45 w-full"
             : "w-full"}
@@ -38,7 +38,7 @@ export default function HamburgerIcon({
       {/* Middle bar */}
       <span
         className={`
-          block h-[1px] bg-current transition-all duration-300
+          block h-px bg-current transition-all duration-300
           ${open
             ? "opacity-0 w-full"
             : "w-3 group-hover:w-full"}
@@ -48,7 +48,7 @@ export default function HamburgerIcon({
       {/* Bottom bar */}
       <span
         className={`
-          block h-[1px] bg-current transition-all duration-300
+          block h-px bg-current transition-all duration-300
           ${open
             ? "absolute top-1/2 transform -translate-y-1/2 -rotate-45 w-full"
             : "w-full"}

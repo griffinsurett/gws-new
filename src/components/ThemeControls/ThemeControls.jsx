@@ -22,7 +22,7 @@ export default function ThemeControls({ className = "" }) {
         // ① center inside your hero (parent must be relative)
         "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
         // ② horizontal layout
-        "flex items-center gap-[var(--spacing-xs)] lg:gap-[var(--spacing-sm)]",
+        "flex items-center gap-(--spacing-xs) lg:gap-(--spacing-sm)",
         // ③ fade in/out
         "transition-opacity duration-300 ease-in-out",
         hidden

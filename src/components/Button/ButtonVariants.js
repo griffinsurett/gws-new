@@ -1,16 +1,17 @@
 // src/components/Button/ButtonVariants.js
 import GWSLogo from "@/assets/GWS-animated.png";
+import "./buttons.css";
 
 export const baseButtonClasses =
-  "text-base lg:text-lg relative inline-flex items-center group py-[var(--spacing-sm)] px-[var(--spacing-xl)] lg:py-[var(--spacing-lg)] lg:px-[var(--spacing-3xl)] uppercase font-light rounded-full hover-animation";
+  "text-base lg:text-lg relative inline-flex items-center group uppercase font-light rounded-full hover-animation";
 
 const sharedIconDefaults = {
   icon: GWSLogo.src,
   hoverOnly: true,
   position: "left",
-   className:
-     "transform transition-transform duration-300 ease-in-out " +
-     "group-hover:rotate-[-360deg] group-hover:-translate-x-1",
+  className:
+    "transform transition-transform duration-300 ease-in-out " +
+    "group-hover:rotate-[-360deg] group-hover:-translate-x-1",
 };
 
 const noIcon = {
@@ -21,18 +22,18 @@ const noIcon = {
 export const ButtonVariants = {
   primary: {
     variantClasses:
-      "text-heading button-small bg-transparent border-effect hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] rounded",
+      "button-md text-heading button-sm bg-transparent neon-border-effect hover:bg-(--color-primary) hover:text-(--color-bg) rounded",
     buttonClasses: baseButtonClasses,
     iconDefaults: { ...noIcon },
   },
   secondary: {
     variantClasses:
-      "bg-[var(--color-primary)] text-[var(--color-bg)] hover:bg-[var(--color-primary)]",
+      "bg-(--color-primary) text-(--color-bg) hover:bg-(--color-primary)",
     buttonClasses: baseButtonClasses,
     iconDefaults: { ...noIcon },
   },
   underline: {
-    variantClasses: "underline text-[var(--color-primary)] hover:text-primary",
+    variantClasses: "underline text-(--color-primary) hover:text-primary",
     buttonClasses: baseButtonClasses,
     iconDefaults: { icon: GWSLogo.src, hoverOnly: false },
   },

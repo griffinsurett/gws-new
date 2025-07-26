@@ -158,7 +158,7 @@ export default function Carousel({
           return (
             <li
               key={key}
-              className={`flex-shrink-0 snap-start ${itemClass}`}
+              className={`shrink-0 snap-start ${itemClass}`}
               style={{ flex: `0 0 ${basis}`, maxWidth: basis }}
             >
               {renderItem(item)}

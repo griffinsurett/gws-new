@@ -5,8 +5,8 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 export default function TextLogo({
   title = "",
   className = "",
-  firstClass = "font-light leading-tight tracking-[0.1rem] text-xl lg:text-3xl text-heading",
-  restClass  = "font-light text-xs md:text-sm lg:text-base uppercase subtitle leading-tight tracking-[0.1rem] md:tracking-[var(--spacing-2xs)]",
+  firstClass = "font-light leading-tight text-base lg:text-3xl font-heading text-heading tracking-[0.1rem]",
+  restClass  = "font-light text-primary small-text leading-tight tracking-[0.1rem] md:tracking-(--spacing-2xs)",
   fadeDuration = 1200,  
 }) {
   const [firstWord, ...others] = title.split(" ");
@@ -29,7 +29,7 @@ export default function TextLogo({
         ${className}
         transition-opacity duration-[${fadeDuration}ms]
         transition-transform duration-[${fadeDuration}ms]
-        ease-[cubic-bezier(0.4,0,0.2,1)] transform
+        ease-in-out transform
         ${hidden
           ? "opacity-0 -translate-y-4"
           : "opacity-100 translate-y-0"

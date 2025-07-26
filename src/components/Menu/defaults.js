@@ -4,7 +4,7 @@ import Submenu  from "./Submenu.astro";
 import MobileMenuItem from "./HamburgerMenu/MenuItem.jsx";
 
 export const desktopDefaults = {
-  itemsClass: "flex gap-[var(--spacing-md)]",
+  itemsClass: "flex gap-(--spacing-md)",
   itemClass: "",
   menuItem: {
     component: MenuItem,

@@ -16,7 +16,7 @@ export default function AccordionItem({
       id={"accordion-item-" + getItemKey(item)}
       className={`
         accordion-item
-        hover-border-effect
+        hover-neon-border-effect
         ${!open ? "hover-transition" : ""}
         ${itemClass}
       `}
@@ -24,7 +24,7 @@ export default function AccordionItem({
       {/* Header */}
       <div
         onClick={toggle}
-        className="w-full flex justify-between items-center px-[var(--spacing-md)] py-[var(--spacing-lg)] cursor-pointer select-none"
+        className="w-full flex justify-between items-center px-(--spacing-md) py-(--spacing-lg) cursor-pointer select-none"
       >
         <span className="h6">{item.data.title || item.slug}</span>
         <svg
@@ -49,8 +49,8 @@ export default function AccordionItem({
       {/* Body */}
       <div
         className={`
-          overflow-hidden transition-[max-height] duration-[var(--transition-fast)]
-          ${open ? "max-h-96 p-[var(--spacing-lg)]" : "max-h-0"}
+          overflow-hidden transition-[max-height] duration-(--transition-fast)
+          ${open ? "max-h-96 p-(--spacing-lg)" : "max-h-0"}
         `}
       >
         {item.data.description ?? item.body}

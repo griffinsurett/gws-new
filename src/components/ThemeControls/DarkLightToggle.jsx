@@ -9,7 +9,7 @@ export default function ThemeToggle() {
   const [isLight, setIsLight] = UseMode();
 
   return (
-    <div className="flex items-center gap-[var(--spacing-xs)]">
+    <div className="flex items-center gap-(--spacing-xs)">
       {/* <Icon icon={MoonIcon} className="w-5 h-5" /> */}
       <CircleCheckbox
         checked={isLight}

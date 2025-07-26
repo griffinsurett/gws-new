@@ -6,8 +6,8 @@ import { SiteData } from "@/content/SiteData";
 import { getCurrentEntryId } from "@/utils/CurrentEntry";
 
 const {
-  inputClasses   = "border border-[var(--color-border)] transition-default p-[var(--spacing-sm)] w-full bg-bg placeholder:text-[var(--color-text)] text-text outline-none",
-  wrapperClasses = "mb-[var(--spacing-sm)]",
+  inputClasses   = "border border-(--color-border) transition-default p-(--spacing-sm) w-full bg-bg placeholder:text-(--color-text) text-text outline-none",
+  wrapperClasses = "mb-(--spacing-sm)",
 } = Astro.props;
 
 const formAction = import.meta.env.PUBLIC_INTEGRATION_FORMSPREE + import.meta.env.PUBLIC_CONTACT_FORM;
@@ -22,13 +22,13 @@ const currentPage = getCurrentEntryId(Astro);
   enableSuccessBanner={true}
   action={formAction}
   successBannerMessage="Thank you for your message. We will get in touch with you shortly."
-  successBannerClass="p-[var(--spacing-sm)] bg-primary text-bg border border-[var(--color-border)] bg-light-opacity"
+  successBannerClass="p-(--spacing-sm) bg-primary text-bg border border-(--color-border) bg-light-opacity"
 >
   <!-- Hidden input for current page -->
   <input type="hidden" name="Page-of-Submission" value={currentPage} />
 
   <!-- Row 1 -->
-  <div class="flex flex-col lg:flex-row lg:space-x-[var(--spacing-sm)]">
+  <div class="flex flex-col lg:flex-row lg:space-x-(--spacing-sm)">
     <div class="w-full lg:w-1/2">
       <TextInput
       label="First Name"
@@ -52,7 +52,7 @@ const currentPage = getCurrentEntryId(Astro);
   </div>
 
   <!-- Row 2 -->
-  <div class="flex flex-col lg:flex-row lg:space-x-[var(--spacing-sm)]">
+  <div class="flex flex-col lg:flex-row lg:space-x-(--spacing-sm)">
     <div class="w-full lg:w-1/2">
       <TextInput
         label="Email Address"

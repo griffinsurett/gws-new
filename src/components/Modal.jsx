@@ -7,9 +7,9 @@ export default function Modal({
   onClose,
   children,
   closeButton = true,
-  closeButtonClass = "absolute top-0 right-0 m-[var(--spacing-sm)]",
+  closeButtonClass = "absolute top-0 right-0 m-(--spacing-sm)",
   overlayClass = 'bg-text bg-opacity-50',
-  className = "bg-[var(--color-bg)] shadow-xl p-[var(--spacing-md)] rounded-[var(--radius-md)]",
+  className = "bg-(--color-bg) shadow-xl p-(--spacing-md) rounded-md",
   allowScroll = false,
 }) {
   // State to keep the modal in the DOM until exit animation completes
@@ -47,7 +47,7 @@ export default function Modal({
   return createPortal(
     <div
       className={`
-        fixed inset-0 z-[250] flex items-center justify-center
+        fixed inset-0 z-250 flex items-center justify-center
         ${overlayClass}
         transform transition-opacity duration-300 ease-in-out
         ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
