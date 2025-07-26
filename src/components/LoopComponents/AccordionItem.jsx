@@ -16,7 +16,7 @@ export default function AccordionItem({
       id={"accordion-item-" + getItemKey(item)}
       className={`
         accordion-item
-        hover-neon-border-effect
+        
         ${!open ? "hover-transition" : ""}
         ${itemClass}
       `}

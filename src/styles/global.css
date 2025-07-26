@@ -187,11 +187,15 @@
     @apply border border-primary;
     box-shadow: var(--boxShadow-neon1);
   }
+  /* neon border */
   @variant light {
     .neon-border-effect {
       border-color: var(--color-text);
       box-shadow: none;
     }
+  }
+  .neon-border-effect:hover {
+    box-shadow: var(--boxShadow-neon2);
   }
   .hover-neon-border-effect {
     border: 1px solid transparent;
@@ -206,6 +210,9 @@
       box-shadow: none;
     }
   }
+
+
+  /* neon border */
 }
 
 /* ───────────────────────────────────────────────────── */
