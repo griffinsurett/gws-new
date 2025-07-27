@@ -1,17 +1,19 @@
 ---
-import CircleImageWrapper from './CircleImageWrapper.jsx';
-import ImagePart from './ImagePart.astro';
-import { getItemKey } from '@/utils/getItemKey.js';
-import ImageFallback from '@/assets/background.svg';
+// src/components/LoopComponents/CircleImageItem/CircleImageItem.astro
+import CircleImageWrapper from "./CircleImageWrapper.jsx";
+import { Image } from "astro:assets";
+import { getItemKey } from "@/utils/getItemKey.js";
+import ImageFallback from "@/assets/background.svg";
 
-const { item, itemClass = '', collectionName, HasPage } = Astro.props;
-// determine link vs static
+const { item, itemClass = "", collectionName, HasPage } = Astro.props;
 const effectiveHasPage = item.data.hasPage ?? HasPage;
 const href = effectiveHasPage
   ? `/${collectionName}/${getItemKey(item)}`
   : null;
-const alt = item.data.title || '';
-const imgSrc = item.data.featuredImage ?? ImageFallback;
+const alt = item.data.title || "";
+
+// `item.data.featuredImage` is already an Asset object
+const imgAsset = item.data.featuredImage ?? ImageFallback;
 ---
 <CircleImageWrapper
   client:load
@@ -19,5 +21,14 @@ const imgSrc = item.data.featuredImage ?? ImageFallback;
   ariaLabel={href ? `View details for ${alt}` : null}
   itemClass={itemClass}
 >
-  <ImagePart src={imgSrc} alt={alt} />
+  <Image
+    src={imgAsset}
+    alt={alt}
+    widths={[56]}
+    formats={["avif", "webp", "jpeg"]}
+    placeholder="blur"
+    class="object-cover w-full h-full"
+    loading="eager"
+    fetchpriority="high"
+  />
 </CircleImageWrapper>

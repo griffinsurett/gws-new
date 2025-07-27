@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: "Orbitron";
-  src: url("/public/fonts/Orbitron/Orbitron-VariableFont_wght.ttf") format("truetype");
+  src: url("/fonts/Orbitron/Orbitron-VariableFont_wght.ttf") format("truetype");
   font-optical-sizing: auto;
   font-display: swap;
 }
