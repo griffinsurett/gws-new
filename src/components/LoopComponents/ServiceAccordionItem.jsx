@@ -1,6 +1,7 @@
 // src/components/LoopComponents/ServiceAccordionItem.jsx
 import React, { useState } from "react";
 import { getItemKey } from "@/utils/getItemKey.js";
+import Button from "../Button/Button";
 
 export default function ServiceAccordionItem({
   item,
@@ -65,11 +66,15 @@ export default function ServiceAccordionItem({
       {/* Body */}
       <div
         className={`
-          overflow-hidden small-text transition-[max-height] duration-(--transition-fast)
+          overflow-hidden text-left small-text transition-[max-height] space-y-[var(--spacing-lg)] duration-(--transition-fast)
           ${open ? "max-h-96 p-(--spacing-lg)" : "max-h-0"}
         `}
       >
-        {item.data.description ?? item.body}
+        <p>{item.data.description ?? item.body}</p>
+
+        <Button variant="link" href={href}>
+          Learn More about {item.data.title}
+        </Button>
       </div>
     </article>
   );
