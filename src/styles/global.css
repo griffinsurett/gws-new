@@ -84,6 +84,20 @@
     0 0 4px var(--color-primary) inset, 0 0 7.5px var(--color-primary),
     0 0 5px var(--color-primary) inset, 0 0 10px var(--color-primary);
 
+  --boxShadow-neon3:   0 0 2px var(--color-primary),
+  0 0 5px var(--color-primary),
+  0 0 10px var(--color-primary),
+  0 0 15px var(--color-primary),
+  0 0 25px var(--color-primary),
+  /* Inset blue orb - circular gradient effect like the image */
+  0 0 30px var(--color-accent) inset,
+  0 0 60px var(--color-accent) inset,
+  0 0 120px rgb(from var(--color-accent) r g b / 0.9) inset,
+  0 0 180px rgb(from var(--color-accent) r g b / 0.7) inset,
+  0 0 250px rgb(from var(--color-accent) r g b / 0.5) inset,
+  0 0 350px rgb(from var(--color-accent) r g b / 0.3) inset,
+  0 0 500px rgb(from var(--color-accent) r g b / 0.15) inset;
+
   /* Drop Shadows */
   /* --dropShadow-neon1: drop-shadow(0 0 6px var(--color-primary))
     drop-shadow(0 0 8px var(--color-primary))
