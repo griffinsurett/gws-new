@@ -103,6 +103,7 @@
     --color-heading: var(--color-primary-dark); /* inverse of #f0f0f0 */
     --color-text: var(--color-secondary-dark); /* inverse of #f9fafb */
     --color-primary: var(--color-primary-dark);
+    --primary-border: 1px solid;
   }
 }
 :root[data-theme="light"] {
@@ -111,6 +112,7 @@
   --color-heading: var(--color-primary-dark); /* inverse of #f0f0f0 */
   --color-text: var(--color-secondary-dark); /* inverse of #f9fafb */
   --color-primary: var(--color-primary-dark);
+  --primary-border: 1px solid;
 }
 
 /* ───────────────────────────────────────────────────── */
@@ -188,83 +190,6 @@
   .header-footer {
     @apply px-(--spacing-sm) py-(--spacing-sm);
   }
-
-  /* ───────────────────────────────────────────────────── */
-  /* NEON EFFECTS                                         */
-  /* ───────────────────────────────────────────────────── */
-
-  /* .neon-effect:hover {
-    transition: all 300ms ease-in-out;
-  }
-
-  .neon-effect-border-primary {
-    @apply neon-effect;
-    background: transparent;
-    box-shadow: var(--boxShadow-neon1);
-  }
-
-  .neon-effect-border-primary:hover {
-    box-shadow: var(--boxShadow-neon2);
-  }
-
-  @variant light {
-    .neon-effect-border-primary {
-      border-color: var(--color-text);
-      box-shadow: none;
-      background: var(--cardGradient);
-    }
-
-    .neon-effect-border-primary:hover {
-      border-color: var(--color-primary);
-      background: var(--color-bg2);
-      box-shadow: none;
-    }
-  }
-
-  .neon-effect-background {
-    @apply neon-effect;
-    background: var(--color-primary);
-    box-shadow: var(--boxShadow-neon1);
-    color: var(--color-bg);
-  }
-
-  .neon-effect-background:hover {
-    background: var(--color-primary);
-    box-shadow: var(--boxShadow-neon2);
-  }
-
-  @variant light {
-    .neon-effect-background {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
-      box-shadow: none;
-      color: var(--color-bg);
-    }
-
-    .neon-effect-background:hover {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
-      box-shadow: none;
-    }
-  }
-
-  .hover-neon-effect {
-    border: 1px solid transparent;
-    transition: all 300ms ease-in-out;
-  }
-
-  .hover-neon-effect:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--boxShadow-neon2);
-  }
-
-  @variant light {
-    .hover-neon-effect:hover {
-      border-color: var(--color-text);
-      box-shadow: none;
-      background: var(--color-bg2);
-    }
-  } */
 }
 
 /* ───────────────────────────────────────────────────── */

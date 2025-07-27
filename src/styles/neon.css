@@ -54,9 +54,9 @@
     @apply hover-animation neon-border-primary;
   }
 
-  .neon-effect-border-secondary:hover {
+  /* .neon-effect-border-secondary:hover {
     @apply neon-background-secondary;
-  }
+  } */
 
   @variant light {
     .neon-effect-border-primary,
@@ -67,15 +67,18 @@
     .neon-effect-border-primary:hover,
     .neon-effect-border-secondary:hover {
       box-shadow: none;
+      color: var(--color-bg);
+      background: var(--color-accent);
+      border: var(--primary-border) var(--color-accent);
     }
 
     .neon-effect-border-primary {
       border: none;
-      background: var(--cardGradient);
+      background: none;
     }
 
     .neon-effect-border-secondary {
-      background: none;
+      background: var(--cardGradient);
     }
   }
 
