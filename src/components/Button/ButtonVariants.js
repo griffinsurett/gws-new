@@ -1,9 +1,9 @@
 // src/components/Button/ButtonVariants.js
 import GWSLogo from "@/assets/GWS-animated.png";
-import "./buttons.css";
+// import "./buttons.css";
 
 export const baseButtonClasses =
-  "text-base lg:text-lg relative inline-flex items-center group uppercase font-light rounded-full hover-animation";
+  "text-base lg:text-lg relative inline-flex items-center group uppercase font-light rounded-full";
 
 const sharedIconDefaults = {
   icon: GWSLogo.src,
@@ -22,13 +22,13 @@ const noIcon = {
 export const ButtonVariants = {
   primary: {
     variantClasses:
-      "button-md text-heading button-sm bg-transparent neon-border-effect hover:bg-(--color-primary) hover:text-(--color-bg) rounded",
+      "button-md button-sm neon-effect-border-secondary rounded",
     buttonClasses: baseButtonClasses,
     iconDefaults: { ...noIcon },
   },
   secondary: {
     variantClasses:
-      "bg-(--color-primary) text-(--color-bg) hover:bg-(--color-primary)",
+      "button-md button-sm neon-effect-background-primary rounded",
     buttonClasses: baseButtonClasses,
     iconDefaults: { ...noIcon },
   },

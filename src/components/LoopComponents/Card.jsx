@@ -14,20 +14,23 @@ export default function Card({
 
   const href = `/${collectionName}/${getItemKey(item)}`;
 
-  // 🔷 Classes applied to the outermost wrapper (<a> or <article>)
-  const outerClasses = "w-full card text-center load scale-up";
+  // 🔷 Outer wrapper - handles load animation only
+  const outerClasses = "w-full load scale-up";
 
-  // 🔷 Classes always on <article>
+  // 🔷 Inner card - handles card styling and hover effects
+  const cardClasses = "card text-center transition-transform duration-700 ease-in-out hover:scale-105";
+
+  // 🔷 Article content classes
   const articleClasses =
     "flex flex-col justify-center items-center h-[35vh] md:h-[50vh] px-(--spacing-lg) py-(--spacing-sm) gap-(--spacing-lg)";
 
-  // 🔷 Only applied when wrapping in a link
-  const linkOnlyClasses = "hover-animation hover-neon-border-effect";
+  // 🔷 Neon effect classes (without hover animation to avoid conflicts)
+  const neonClasses = "hover-neon-effect-border-primary";
 
   const content = (
     <>
       {item.data.icon && (
-        <div className="mb-(--spacing-sm) aspect-square neon-border-effect w-16 h-auto hover-animation-lg flex justify-center items-center rounded-full">
+        <div className="mb-(--spacing-sm) aspect-square neon-effect-border-primary w-16 h-auto flex justify-center items-center rounded-full">
           <Icon icon={item.data.icon} className="text-2xl grayscale" />
         </div>
       )}
@@ -45,17 +48,21 @@ export default function Card({
   // 🔁 Render logic
   if (effectiveHasPage) {
     return (
-      <a
-        href={href}
-        className={`${outerClasses} ${linkOnlyClasses}`}
-        aria-label={`View more about ${item.data.title}`}
-      >
-        <article className={articleClasses}>{content}</article>
-      </a>
+      <div className={outerClasses}>
+        <a
+          href={href}
+          className={`${cardClasses} ${neonClasses} block`}
+          aria-label={`View more about ${item.data.title}`}
+        >
+          <article className={articleClasses}>{content}</article>
+        </a>
+      </div>
     );
   }
 
   return (
-    <article className={`${outerClasses} ${articleClasses}`}>{content}</article>
+    <div className={outerClasses}>
+      <article className={`${cardClasses} ${articleClasses}`}>{content}</article>
+    </div>
   );
 }

@@ -1,6 +1,9 @@
 /* src/styles/global.css */
 /* Add this at the very top of your CSS file, before @import "tailwindcss" */
 @import "tailwindcss";
+@import "./neon.css";
+@import "./fonts.css";
+@import "./buttons.css";
 
 /* ───────────────────────────────────────────────────── */
 /* 0. CUSTOM VARIANTS FOR LIGHT + DARK                  */
@@ -26,6 +29,8 @@
   --color-primary: var(--color-accent); /* now equals accent in dark mode */
   --color-accent: rgb(36.86% 46.27% 96.47%); /* #5e76f6; */
   --color-neutral: #374151;
+
+  --primary-border: 0.5px solid;
 
   /* Gradients */
   --heroGradient: linear-gradient(
@@ -183,36 +188,83 @@
   .header-footer {
     @apply px-(--spacing-sm) py-(--spacing-sm);
   }
-  .neon-border-effect {
-    @apply border border-primary;
+
+  /* ───────────────────────────────────────────────────── */
+  /* NEON EFFECTS                                         */
+  /* ───────────────────────────────────────────────────── */
+
+  /* .neon-effect:hover {
+    transition: all 300ms ease-in-out;
+  }
+
+  .neon-effect-border-primary {
+    @apply neon-effect;
+    background: transparent;
     box-shadow: var(--boxShadow-neon1);
   }
-  /* neon border */
+
+  .neon-effect-border-primary:hover {
+    box-shadow: var(--boxShadow-neon2);
+  }
+
   @variant light {
-    .neon-border-effect {
+    .neon-effect-border-primary {
       border-color: var(--color-text);
+      box-shadow: none;
+      background: var(--cardGradient);
+    }
+
+    .neon-effect-border-primary:hover {
+      border-color: var(--color-primary);
+      background: var(--color-bg2);
       box-shadow: none;
     }
   }
-  .neon-border-effect:hover {
+
+  .neon-effect-background {
+    @apply neon-effect;
+    background: var(--color-primary);
+    box-shadow: var(--boxShadow-neon1);
+    color: var(--color-bg);
+  }
+
+  .neon-effect-background:hover {
+    background: var(--color-primary);
     box-shadow: var(--boxShadow-neon2);
   }
-  .hover-neon-border-effect {
-    border: 1px solid transparent;
+
+  @variant light {
+    .neon-effect-background {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      box-shadow: none;
+      color: var(--color-bg);
+    }
+
+    .neon-effect-background:hover {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      box-shadow: none;
+    }
   }
-  .hover-neon-border-effect:hover {
+
+  .hover-neon-effect {
+    border: 1px solid transparent;
+    transition: all 300ms ease-in-out;
+  }
+
+  .hover-neon-effect:hover {
     border-color: var(--color-primary);
     box-shadow: var(--boxShadow-neon2);
   }
+
   @variant light {
-    .hover-neon-border-effect:hover {
-      border-color: var(--color-bg);
+    .hover-neon-effect:hover {
+      border-color: var(--color-text);
       box-shadow: none;
+      background: var(--color-bg2);
     }
-  }
-
-
-  /* neon border */
+  } */
 }
 
 /* ───────────────────────────────────────────────────── */
@@ -236,16 +288,11 @@
   }
 }
 
-/* 4. Smooth transition utility */
-@utility hover-transition {
-  transition: all 700ms ease-in-out;
-}
-
 /* 5. Subtle scale-up on hover */
 @utility hover-animation {
-  transition: all 700ms ease-in-out;
+  transition: all 500ms ease-in-out;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 }
 
@@ -270,7 +317,7 @@
 }
 
 /* 8. Standard border with light‑mode override */
-/* @utility neon-border-effect {
+/* @utility neon-effect-border-primary{
   @apply border border-primary shadow-[var(--boxShadow-neon1)];
   @variant light {
     border-color: var(--color-text);

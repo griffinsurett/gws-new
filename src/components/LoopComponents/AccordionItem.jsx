@@ -17,7 +17,7 @@ export default function AccordionItem({
       className={`
         accordion-item
         
-        ${!open ? "hover-transition" : ""}
+        ${!open ? "hover-animation" : ""}
         ${itemClass}
       `}
     >
