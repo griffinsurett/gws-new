@@ -1,4 +1,3 @@
-
 ---
 // src/pages/index.astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -9,10 +8,9 @@ import { Image } from "astro:assets";
 import HeroImage from "@/assets/computer-guy.png";
 import Logo from "@/assets/GWS-animated.png";
 import TestimonialCircleSection from "@/components/StaticSections/TestimonialCircleSection.astro";
-import AccordionItem from "@/components/LoopComponents/AccordionItem";
+import ServiceAccordionItem from "@/components/LoopComponents/ServiceAccordionItem";
 import VideoLogo from "@/components/Logo/VideoLogo";
 ---
-
 <BaseLayout
   title={SiteData.title || SiteData.tagline}
   description={SiteData.description}
@@ -40,7 +38,7 @@ import VideoLogo from "@/components/Logo/VideoLogo";
   <div class="page-container">
     
     <!-- Services Accordion -->
-    <Section collection="services" query="roots" component={AccordionItem} client="visible" variant=""
+    <Section collection="services" query="roots" component={ServiceAccordionItem} client="visible" variant=""
           sectionClass="flex section lg:h-[120vh]"
           contentClass="flex flex-col justify-center items-start"
           headingAreaClass="space-y-[var(--spacing-md)] py-[var(--spacing-lg)]"
@@ -52,11 +50,7 @@ import VideoLogo from "@/components/Logo/VideoLogo";
           imageColPlacement="bottom-content-section"
         >
       <div slot="imageColumn">
-       <VideoLogo
-       mediaClasses="block w-full h-auto"
-    alt="Griffin's Web Services Animated Logo"
-    client:load
-  />
+       <!-- Add video that we will play each time the video finishes close the above accordion and open the below accordion, start with the first accordion open, when the video is done it will close and open the one under it -->
     </div>
         </Section>
 
@@ -78,5 +72,10 @@ import VideoLogo from "@/components/Logo/VideoLogo";
     <Section collection="testimonials" query="getAll" />
 
     <Section collection="faq" query="getAll" />
+    <VideoLogo
+       mediaClasses="block w-full h-auto"
+    alt="Griffin's Web Services Animated Logo"
+    client:load
+  />
   </div>
 </BaseLayout>

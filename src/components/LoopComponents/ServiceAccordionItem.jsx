@@ -1,8 +1,8 @@
-// src/components/LoopComponents/AccordionItem.jsx
+// src/components/LoopComponents/ServiceAccordionItem.jsx
 import React, { useState } from "react";
 import { getItemKey } from "@/utils/getItemKey.js";
 
-export default function AccordionItem({
+export default function ServiceAccordionItem({
   item,
   itemClass = "",
   collectionName,
