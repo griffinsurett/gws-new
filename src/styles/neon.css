@@ -129,6 +129,7 @@
 
   .hover-neon-effect-border-primary:hover {
     @apply neon-border-primary;
+    background: var(--color-bg)
   }
 
   @variant light {
@@ -138,7 +139,7 @@
 
     .hover-neon-effect-border-primary:hover {
       border: none;
-      background: var(--cardGradient);
+      background: var(--color-bg3);
       box-shadow: none;
       @apply hover-animation;
     }

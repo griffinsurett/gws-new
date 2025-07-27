@@ -17,12 +17,12 @@ export default function Card({
   // 🔷 Outer wrapper - handles load animation only
   const outerClasses = "w-full load scale-up";
 
-  // 🔷 Inner card - handles card styling and hover effects
-  const cardClasses = "card text-center";
+  // 🔷 Inner card - handles card styling and hover effects with shimmer
+  const cardClasses = "card text-center relative overflow-hidden group";
 
   // 🔷 Article content classes
   const articleClasses =
-    "flex flex-col justify-center items-center h-[35vh] md:h-[50vh] px-(--spacing-lg) py-(--spacing-sm) gap-(--spacing-lg)";
+    "flex flex-col justify-center items-center h-[35vh] md:h-[50vh] px-(--spacing-lg) py-(--spacing-sm) gap-(--spacing-lg) relative z-10";
 
   // 🔷 Neon effect classes (without hover animation to avoid conflicts)
   const neonClasses = "hover-neon-effect-border-primary";
@@ -54,6 +54,13 @@ export default function Card({
           className={`${cardClasses} ${neonClasses} block`}
           aria-label={`View more about ${item.data.title}`}
         >
+          {/* Shimmer effect overlay using CSS variable */}
+          <div 
+            className="absolute inset-0 w-full h-full -translate-x-full 
+                       group-hover:translate-x-full transition-transform 
+                       duration-500 ease-in-out pointer-events-none z-0
+                       [background-image:var(--shimmerGradient)]"
+          />
           <article className={articleClasses}>{content}</article>
         </a>
       </div>
@@ -62,7 +69,10 @@ export default function Card({
 
   return (
     <div className={outerClasses}>
-      <article className={`${cardClasses} ${articleClasses}`}>{content}</article>
+      <article className={`${cardClasses} ${articleClasses}`}>
+        {/* Shimmer effect overlay for non-link cards too */}
+        <div className="relative z-10">{content}</div>
+      </article>
     </div>
   );
 }

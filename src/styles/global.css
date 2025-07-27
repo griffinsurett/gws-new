@@ -20,10 +20,13 @@
   --color-primary-light: rgb(94.12% 94.12% 94.12%);
   --color-secondary-dark: rgb(11.37% 11.37% 11.76%);
   --color-secondary-light: rgb(64.71% 67.45% 71.37%);
+  --color-tertiary-dark: #1d1d1e; /* #1d1d1e */
+  --color-tertiary-light: #e0e0e0;
 
   /* Color Palette */
   --color-bg: var(--color-primary-dark);
   --color-bg2: var(--color-secondary-dark);
+  --color-bg3: var(--color-tertiary-dark);
   --color-heading: var(--color-primary-light);
   --color-text: var(--color-secondary-light);
   --color-primary: var(--color-accent); /* now equals accent in dark mode */
@@ -39,6 +42,8 @@
     var(--color-bg) 40.1%
   );
   --cardGradient: linear-gradient(145deg, var(--color-bg), var(--color-bg2));
+  --shimmerGradient: linear-gradient(45deg, transparent, rgb(from var(--color-accent) r g b / 0.2), transparent);
+
 
   --text-shadow1: 0 0 2.5px var(--color-primary), 0 0 5px var(--color-primary),
     0 0 10px var(--color-primary), 0 0 20px var(--color-primary), 0 0 30px;
@@ -69,15 +74,15 @@
   --radius-lg: 0.5rem;
 
   /* Box Shadow */
-  --boxShadow-neon1: 0 0 1px var(--color-primary),
+  --boxShadow-neon1: 0 0 .5px var(--color-primary),
     0 0 1px var(--color-primary) inset, 0 0 4px var(--color-primary),
     0 0 4px var(--color-primary) inset, 0 0 7.5px var(--color-primary),
     0 0 5px var(--color-primary) inset, 0 0 10px var(--color-primary);
 
-  --boxShadow-neon2: 0 0 2px var(--color-primary),
-    0 0 2px var(--color-primary) inset, 0 0 8px var(--color-primary),
-    0 0 8px var(--color-primary) inset, 0 0 15px var(--color-primary),
-    0 0 10px var(--color-primary) inset, 0 0 20px var(--color-primary);
+  --boxShadow-neon2: 0 0 1px var(--color-primary),
+    0 0 1px var(--color-primary) inset, 0 0 4px var(--color-primary),
+    0 0 4px var(--color-primary) inset, 0 0 7.5px var(--color-primary),
+    0 0 5px var(--color-primary) inset, 0 0 10px var(--color-primary);
 
   /* Drop Shadows */
   /* --dropShadow-neon1: drop-shadow(0 0 6px var(--color-primary))
@@ -100,6 +105,8 @@
   :root {
     --color-bg: var(--color-primary-light); /* inverse of #0f0f0f */
     --color-bg2: var(--color-secondary-light); /* inverse of #1d1d1e */
+    --color-bg3: var(--color-tertiary-light); /* inverse of #e0e0e0 */
+    --cardGradient: linear-gradient(145deg, var(--color-bg), var(--color-bg2));
     --color-heading: var(--color-primary-dark); /* inverse of #f0f0f0 */
     --color-text: var(--color-secondary-dark); /* inverse of #f9fafb */
     --color-primary: var(--color-primary-dark);
@@ -109,6 +116,8 @@
 :root[data-theme="light"] {
   --color-bg: var(--color-primary-light); /* inverse of #0f0f0f */
   --color-bg2: var(--color-secondary-light); /* inverse of #1d1d1e */
+  --color-bg3: var(--color-tertiary-light); /* inverse of #e0e0e0 */
+  --cardGradient: linear-gradient(145deg, var(--color-bg), var(--color-bg3));
   --color-heading: var(--color-primary-dark); /* inverse of #f0f0f0 */
   --color-text: var(--color-secondary-dark); /* inverse of #f9fafb */
   --color-primary: var(--color-primary-dark);
@@ -217,7 +226,7 @@
 @utility hover-animation {
   transition: all 500ms ease-in-out;
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
   }
 }
 
