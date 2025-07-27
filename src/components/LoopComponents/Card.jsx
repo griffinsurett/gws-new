@@ -18,7 +18,7 @@ export default function Card({
   const outerClasses = "w-full load scale-up";
 
   // 🔷 Inner card - handles card styling and hover effects
-  const cardClasses = "card text-center transition-transform duration-700 ease-in-out hover:scale-105";
+  const cardClasses = "card text-center";
 
   // 🔷 Article content classes
   const articleClasses =
