@@ -54,9 +54,9 @@
     @apply hover-animation neon-border-primary;
   }
 
-  /* .neon-effect-border-secondary:hover {
+  .neon-effect-border-secondary:hover {
     @apply neon-background-secondary;
-  } */
+  }
 
   @variant light {
     .neon-effect-border-primary,
@@ -64,7 +64,7 @@
       box-shadow: none;
     }
 
-    .neon-effect-border-primary:hover,
+      .neon-effect-border-primary:hover,
     .neon-effect-border-secondary:hover {
       box-shadow: none;
       color: var(--color-bg);
