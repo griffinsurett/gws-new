@@ -1,3 +1,4 @@
+
 ---
 // src/pages/index.astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -6,7 +7,10 @@ import Card from "@/components/LoopComponents/Card";
 import { SiteData } from "@/content/SiteData";
 import { Image } from "astro:assets";
 import HeroImage from "@/assets/computer-guy.png";
+import Logo from "@/assets/GWS-animated.png";
 import TestimonialCircleSection from "@/components/StaticSections/TestimonialCircleSection.astro";
+import AccordionItem from "@/components/LoopComponents/AccordionItem";
+import VideoLogo from "@/components/Logo/VideoLogo";
 ---
 
 <BaseLayout
@@ -34,6 +38,28 @@ import TestimonialCircleSection from "@/components/StaticSections/TestimonialCir
 
   </Section>
   <div class="page-container">
+    
+    <!-- Services Accordion -->
+    <Section collection="services" query="roots" component={AccordionItem} client="visible" variant=""
+          sectionClass="flex section lg:h-[120vh]"
+          contentClass="flex flex-col justify-center items-start"
+          headingAreaClass="space-y-[var(--spacing-md)] py-[var(--spacing-lg)]"
+          bottomContentClass="w-full flex flex-col lg:flex-row justify-between items-start lg:gap-[var(--spacing-2xl)]"
+          itemsClass="flex flex-col w-full lg:w-1/2"
+          itemPlacement="bottom-content-section"
+          buttonsSectionClass="hidden"
+          imageColumnClass="w-full lg:w-1/2"
+          imageColPlacement="bottom-content-section"
+        >
+      <div slot="imageColumn">
+       <VideoLogo
+       mediaClasses="block w-full h-auto"
+    alt="Griffin's Web Services Animated Logo"
+    client:load
+  />
+    </div>
+        </Section>
+
     <!-- Services -->
     <Section collection="services" query="roots" />
 

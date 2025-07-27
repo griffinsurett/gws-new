@@ -4,9 +4,9 @@ import { useScrollTriggeredVideo } from "@/hooks/useScrollTriggeredVideo";
 
 const POSTER_SRC = "/GWS-animated.png";
 const VIDEO_SRC  = "/GWS-animated.webm";
-const mediaClasses = "block w-[30px] md:w-[40px] lg:w-[43px] h-auto";
+// const mediaClasses = "block w-[30px] md:w-[40px] lg:w-[43px] h-auto";
 
-export default function VideoLogo({ alt = "", className = "logo-class" }) {
+export default function VideoLogo({ alt = "", className = "logo-class", mediaClasses = "block w-[30px] md:w-[40px] lg:w-[43px] h-auto" }) {
   const containerRef = useRef(null);
   const videoRef     = useRef(null);
 

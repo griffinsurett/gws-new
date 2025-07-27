@@ -17,7 +17,6 @@ export default function AccordionItem({
       className={`
         accordion-item
         
-        ${!open ? "hover-animation" : ""}
         ${itemClass}
       `}
     >
@@ -26,7 +25,7 @@ export default function AccordionItem({
         onClick={toggle}
         className="w-full flex justify-between items-center px-(--spacing-md) py-(--spacing-lg) cursor-pointer select-none"
       >
-        <span className="h6">{item.data.title || item.slug}</span>
+        <span className="h4">{item.data.title || item.slug}</span>
         <svg
           className={`
             w-4 h-4 transform transition-transform duration-200
@@ -49,7 +48,7 @@ export default function AccordionItem({
       {/* Body */}
       <div
         className={`
-          overflow-hidden transition-[max-height] duration-(--transition-fast)
+          overflow-hidden small-text transition-[max-height] duration-(--transition-fast)
           ${open ? "max-h-96 p-(--spacing-lg)" : "max-h-0"}
         `}
       >
