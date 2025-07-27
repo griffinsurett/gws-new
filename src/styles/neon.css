@@ -74,11 +74,11 @@
 
     .neon-effect-border-primary {
       border: none;
-      background: none;
+      background: var(--cardGradient);
     }
 
     .neon-effect-border-secondary {
-      background: var(--cardGradient);
+      background: none;
     }
   }
 
