@@ -123,7 +123,7 @@
   /* ═══════════════════════════════════════════════════ */
 
   .hover-neon-effect-border-primary {
-    @apply hover-animation;
+    @apply hover-animation2;
     border: none;
   }
 
@@ -134,14 +134,13 @@
 
   @variant light {
     .hover-neon-effect-border-primary {
-      @apply hover-animation;
+      @apply hover-animation2;
     }
 
     .hover-neon-effect-border-primary:hover {
       border: none;
       background: var(--color-bg3);
       box-shadow: none;
-      @apply hover-animation;
     }
   }
 }

@@ -42,7 +42,7 @@
     var(--color-bg) 40.1%
   );
   --cardGradient: linear-gradient(145deg, var(--color-bg), var(--color-bg2));
-  --shimmerGradient: linear-gradient(45deg, transparent, rgb(from var(--color-accent) r g b / 0.2), transparent);
+  --shimmerGradient: linear-gradient(45deg, transparent, rgb(from var(--color-accent) r g b / 0.075), transparent);
 
 
   --text-shadow1: 0 0 2.5px var(--color-primary), 0 0 5px var(--color-primary),
@@ -240,6 +240,13 @@
   transition: all 500ms ease-in-out;
   &:hover {
     transform: scale(1.05);
+  }
+}
+
+@utility hover-animation2 {
+  transition: all 500ms ease-in-out;
+  &:hover {
+    transform: translateY(-10px);
   }
 }
 
