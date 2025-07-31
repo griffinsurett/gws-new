@@ -12,14 +12,14 @@
   position: relative;
   border: var(--primary-border) var(--color-primary);
   /* box-shadow: var(--boxShadow-neon1); */
-  color: var(--color-heading);
+  color: var(--color-text);
 }
 
 @utility neon-border-secondary {
   position: relative;
   border: var(--primary-border) var(--color-primary);
   /* box-shadow: var(--boxShadow-neon1); */
-  color: var(--color-heading);
+  color: var(--color-text);
 }
 
 /* neon background */
