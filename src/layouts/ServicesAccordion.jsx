@@ -16,7 +16,7 @@ const ServicesAccordion = () => {
   const [progress, setProgress] = useState(0);
   const videoRef = useRef(null);
 
-  // Reset & autoplay when service changes
+  // Reset & autoplay whenever the active panel changes
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.currentTime = 0;
@@ -27,15 +27,16 @@ const ServicesAccordion = () => {
 
   const handleTimeUpdate = () => {
     const v = videoRef.current;
-    if (!v || !v.duration) return;
+    if (!v?.duration) return;
     setProgress((v.currentTime / v.duration) * 100);
   };
 
   const handleEnded = () => {
     setProgress(100);
-    setTimeout(() => {
-      setActiveIndex((i) => (i + 1) % services.length);
-    }, 500);
+    setTimeout(
+      () => setActiveIndex((i) => (i + 1) % services.length),
+      500
+    );
   };
 
   const toggleAccordion = (i) => {
@@ -44,69 +45,21 @@ const ServicesAccordion = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto">
-      {/* Heading */}
-      <div className="mb-8 text-center lg:text-left">
-        <Heading className="text-3xl md:text-4xl font-bold text-heading">
-          Our Services
-        </Heading>
-        <p className="text-lg text-text">
-          Discover how we can help transform your business…
-        </p>
-      </div>
-
+    <div className="w-full mx-auto">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
         {/* Left: Accordion list */}
         <div className="flex flex-col space-y-6">
           {services.map((service, i) => (
-            <div key={i} className="overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-              <button
-                onClick={() => toggleAccordion(i)}
-                className="w-full text-left flex items-center justify-between px-4 py-3"
-              >
-                <Heading tagName="h4" className="text-lg font-semibold text-heading">
-                  {service.heading}
-                </Heading>
-                <Icon
-                  icon={ChevronIcon}
-                  className={`w-8 h-8 transition-transform duration-300 ${
-                    activeIndex === i ? "rotate-180 text-primary" : "text-text"
-                  }`}
-                />
-              </button>
-
-              <div
-                className={`transition-all duration-500 ease-in-out overflow-hidden px-4 ${
-                  activeIndex === i ? "max-h-96 opacity-100 pt-4" : "max-h-0 opacity-0"
-                }`}
-              >
-                <p className="text-text mb-4">{service.description}</p>
-
-                {activeIndex === i && (
-                  <div className="lg:hidden mb-4">
-                    <video
-                      ref={videoRef}
-                      src={service.videoSrc}
-                      autoPlay
-                      muted
-                      onTimeUpdate={handleTimeUpdate}
-                      onEnded={handleEnded}
-                      className="w-full h-48 object-cover rounded-lg bg-transparent"
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Divider / progress bar */}
-              <div className="w-full bg-bg2 h-0.5 relative my-3">
-                {activeIndex === i && (
-                  <div
-                    className="neon-background-primary h-0.5 rounded-full absolute left-0 top-0 transition-all duration-300"
-                    style={{ width: `${progress}%` }}
-                  />
-                )}
-              </div>
-            </div>
+            <AccordionItem
+              key={i}
+              service={service}
+              isActive={activeIndex === i}
+              progress={progress}
+              onToggle={() => toggleAccordion(i)}
+              videoRef={videoRef}
+              onTimeUpdate={handleTimeUpdate}
+              onEnded={handleEnded}
+            />
           ))}
         </div>
 
@@ -114,19 +67,16 @@ const ServicesAccordion = () => {
         <div className="hidden lg:block">
           <div className="sticky top-8">
             {activeIndex >= 0 ? (
-              <video
+              <VideoPlayer
                 ref={videoRef}
                 src={services[activeIndex].videoSrc}
-                controls
-                autoPlay
-                muted
-                playsInline
+                className="load scale-up"
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleEnded}
-                className="w-full h-96 object-cover rounded-xl shadow-2xl"
+                desktop
               />
             ) : (
-              <div className="relative rounded-xl overflow-hidden bg-heading shadow-2xl h-96 flex items-center justify-center">
+              <div className="relative rounded-xl overflow-hidden bg-heading h-96 flex items-center justify-center">
                 <p className="text-text text-lg font-medium">
                   Select a service to view
                 </p>
@@ -139,6 +89,90 @@ const ServicesAccordion = () => {
   );
 };
 
+const progressBarClass = "h-0.5";
+
+// ── AccordionItem ─────────────────────────────────────────────────
+const AccordionItem = ({
+  service,
+  isActive,
+  progress,
+  onToggle,
+  videoRef,
+  onTimeUpdate,
+  onEnded,
+}) => (
+  <div className="accordion-item load scale-up">
+  <div className="overflow-hidden transition-shadow duration-300">
+    <button
+      onClick={onToggle}
+      className="w-full text-left flex items-center justify-between cursor-pointer"
+    >
+      <Heading tagName="h3" className="py-5">
+        {service.heading}
+      </Heading>
+      <Icon
+        icon={ChevronIcon}
+        className={`w-8 h-8 transition-transform duration-300 ${
+          isActive ? "rotate-180 text-primary" : "text-bg3"
+        }`}
+      />
+    </button>
+
+    <div
+      className={`transition-all duration-500 ease-in-out overflow-hidden ${
+        isActive ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+      }`}
+    >
+      <p className="text-text small-text m-0 py-4">{service.description}</p>
+      <div className="lg:hidden">
+        <VideoPlayer
+          ref={videoRef}
+          src={service.videoSrc}
+          onTimeUpdate={onTimeUpdate}
+          onEnded={onEnded}
+        />
+      </div>
+    </div>
+
+    <DividerProgress isActive={isActive} progress={progress} />
+  </div>
+  </div>
+);
+
+// ── DividerProgress ────────────────────────────────────────────────
+const DividerProgress = ({ isActive, progress }) => (
+  <div className={`${progressBarClass} bg-bg3 relative my-3`}>
+    {isActive && (
+      <div
+        className={`${progressBarClass} neon-background-primary rounded-full absolute left-0 top-0 transition-all duration-300`}
+        style={{ width: `${progress}%` }}
+      />
+    )}
+  </div>
+);
+
+// ── VideoPlayer ────────────────────────────────────────────────────
+const VideoPlayer = React.forwardRef(
+  ({ src, onTimeUpdate, onEnded, desktop = false, className }, ref) => (
+    <video
+      ref={ref}
+      src={src}
+      controls={desktop}
+      autoPlay
+      muted
+      playsInline
+      onTimeUpdate={onTimeUpdate}
+      onEnded={onEnded}
+      className={`${className} ${
+        desktop
+          ? "w-full h-96 object-cover"
+          : "w-full h-48 object-cover bg-transparent"
+      }`}
+    />
+  )
+);
+
+// ── ChevronIcon ────────────────────────────────────────────────────
 const ChevronIcon = ({ className }) => (
   <svg
     className={className}

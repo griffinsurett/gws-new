@@ -36,8 +36,14 @@ import VideoLogo from "@/components/Logo/VideoLogo";
     <TestimonialCircleSection />
   </Section>
   <div class="page-container">
-    <!-- Services Accordion -->
+      <!-- Services -->
+    <Section collection="services" query="roots" />
+
+    <Section variant="custom" collection="services" query="roots">
     <ServicesAccordion client:load />
+    </Section>
+
+    <!-- Services Accordion -->
     <!-- <Section collection="services" query="roots" component={ServiceAccordionItem} client="visible" variant=""
           sectionClass="flex section lg:h-[120vh]"
           contentClass="flex flex-col justify-center items-start"
@@ -57,9 +63,6 @@ import VideoLogo from "@/components/Logo/VideoLogo";
         />
       </div>
         </Section> -->
-
-    <!-- Services -->
-    <Section collection="services" query="roots" />
 
     <!-- Clients -->
     <!-- <Section

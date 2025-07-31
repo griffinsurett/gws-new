@@ -9,7 +9,7 @@ const primaryItemsClassDefaults =
  */
 const sectionDefaults = {
   primary: {
-    sectionClass: "section",
+    sectionClass: "min-h-screen",
     contentClass: "flex flex-wrap",
     itemPlacement: "top-content-section",
     bottomPlacement: "top-content-section",
@@ -105,5 +105,10 @@ export const SectionVariants = {
     itemsClass: "w-auto lg:w-2/3 h-full flex flex-col gap-(--spacing-md)",
     imageColumnClass: "hidden",
     descriptionClass: "font-thin large-text",
+  },
+  custom: {
+    sectionClass: "section",
+    itemsClass: "hidden",
+    bottomContentClass: "hidden",
   }
 };
