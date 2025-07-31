@@ -8,9 +8,10 @@ import { Image } from "astro:assets";
 import HeroImage from "@/assets/computer-guy.png";
 import Logo from "@/assets/GWS-animated.png";
 import TestimonialCircleSection from "@/components/StaticSections/TestimonialCircleSection.astro";
-import ServicesAccordion from "@/components/ServicesAccordion";
+import ServicesAccordion from "@/layouts/ServicesAccordion";
 import VideoLogo from "@/components/Logo/VideoLogo";
 ---
+
 <BaseLayout
   title={SiteData.title || SiteData.tagline}
   description={SiteData.description}
@@ -33,12 +34,10 @@ import VideoLogo from "@/components/Logo/VideoLogo";
     </div>
 
     <TestimonialCircleSection />
-
   </Section>
   <div class="page-container">
-    
     <!-- Services Accordion -->
-     <ServicesAccordion client:load/>
+    <ServicesAccordion client:load />
     <!-- <Section collection="services" query="roots" component={ServiceAccordionItem} client="visible" variant=""
           sectionClass="flex section lg:h-[120vh]"
           contentClass="flex flex-col justify-center items-start"
@@ -78,9 +77,9 @@ import VideoLogo from "@/components/Logo/VideoLogo";
 
     <Section collection="faq" query="getAll" />
     <VideoLogo
-       mediaClasses="block w-full h-auto"
-    alt="Griffin's Web Services Animated Logo"
-    client:load
-  />
+      mediaClasses="block w-full h-auto"
+      alt="Griffin's Web Services Animated Logo"
+      client:load
+    />
   </div>
 </BaseLayout>
