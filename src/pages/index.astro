@@ -8,7 +8,7 @@ import { Image } from "astro:assets";
 import HeroImage from "@/assets/computer-guy.png";
 import Logo from "@/assets/GWS-animated.png";
 import TestimonialCircleSection from "@/components/StaticSections/TestimonialCircleSection.astro";
-import ServiceAccordionItem from "@/components/LoopComponents/ServiceAccordionItem";
+import ServicesAccordion from "@/components/ServicesAccordion";
 import VideoLogo from "@/components/Logo/VideoLogo";
 ---
 <BaseLayout
@@ -38,7 +38,8 @@ import VideoLogo from "@/components/Logo/VideoLogo";
   <div class="page-container">
     
     <!-- Services Accordion -->
-    <Section collection="services" query="roots" component={ServiceAccordionItem} client="visible" variant=""
+     <ServicesAccordion client:load/>
+    <!-- <Section collection="services" query="roots" component={ServiceAccordionItem} client="visible" variant=""
           sectionClass="flex section lg:h-[120vh]"
           contentClass="flex flex-col justify-center items-start"
           headingAreaClass="space-y-[var(--spacing-md)] py-[var(--spacing-lg)]"
@@ -50,14 +51,13 @@ import VideoLogo from "@/components/Logo/VideoLogo";
           imageColPlacement="bottom-content-section"
         >
       <div slot="imageColumn">
-       <!-- Add video that we will play each time the video finishes close the above accordion and open the below accordion, start with the first accordion open, when the video is done it will close and open the one under it -->
         <VideoLogo
           mediaClasses="block w-full h-auto"
           alt="Griffin's Web Services Animated Logo"
           client:load
         />
       </div>
-        </Section>
+        </Section> -->
 
     <!-- Services -->
     <Section collection="services" query="roots" />
