@@ -3,7 +3,7 @@ import GWSLogo from "@/assets/GWS-animated.png";
 // import "./buttons.css";
 
 export const baseButtonClasses =
-  "text-base lg:text-lg relative inline-flex items-center group uppercase font-light rounded-full";
+  "text-base lg:text-lg relative inline-flex items-center group font-light rounded-full";
 
 const sharedIconDefaults = {
   icon: GWSLogo.src,
@@ -22,13 +22,13 @@ const noIcon = {
 export const ButtonVariants = {
   primary: {
     variantClasses:
-      "button-md button-sm neon-effect-border-secondary rounded",
+      "button-sm neon-effect-border-secondary",
     buttonClasses: baseButtonClasses,
     iconDefaults: { ...noIcon },
   },
   secondary: {
     variantClasses:
-      "button-md button-sm neon-effect-background-primary rounded",
+      "button-sm neon-effect-background-primary",
     buttonClasses: baseButtonClasses,
     iconDefaults: { ...noIcon },
   },

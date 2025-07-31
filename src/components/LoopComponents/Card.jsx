@@ -30,7 +30,7 @@ export default function Card({
   const content = (
     <>
       {item.data.icon && (
-        <div className="mb-(--spacing-sm) aspect-square neon-effect-border-primary w-16 h-auto flex justify-center items-center rounded-full">
+        <div className="mb-(--spacing-sm) aspect-square neon-effect-background-secondary w-16 h-auto flex justify-center items-center rounded-full">
           <Icon icon={item.data.icon} className="text-2xl grayscale" />
         </div>
       )}

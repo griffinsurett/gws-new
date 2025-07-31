@@ -19,7 +19,7 @@
   --color-primary-dark: rgb(5.88% 5.88% 5.88%); /* #0f0f0f */
   --color-primary-light: rgb(94.12% 94.12% 94.12%);
   --color-secondary-dark: rgb(11.37% 11.37% 11.76%);
-  --color-secondary-light: rgb(64.71% 67.45% 71.37%);
+  --color-secondary-light: rgb(90% 90% 90%); /* ≃ #E6E6E6 */
   --color-tertiary-dark: #1d1d1e; /* #1d1d1e */
   --color-tertiary-light: #e0e0e0;
 
@@ -33,7 +33,9 @@
   --color-accent: rgb(36.86% 46.27% 96.47%); /* #5e76f6; */
   --color-neutral: #374151;
 
-  --primary-border: 0.5px solid;
+  --primary-border: 1px solid;
+
+  --primary-color-faded: rgba(94, 118, 246, 0.1);
 
   /* Gradients */
   --heroGradient: linear-gradient(
@@ -74,7 +76,7 @@
   --radius-lg: 0.5rem;
 
   /* Box Shadow */
-  --boxShadow-neon1: 0 0 .5px var(--color-primary),
+  --boxShadow-neon1: 0 0 .2px var(--color-primary),
     0 0 1px var(--color-primary) inset, 0 0 4px var(--color-primary),
     0 0 4px var(--color-primary) inset, 0 0 7.5px var(--color-primary),
     0 0 5px var(--color-primary) inset, 0 0 10px var(--color-primary);
@@ -209,8 +211,13 @@
   .subtitle {
     @apply text-primary font-thin;
   }
+  .hero-gradient-bg {
+    @apply bg-cover bg-center;
+    background-image: var(--heroGradient);
+    animation: gradient-shake 10s ease-in-out infinite alternate;
+  }
   .header-footer {
-    @apply px-(--spacing-sm) py-(--spacing-sm);
+    @apply py-[var(--spacing-md)] lg:py-[var(--spacing-md)] mx-auto w-19/20;
   }
 }
 

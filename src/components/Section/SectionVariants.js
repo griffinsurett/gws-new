@@ -52,7 +52,7 @@ export const SectionVariants = {
    */
   primaryHero: {
     sectionClass:
-      "flex flex-col items-center min-h-screen md:pt-(--spacing-4xl) lg:pt-0 lg:min-h-screen justify-end [background-image:var(--heroGradient)] bg-cover bg-center z-10 text-xl",
+      "flex flex-col items-center min-h-screen md:pt-(--spacing-4xl) lg:pt-0 lg:min-h-screen justify-end hero-gradient-bg bg-center z-10 text-xl",
     contentClass:
       "relative lg:py-0 w-auto h-full flex flex-col md:flex-row z-20 lg:gap-(--spacing-xs)",
     topContentClass:
@@ -62,7 +62,7 @@ export const SectionVariants = {
     bottomContentClass: "w-full flex flex-col-reverse my-(--spacing-lg) md:my-(--spacing-xl) lg:flex-row-reverse items-start lg:items-center justify-end gap-(--spacing-xl) xl:gap-(--spacing-2xl)",
     bottomPlacement: "top-content-section",
     headingAreaClass: "space-y-(--spacing-sm) lg:space-y-(--spacing-md) m-0",
-    descriptionClass: "lg:pr-(--spacing-xl) font-thin large-text",
+    descriptionClass: "lg:pr-(--spacing-xl) font-thin small-text",
     childPlacement: "bottom-content-section"
   },
 

@@ -13,3 +13,11 @@
   font-optical-sizing: auto;
   font-display: swap;
 }
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/Manrope/Manrope-VariableFont_wght.ttf") format("truetype");
+  font-optical-sizing: auto;
+    font-weight: 800;
+  font-display: swap;
+}

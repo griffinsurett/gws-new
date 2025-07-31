@@ -11,14 +11,14 @@
 @utility neon-border-primary {
   position: relative;
   border: var(--primary-border) var(--color-primary);
-  box-shadow: var(--boxShadow-neon1);
+  /* box-shadow: var(--boxShadow-neon1); */
   color: var(--color-heading);
 }
 
 @utility neon-border-secondary {
   position: relative;
   border: var(--primary-border) var(--color-primary);
-  box-shadow: var(--boxShadow-neon1);
+  /* box-shadow: var(--boxShadow-neon1); */
   color: var(--color-heading);
 }
 
@@ -27,7 +27,7 @@
   position: relative;
   color: var(--color-bg);
   border: var(--primary-border) var(--color-primary);
-  box-shadow: var(--boxShadow-neon1);
+  /* box-shadow: var(--boxShadow-neon1); */
   background: var(--color-primary);
 }
 
@@ -35,7 +35,7 @@
   position: relative;
   color: var(--color-bg);
   border: var(--primary-border) var(--color-primary);
-  box-shadow: var(--boxShadow-neon2);
+  /* box-shadow: var(--boxShadow-neon2); */
   background: var(--color-primary);
 }
 

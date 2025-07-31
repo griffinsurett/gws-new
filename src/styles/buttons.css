@@ -3,13 +3,13 @@
 
 @layer components {
   /* Button size variants */
-  .button-small {
-    @apply text-xs py-(--spacing-sm) px-(--spacing-xl) lg:py-(--spacing-lg) lg:px-(--spacing-3xl) uppercase tracking-[0.1rem] md:tracking-(--spacing-xs) md:text-sm lg:text-base;
+  .button-sm {
+    @apply text-sm md:text-sm lg:text-base py-(--spacing-sm) px-(--spacing-lg) lg:py-(--spacing-lg) lg:px-(--spacing-3xl) tracking-[0.1rem] md:tracking-(--spacing-xs);
   }
   .button-md {
-    @apply text-sm py-(--spacing-md) px-(--spacing-2xl) lg:py-(--spacing-lg) lg:px-(--spacing-3xl) uppercase tracking-[0.1rem] md:tracking-(--spacing-xs) md:text-base lg:text-lg;
+    @apply text-sm py-(--spacing-md) px-(--spacing-2xl) lg:py-(--spacing-lg) lg:px-(--spacing-3xl) tracking-[0.1rem] md:tracking-(--spacing-xs) md:text-base lg:text-lg;
   }
   .button-lg {
-    @apply text-base py-(--spacing-md) px-(--spacing-3xl) lg:py-(--spacing-xl) lg:px-(--spacing-4xl) uppercase tracking-[0.1rem] md:tracking-(--spacing-xs) md:text-lg lg:text-xl;
+    @apply text-base py-(--spacing-md) px-(--spacing-3xl) lg:py-(--spacing-xl) lg:px-(--spacing-4xl) tracking-[0.1rem] md:tracking-(--spacing-xs) md:text-lg lg:text-xl;
   }
 }

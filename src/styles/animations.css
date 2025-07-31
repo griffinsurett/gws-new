@@ -316,3 +316,18 @@
   }
 }
 }
+
+  @keyframes gradient-shake {
+    0%, 100% {
+      background-position: 50% 50%;
+    }
+    25% {
+      background-position: 52% 48%;
+    }
+    50% {
+      background-position: 48% 52%;
+    }
+    75% {
+      background-position: 51% 49%;
+    }
+  }
