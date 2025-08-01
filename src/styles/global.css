@@ -53,8 +53,8 @@
     0 0 5px var(--color-primary);
 
   /* Typography */
-  --font-base: "Helvetica Neue", "Mukta", sans-serif;
-  --font-heading: "Orbitron", "Helvetica Neue", "Mukta", sans-serif;
+  --font-base: "Inter", sans-serif;
+  --font-heading: "Inter", sans-serif;
 
   /* Spacing tokens */
   --spacing-2xs: 0.2rem;
@@ -175,37 +175,38 @@
     @apply gap-(--spacing-lg) md:gap-(--spacing-xl);
   }
   .h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl tracking-[0.1rem] md:tracking-(--spacing-sm) font-thin text-heading;
+    @apply text-3xl md:text-4xl lg:text-5xl xl:text-6xl m-0 p-0 tracking-[0.05rem] md:tracking-[0.1rem] font-thin text-heading;
   }
   .h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl tracking-[0.1rem] md:tracking-(--spacing-sm) font-thin text-heading;
+    @apply text-3xl md:text-4xl lg:text-5xl tracking-[0.05rem] md:tracking-[0.1rem] font-thin text-heading;
   }
   .h3 {
-    @apply text-xl font-thin md:text-2xl tracking-[0.1rem] md:tracking-(--spacing-2xs) text-heading;
+    @apply text-xl font-thin md:text-2xl lg:text-3xl tracking-[0.02rem] md:tracking-[0.05rem] text-heading;
   }
   .h4 {
-    @apply text-xl font-thin md:text-xl tracking-[0.1rem] md:tracking-(--spacing-2xs) text-heading;
+    @apply text-xl font-thin md:text-xl tracking-[0.05rem] md:tracking-[0.1rem] text-heading;
   }
   .h5 {
-    @apply text-base font-thin md:text-lg tracking-[0.1rem] md:tracking-(--spacing-2xs) text-heading;
+    @apply text-base font-thin md:text-lg tracking-[0.05rem] md:tracking-[0.1rem] text-heading;
   }
   .h6 {
-    @apply text-sm font-thin md:text-base tracking-[0.1rem] md:tracking-(--spacing-2xs) text-heading;
+    @apply text-sm font-thin md:text-base md:tracking-[0.05rem] md:tracking-[0.1rem] text-heading;
   }
   .h1,
   .h2,
   .h3,
   .h4 {
     font-family: var(--font-heading);
+    font-weight: 500;
   }
   p {
-    @apply mb-4 tracking-[0.1rem] md:tracking-(--spacing-2xs) uppercase text-base font-thin;
+    @apply mb-4 tracking-[0.02rem] md:tracking-[0.04rem] text-base font-thin;
   }
   .small-text {
-    @apply text-xs md:text-sm uppercase tracking-[0.1rem] md:tracking-(--spacing-2xs);
+    @apply text-xs md:text-base lg:text-lg tracking-[0.02rem] md:tracking-[0.04rem];
   }
   .large-text {
-    @apply text-base md:text-sm lg:text-lg xl:text-xl uppercase tracking-[0.1rem] md:tracking-(--spacing-2xs);
+    @apply text-base md:text-base lg:text-lg xl:text-xl tracking-[0.02rem] md:tracking-[0.05rem];
   }
   .subtitle {
     @apply text-primary font-thin;

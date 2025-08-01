@@ -5,8 +5,8 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 export default function TextLogo({
   title = "",
   className = "",
-  firstClass = "font-light leading-tight text-2xl md:text-3xl font-heading text-heading tracking-[0.1rem]",
-  restClass  = "font-light text-primary small-text leading-tight tracking-[0.1rem] md:tracking-(--spacing-2xs)",
+  firstClass = "h3 font-heading text-heading -ml-[0.1rem]",
+  restClass  = "font-light text-primary uppercase",
   fadeDuration = 1200,  
 }) {
   const [firstWord, ...others] = title.split(" ");

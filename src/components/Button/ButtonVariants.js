@@ -22,7 +22,7 @@ const noIcon = {
 export const ButtonVariants = {
   primary: {
     variantClasses:
-      "button-sm neon-effect-border-secondary text-primary hover:text-bg",
+      "button-sm neon-effect-border-secondary text-text hover:text-bg",
     buttonClasses: baseButtonClasses,
     iconDefaults: { ...noIcon },
   },
