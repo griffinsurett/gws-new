@@ -38,7 +38,7 @@ export default function Card({
         <Heading tagName="h3" className="mb-(--spacing-sm)">
           {item.data.title}
         </Heading>
-        <p className="mb-(--spacing-sm)">
+        <p className="mb-(--spacing-sm) small-text">
           {item.data.description || item.body}
         </p>
       </div>

@@ -46,9 +46,9 @@ const ServicesAccordion = () => {
 
   return (
     <div className="w-full mx-auto">
-      <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+      <div className="grid lg:grid-cols-2 gap-6 lg:gap-12">
         {/* Left: Accordion list */}
-        <div className="flex flex-col space-y-6">
+        <div className="flex flex-col">
           {services.map((service, i) => (
             <AccordionItem
               key={i}
@@ -107,7 +107,7 @@ const AccordionItem = ({
       onClick={onToggle}
       className="w-full text-left flex items-center justify-between cursor-pointer"
     >
-      <Heading tagName="h3" className="py-5">
+      <Heading tagName="h3" className="py-4">
         {service.heading}
       </Heading>
       <Icon
