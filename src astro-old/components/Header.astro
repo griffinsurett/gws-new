@@ -1,0 +1,50 @@
+---
+import Menu from "@/components/Menu/Menu.astro";
+import MobileMenuItem from "@/components/Menu/HamburgerMenu/MenuItem.jsx";
+import ThemeControls from "@/components/ThemeControls/ThemeControls";
+import Logo from "@/components/Logo/Logo.astro";
+---
+
+<header
+  class="fixed inset-x-[1.5%] flex justify-between items-center z-9999 header-footer"
+>
+  <!-- Logo / site identity -->
+  <Logo />
+<ThemeControls client:load />
+<Menu
+collection="menuItems"
+  query="relatedItem:menus:mainMenu"
+  sortOrder="asc"
+  manualOrder={true}
+  hamburgerOnly={true}
+  checkboxId="headerMenu-toggle"
+  menuItem={{
+    component: MobileMenuItem,
+    props: {
+      itemClass: "p-(--spacing-sm) h3 text-heading hover:text-primary",
+      linkClass: "w-full text-left justify-center items-center",
+      hierarchical: true,
+      submenu: {
+        component: MobileMenuItem,
+        itemsClass: "",
+        subMenuItem: {
+          props: {
+            itemClass: "p-(--spacing-sm) text-base text-primary",
+            linkClass: "w-full text-left",
+            hierarchical: true,
+            subMenuItem: null,
+          },
+        },
+      },
+    },
+  }}
+
+  itemsClass="flex flex-col gap-(--spacing-md)"
+  shared={{
+    collection: "menuItems",
+    query:      "relatedItem:menus:mainMenu",
+    sortOrder:  "asc",
+    HasPage:    true,
+  }}
+  />
+</header>

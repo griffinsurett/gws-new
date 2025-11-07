@@ -1,0 +1,56 @@
+---
+hasPage: true
+itemsHasPage: true
+heading:
+  - text: Our Services that we offer
+    tagName: "h2"
+    class: "h2 load slide-up"
+description: We specialize in crafting scalable, secure, and AI‑optimized digital experiences. From responsive websites and dynamic data platforms to AI and seamless automations—so you can focus on growing your business while we handle the technology.
+ogType: "article"
+keywords:
+  - "cleaning services"
+  - "professional cleaning"
+  - "eco-friendly cleaning"
+defaultSection:
+  variant: primary
+  # manualOrder: true
+  sortOrder: "desc"
+  component: "@/components/LoopComponents/Card.jsx"
+itemsSections:
+  - collection: "projects"
+    query: "related"
+  - collection: "testimonials"
+    query: "related"
+  - collection: "clients"
+    query: "related"
+  - collection: "services"
+    query: "parent"
+    heading: "Parent Services"
+  - collection: "services"
+    query: "children"
+    heading: "Child Services"
+  - collection: "services"
+    query: "sibling"
+    heading: "Sibling Services"
+addToMenu:
+  - menu: mainMenu
+    order: 2
+itemsAddToMenu:
+  - menu: mainMenu
+    parent: "services"
+    # respectHierarchy: true
+---
+
+import Section from "@/components/Section/Section.astro";
+
+<Section collection="services" query="getAll" />
+
+<Section collection="projects" query="related" heading="Related Projects" />
+
+<Section
+  collection="testimonials"
+  query="related"
+  heading="Client Testimonials"
+/>
+
+<Section collection="clients" query="related" />

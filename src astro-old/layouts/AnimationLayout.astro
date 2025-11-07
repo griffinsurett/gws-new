@@ -1,0 +1,32 @@
+---
+import "@/styles/animations.css";
+---
+    <slot />
+
+    <!-- Only run observer fallback when scroll‑timeline is NOT supported -->
+    <script is:inline client:load>
+      if (!CSS.supports('animation-timeline', 'view()')) {
+        console.log('Scroll timeline not supported, using IntersectionObserver fallback');
+        document.documentElement.classList.add('use-io');
+        const io = new IntersectionObserver((entries, obs) => {
+          entries.forEach(({ target, isIntersecting }) => {
+            if (isIntersecting) {
+              target.classList.add('visible');
+              obs.unobserve(target);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        // Observe only elements with .load
+        document.querySelectorAll('.load').forEach(el => io.observe(el));
+      }
+
+;(function() {
+  const ls = localStorage.getItem('theme');
+  if (ls === 'light' || ls === 'dark') {
+    document.documentElement.setAttribute('data-theme', ls);
+  } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>

@@ -1,0 +1,88 @@
+---
+// src/pages/index.astro
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/Section/Section.astro";
+import Card from "@/components/LoopComponents/Card";
+import { SiteData } from "@/content/SiteData";
+import { Image } from "astro:assets";
+import HeroImage from "@/assets/computer-guy.png";
+import Logo from "@/assets/GWS-animated.png";
+import TestimonialCircleSection from "@/components/StaticSections/TestimonialCircleSection.astro";
+import ServicesAccordion from "@/layouts/ServicesAccordion";
+import VideoLogo from "@/components/Logo/VideoLogo";
+---
+
+<BaseLayout
+  title={SiteData.title || SiteData.tagline}
+  description={SiteData.description}
+>
+  <!-- Hero Section -->
+  <Section
+    variant="primaryHero"
+    heading={{ text: SiteData.tagline, tagName: "h1" }}
+    description={SiteData.description}
+    buttons={[{ text: "Book An Intro Call", link: "/contact-us", variant: "primary" }]}
+  >
+    <div class="block" slot="imageColumn">
+      <Image
+        src={HeroImage}
+        alt="Hero Image"
+        class="w-auto h-auto md:h-full object-contain md:object-cover z-30"
+        fetchpriority="high"
+        loading="eager"
+      />
+    </div>
+
+    <TestimonialCircleSection />
+  </Section>
+  <div class="page-container">
+      <!-- Services -->
+    <Section collection="services" query="roots" />
+
+    <Section variant="custom" collection="services" query="roots">
+    <ServicesAccordion client:load />
+    </Section>
+
+    <!-- Services Accordion -->
+    <!-- <Section collection="services" query="roots" component={ServiceAccordionItem} client="visible" variant=""
+          sectionClass="flex section lg:h-[120vh]"
+          contentClass="flex flex-col justify-center items-start"
+          headingAreaClass="space-y-[var(--spacing-md)] py-[var(--spacing-lg)]"
+          bottomContentClass="w-full flex flex-col lg:flex-row justify-between items-start lg:gap-[var(--spacing-2xl)]"
+          itemsClass="flex flex-col w-full lg:w-1/2"
+          itemPlacement="bottom-content-section"
+          buttonsSectionClass="hidden"
+          imageColumnClass="w-full lg:w-1/2"
+          imageColPlacement="bottom-content-section"
+        >
+      <div slot="imageColumn">
+        <VideoLogo
+          mediaClasses="block w-full h-auto"
+          alt="Griffin's Web Services Animated Logo"
+          client:load
+        />
+      </div>
+        </Section> -->
+
+    <!-- Clients -->
+    <!-- <Section
+    sectionClass="animate-on-appear"
+    collection="clients"
+    query="getAll"
+    heading={{ text: "Our Clients", tagName: "h2" }}
+  /> -->
+
+    <!-- Projects -->
+    <Section collection="projects" query="getAll" />
+
+    <!-- Testimonials -->
+    <Section collection="testimonials" query="getAll" />
+
+    <Section collection="faq" query="getAll" />
+    <VideoLogo
+      mediaClasses="block w-full h-auto"
+      alt="Griffin's Web Services Animated Logo"
+      client:load
+    />
+  </div>
+</BaseLayout>

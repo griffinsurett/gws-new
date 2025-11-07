@@ -1,0 +1,333 @@
+@import "tailwindcss";
+
+/* 🔧 Completely disable animations for users with motion sensitivity */
+@media (prefers-reduced-motion: no-preference) {
+/* 1️⃣ Scroll‑linked animations in supporting browsers */
+@layer utilities {
+  @supports (animation-timeline: view()) or (animation-timeline: scroll()) {
+    /* All of these will animate immediately on insertion */
+    .animate-on-appear,
+    .fade-in,
+    .slide-down,
+    .slide-in,
+    .slide-up,
+    .slide-left,
+    .scale-up {
+      /* More gentle timing and fill mode */
+      animation-duration: 0.6s; /* Reduced from 1s */
+      animation-fill-mode: both;
+      animation-timing-function: ease-out; /* Smoother easing */
+    }
+
+    .fade-in {
+      animation-name: fade-in;
+    }
+
+    .scale-in {
+      animation: scale-in 0.4s ease-out both; /* Slightly faster */
+    }
+
+    .animate-on-appear {
+      animation-name: fade-in-up;
+    }
+    .slide-down {
+      animation-name: slide-down;
+    }
+    .slide-in {
+      animation-name: slide-in;
+    }
+    .slide-up {
+      animation-name: slide-up;
+    }
+    .slide-left {
+      animation-name: slide-left;
+    }
+    .slide-right {
+      animation: slide-right 0.4s ease-out forwards;
+    }
+    .scale-up {
+      animation-name: scale-up;
+    }
+    
+    .load.fade-in {
+      animation-name: fade-in;
+      animation-duration: 0.6s; /* Reduced duration */
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%; /* Starts earlier */
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
+    }
+
+    .load.animate-on-appear {
+      animation-name: fade-in-up;
+      animation-duration: 0.6s;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
+    }
+    .load.slide-down {
+      animation-name: slide-down;
+      animation-duration: 0.6s;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
+    }
+    .load.slide-in {
+      animation-name: slide-in;
+      animation-duration: 0.6s;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
+    }
+    .load.slide-up {
+      animation-name: slide-up;
+      animation-duration: 0.6s;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
+    }
+    .load.slide-left {
+      animation-name: slide-left;
+      animation-duration: 0.6s;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
+    }
+    .load.slide-right {
+      animation-name: slide-right;
+      animation-duration: 0.6s;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
+    }
+    .load.scale-up {
+      animation-name: scale-up;
+      animation-duration: 0.6s;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+      animation-fill-mode: both;
+      animation-timing-function: ease-out;
+    }
+    
+    .scroll-fade-up {
+      animation: fade-in-up ease-out; /* Changed from linear to ease-out */
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+
+    .transition-default {
+      transition: var(--transition-default);
+      transition-delay: var(--transition-delay-default);
+    }
+    .transition-fast {
+      transition: var(--transition-fast);
+      transition-delay: var(--transition-delay-default);
+    }
+    .transition-slow {
+      transition: var(--transition-slow);
+      transition-delay: var(--transition-delay-default);
+    }
+    .delay-default {
+      transition-delay: var(--transition-delay-default);
+    }
+  }
+}
+
+/* 2️⃣ IntersectionObserver fallback when timeline isn't supported */
+@layer utilities {
+  @supports not (
+    (animation-timeline: view()) or (animation-timeline: scroll())
+  ) {
+    /* Hide only .load elements until they're visible */
+    .load.animate-on-appear,
+    .load.fade-in,
+    .load.slide-down,
+    .load.slide-in,
+    .load.slide-up,
+    .load.slide-left,
+    .load.slide-right,
+    .load.scale-up {
+      opacity: 0;
+      transform: translateY(0.5rem); /* Reduced movement */
+    }
+
+    /* Once the IO adds .visible to a .load element, run the keyframe */
+    .load.animate-on-appear.visible {
+      animation: fade-in-up 0.6s ease-out both;
+    }
+    .load.fade-in.visible {
+      animation: fade-in 0.6s ease-out both;
+    }
+    .load.slide-down.visible {
+      animation: slide-down 0.6s ease-out both;
+    }
+    .load.slide-in.visible {
+      animation: slide-in 0.6s ease-out both;
+    }
+    .load.slide-up.visible {
+      animation: slide-up 0.6s ease-out both;
+    }
+    .load.slide-left.visible {
+      animation: slide-left 0.6s ease-out both;
+    }
+    .load.slide-right.visible {
+      animation: slide-right 0.6s ease-out both;
+    }
+    .load.scale-up.visible {
+      animation: scale-up 0.6s ease-out both;
+    }
+    
+    /* Utility to run spin exactly once over 0.4s */
+    .animate-spin-once {
+      animation: spin-once 0.4s ease-in-out both;
+    }
+    /* Hover variant if you only want it on hover */
+    .group-hover\:animate-spin-once:hover {
+      animation: spin-once 0.4s ease-in-out both;
+    }
+    .spin-twice {
+      animation: spin-twice 0.4s ease-in-out both;
+    }
+  }
+}
+
+.heartbeat {
+  animation: heartbeat 0.5s ease-in-out forwards; /* Slightly faster */
+}
+
+.circle {
+  transition: transform 0.25s ease-in-out; /* Faster transition */
+}
+
+
+
+/* 3️⃣ Shared keyframes with gentler movements */
+@layer utilities {
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem); /* Reduced from 1rem */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-1rem); /* Reduced from -2rem */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(-1rem); /* Reduced from -2rem */
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(1rem); /* Reduced from 2rem */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slide-left {
+    from {
+      opacity: 0;
+      transform: translateX(-1rem); /* Reduced from -2rem */
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes slide-right {
+    from {
+      opacity: 0;
+      transform: translateX(1rem); /* Reduced from 2rem */
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes scale-up {
+    from {
+      opacity: 0;
+      transform: scale(0.95); /* Less dramatic scaling from 0.8 */
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9); /* Less dramatic scaling from 0 */
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes spin-once {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes spin-twice {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(720deg); }
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); /* Less intense scaling from 1.2 */
+  }
+}
+}
+
+  @keyframes gradient-shake {
+    0%, 100% {
+      background-position: 50% 50%;
+    }
+    25% {
+      background-position: 52% 48%;
+    }
+    50% {
+      background-position: 48% 52%;
+    }
+    75% {
+      background-position: 51% 49%;
+    }
+  }

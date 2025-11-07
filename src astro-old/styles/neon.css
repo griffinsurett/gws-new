@@ -1,0 +1,146 @@
+/* ───────────────────────────────────────────────────── */
+/* neon.css - Neon Effect System                        */
+/* ───────────────────────────────────────────────────── */
+/* ───────────────────────────────────────────────────── */
+/* 0. CUSTOM VARIANTS FOR LIGHT + DARK                  */
+/* ───────────────────────────────────────────────────── */
+@custom-variant light  (&:where([data-theme="light"], [data-theme="light"] *));
+@custom-variant dark   (&:where([data-theme="dark"],  [data-theme="dark"]  *));
+
+/* neon border */
+@utility neon-border-primary {
+  position: relative;
+  border: var(--primary-border) var(--color-primary);
+  /* box-shadow: var(--boxShadow-neon1); */
+  color: var(--color-heading);
+}
+
+@utility neon-border-secondary {
+  position: relative;
+  border: var(--primary-border) var(--color-primary);
+  /* box-shadow: var(--boxShadow-neon1); */
+  color: var(--color-heading);
+}
+
+/* neon background */
+@utility neon-background-primary {
+  position: relative;
+  color: var(--color-bg);
+  border: var(--primary-border) var(--color-primary);
+  /* box-shadow: var(--boxShadow-neon1); */
+  background: var(--color-primary);
+}
+
+@utility neon-background-secondary {
+  position: relative;
+  color: var(--color-bg);
+  border: var(--primary-border) var(--color-primary);
+  /* box-shadow: var(--boxShadow-neon2); */
+  background: var(--color-primary);
+}
+
+@layer components {
+  /* ───────────────────────────────────────────────────── */
+  /* NEON EFFECTS                                         */
+  /* ───────────────────────────────────────────────────── */
+
+  /* ═══════════════════════════════════════════════════ */
+  /* BORDER VARIANTS                                     */
+  /* ═══════════════════════════════════════════════════ */
+
+  /* Primary border variant - transparent background with primary neon border */
+  .neon-effect-border-primary,
+  .neon-effect-border-secondary {
+    @apply hover-animation neon-border-primary;
+  }
+
+  .neon-effect-border-secondary:hover {
+    @apply neon-background-secondary;
+  }
+
+  @variant light {
+    .neon-effect-border-primary,
+    .neon-effect-border-secondary {
+      box-shadow: none;
+    }
+
+      .neon-effect-border-primary:hover,
+    .neon-effect-border-secondary:hover {
+      box-shadow: none;
+      color: var(--color-bg);
+      background: var(--color-accent);
+      border: var(--primary-border) var(--color-accent);
+    }
+
+    .neon-effect-border-primary {
+      border: none;
+      background: var(--cardGradient);
+    }
+
+    .neon-effect-border-secondary {
+      background: none;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════ */
+  /* BACKGROUND VARIANTS                                 */
+  /* ═══════════════════════════════════════════════════ */
+
+  /* Primary background variant - primary background with neon glow */
+  .neon-effect-background-primary,
+  .neon-effect-background-secondary {
+    @apply hover-animation neon-background-primary;
+  }
+
+  .neon-effect-background-primary:hover {
+    @apply neon-background-secondary;
+  }
+
+  .neon-effect-background-primary:hover {
+    @apply neon-border-secondary;
+  }
+
+  @variant light {
+    .neon-effect-background-primary,
+    .neon-effect-background-secondary {
+      @apply hover-animation;
+      box-shadow: none;
+    }
+
+    .neon-effect-background-primary:hover,
+    .neon-effect-background-secondary:hover {
+      box-shadow: none;
+    }
+
+    .neon-effect-background-primary:hover {
+      @apply neon-border-primary;
+      box-shadow: none;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════ */
+  /* HOVER-ONLY VARIANTS                                 */
+  /* ═══════════════════════════════════════════════════ */
+
+  .hover-neon-effect-border-primary {
+    @apply hover-animation2;
+    border: none;
+  }
+
+  .hover-neon-effect-border-primary:hover {
+    @apply neon-border-primary;
+    background: var(--color-bg)
+  }
+
+  @variant light {
+    .hover-neon-effect-border-primary {
+      @apply hover-animation2;
+    }
+
+    .hover-neon-effect-border-primary:hover {
+      border: none;
+      background: var(--color-bg3);
+      box-shadow: none;
+    }
+  }
+}

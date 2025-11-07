@@ -1,0 +1,19 @@
+---
+import MenuItem from "@/components/Menu/MenuItem.astro";
+import Menu from "@/components/Menu/Menu.astro";
+import { SiteData } from "@/content/SiteData";
+---
+
+<footer class="w-19/20 flex flex-col lg:flex-row justify-between items-center gap-(--spacing-lg) lg:gap-0 mx-auto header-footer">
+  <Menu
+    collection="menuItems"
+    query="relatedItem:menus:footerMenu"
+    sortOrder="desc"
+    ItemComponent={MenuItem}
+    itemsClass="flex gap-(--spacing-md) lg:gap-(--spacing-xl) justify-center items-center flex-wrap h6 uppercase"
+    itemClass="p-(--spacing-sm)"
+  />
+  <p class="p-0 m-0 h6 text-center">
+    &copy; {new Date().getFullYear()} {SiteData.title} LLC All rights reserved.
+  </p>
+</footer>
