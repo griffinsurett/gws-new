@@ -25,7 +25,7 @@ export default function AccordionItem({
   headerSlot,
 }: AccordionItemProps) {
   return (
-    <div className={`border border-surface bg-surface rounded-lg overflow-hidden ${className}`}>
+    <div className={`border border-bg bg-bg rounded-lg overflow-hidden ${className}`}>
       <button
         type="button"
         className={`flex items-center justify-between p-4 bg-text/5 cursor-pointer hover:bg-text/5 transition-colors w-full text-left ${headerClassName}`}
