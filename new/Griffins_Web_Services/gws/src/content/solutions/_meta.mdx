@@ -1,0 +1,21 @@
+---
+title: "Solutions"
+description: "Comprehensive web solutions tailored to your business needs"
+hasPage: true
+itemsHasPage: true
+itemsRootPath: false
+itemsAddToMenu:
+  - menu: "main-menu"
+addToMenu:
+  - menu: "main-menu"
+    order: 2
+---
+import ContentRenderer from '@/components/ContentRenderer/ContentRenderer.astro';
+import { query, sortByOrder } from '@/utils/query';
+
+<ContentRenderer
+  query={query("solutions").orderBy(sortByOrder())}
+  variant="GridVariant"
+  columns={3}
+  gap="lg"
+/>

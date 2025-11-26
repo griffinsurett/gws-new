@@ -1,0 +1,54 @@
+// src/components/Form/inputs/Input.tsx
+/**
+ * Hybrid Input Component
+ * Pure TSX component - uses HTML5 validation
+ */
+
+import type { InputHTMLAttributes } from "react";
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  name: string;
+  label?: string;
+
+  // Styling
+  containerClassName?: string;
+  labelClassName?: string;
+  inputClassName?: string;
+
+  // Control visibility
+  showLabel?: boolean;
+}
+
+export default function Input({
+  name,
+  label,
+  required = false,
+  containerClassName = "mb-4",
+  labelClassName = "block text-sm font-medium text-text mb-1",
+  inputClassName = "w-full px-4 py-2 border border-surface rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-colors",
+  showLabel = true,
+  ...inputProps
+}: InputProps) {
+  return (
+    <div className={containerClassName}>
+      {showLabel && label && (
+        <label htmlFor={name} className={labelClassName}>
+          {label}
+          {required && (
+            <span className="text-red-500 ml-1" aria-label="required">
+              *
+            </span>
+          )}
+        </label>
+      )}
+
+      <input
+        id={name}
+        name={name}
+        className={inputClassName}
+        required={required}
+        {...inputProps}
+      />
+    </div>
+  );
+}

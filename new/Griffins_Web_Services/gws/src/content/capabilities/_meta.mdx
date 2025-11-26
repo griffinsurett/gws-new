@@ -1,0 +1,21 @@
+---
+title: "Capabilities"
+description: "Our technical expertise and service capabilities"
+hasPage: true
+itemsHasPage: true
+itemsRootPath: false
+itemsAddToMenu:
+  - menu: "main-menu"
+addToMenu:
+  - menu: "main-menu"
+    order: 3
+---
+import ContentRenderer from '@/components/ContentRenderer/ContentRenderer.astro';
+import { query, sortByOrder } from '@/utils/query';
+
+<ContentRenderer
+  query={query("capabilities").orderBy(sortByOrder())}
+  variant="GridVariant"
+  columns={3}
+  gap="md"
+/>

@@ -1,0 +1,57 @@
+---
+// src/layouts/Footer.astro
+/**
+ * Footer Component
+ *
+ * Site-wide footer with:
+ * - Copyright notice
+ * - Social media links
+ * - Legal links (Privacy Policy, Cookie Policy)
+ * - Cookie preferences button (client-side)
+ * - Reading preferences button (client-side)
+ */
+import { siteData } from "@/content/siteData";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query, sortBy } from "@/utils/query";
+import PreferencesLayout from "./PreferencesLayout.astro";
+---
+
+<footer class="mt-auto">
+  <div class="mx-auto">
+    <div class="flex flex-col justify-between items-center gap-6 py-4 w-full">
+      {/* Legal and privacy links */}
+      <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+        <ContentRenderer
+        query={query("menu-items")
+          .where((entry) => {
+            const menus = entry.data.menu;
+            if (Array.isArray(menus)) {
+              return menus.some((m) => m.id === "footer-menu");
+            }
+            return menus?.id === "footer-menu";
+          })
+          .orderBy(sortBy("order", "asc"))}
+        variant="ListVariant"
+        className="text-bg flex"
+      />
+          
+        <PreferencesLayout />
+      </div>
+
+      {/* Social media icons */}
+      <ContentRenderer
+        query={query("social-media")}
+        variant="SocialMediaVariant"
+        size="md"
+        alignment="left"
+        className="text-bg"
+      />
+
+      {/* Copyright notice */}
+      <p class="text-text text-sm">
+        &copy; {new Date().getFullYear()}
+        {siteData.legalName}. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>

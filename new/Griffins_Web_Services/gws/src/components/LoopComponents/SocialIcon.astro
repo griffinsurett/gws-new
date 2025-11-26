@@ -1,0 +1,58 @@
+---
+// src/components/LoopComponents/SocialIcon.astro
+/**
+ * Social Icon Component
+ * 
+ * Individual social media icon with:
+ * - Circular background
+ * - Hover scale effect
+ * - Size variants (sm, md, lg)
+ * - Optional link
+ * - Accessibility labels
+ * 
+ * Used in SocialMediaVariant for social media links.
+ */
+
+import Icon from '@/components/Icon';
+
+export interface Props {
+  title: string;              // Platform name (for aria-label)
+  link?: string;             // URL to social profile
+  icon?: any;                // Icon identifier
+  size?: 'sm' | 'md' | 'lg'; // Icon size
+}
+
+const { title, link, icon, size = 'md' } = Astro.props;
+
+// Default to globe icon if none specified
+const displayIcon = icon || 'lu:globe';
+
+// Padding scales with size
+const wrapperPadding = {
+  sm: 'p-2',
+  md: 'p-2.5',
+  lg: 'p-3',
+};
+---
+
+{/* Render as link if URL provided */}
+{link ? (
+  <a 
+    href={link}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={`${wrapperPadding[size]} card-bg rounded-full inline-flex items-center justify-center transition-all duration-200 hover:scale-110`}
+    aria-label={`Visit our ${title} page`}
+    title={title}
+  >
+    <Icon icon={displayIcon} size={size} className="text-accent" />
+  </a>
+) : (
+  /* Otherwise just display icon */
+  <div 
+    class={`${wrapperPadding[size]} bg-surface rounded-full inline-flex items-center justify-center`}
+    title={title}
+  >
+    <Icon icon={displayIcon} size={size} className="text-accent" />
+  </div>
+)}

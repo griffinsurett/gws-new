@@ -1,0 +1,44 @@
+---
+// src/components/analytics/GoogleTagManager.astro
+/**
+ * Google Tag Manager Loader
+ *
+ * This component drops the GTM bootstrap snippet into the page but keeps it
+ * blocked behind our consent system by:
+ * - Rendering the script with `type="text/plain"`
+ * - Tagging it with `data-consent="targeting"` so the script manager knows when
+ *   to flip it back into a live script tag.
+ *
+ * Usage:
+ * - Place this component in `HeadTags.astro` so it mirrors GTM's recommended
+ *   <head> placement.
+ * - If you want the optional <noscript> iframe fallback, create a separate
+ *   component and gate it behind your consent UI since it cannot be blocked
+ *   automatically.
+ *
+ * Update `PUBLIC_GTM_ID` in your env config (or replace the placeholder below)
+ * with the real container ID before deploying.
+ */
+
+const GTM_ID = import.meta.env.PUBLIC_GTM_ID ?? 'GTM-XXXXXXX';
+const shouldRender = Boolean(GTM_ID && GTM_ID !== '');
+---
+
+{shouldRender && (
+  <>
+    {/* Consent-blocked GTM bootstrap */}
+    <script
+      type="text/plain"
+      data-consent="targeting"
+      data-gtm-id={GTM_ID}
+    >
+      {`
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${GTM_ID}');
+      `}
+    </script>
+  </>
+)}
