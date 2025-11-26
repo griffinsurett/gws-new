@@ -40,7 +40,7 @@ const viewAllText = `See Complete ${collectionTitle || "List"}`;
     items.length > 0 && (
       <nav class="flex flex-wrap gap-2 list-none">
         {items.map((item) => (
-            <Button href={item.url} className="text-bg" variant="link">
+            <Button href={item.url} className="text-text" variant="link">
               {item.title}
             </Button>
         ))}

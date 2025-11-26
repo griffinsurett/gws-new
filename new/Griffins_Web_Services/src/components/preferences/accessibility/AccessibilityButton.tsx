@@ -23,7 +23,7 @@ function AccessibilityButton() {
     <>
       <button
         onClick={handleOpenModal}
-        className="text-bg hover:text-surface transition-colors inline-flex items-center gap-2"
+        className="text-text hover:text-surface transition-colors inline-flex items-center gap-2"
         type="button"
         aria-label="Manage reading preferences"
         disabled={isPending}
