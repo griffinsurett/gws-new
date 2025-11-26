@@ -92,10 +92,10 @@ const backgroundMedia = {
     style={`min-height: ${minHeight}`}
   >
     {/* Optimized background media with overlay */}
-    <BackgroundMedia backgroundMedia={backgroundMedia} />
+    <!-- <BackgroundMedia backgroundMedia={backgroundMedia} /> -->
 
     {/* Hero Content */}
-    <div class="relative text-center text-bg px-8 max-w-4xl mx-auto z-10">
+    <div class="relative text-center px-8 max-w-4xl mx-auto z-10">
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
         {title}
       </h1>
@@ -119,14 +119,6 @@ const backgroundMedia = {
               className="shadow-xl hover:shadow-2xl transition-shadow"
             >
               {primaryCTA.text}
-            </Button>
-          )
-        }
-
-        {
-          secondaryCTA && (
-            <Button href={secondaryCTA.link} variant="ghost" size="lg">
-              {secondaryCTA.text}
             </Button>
           )
         }

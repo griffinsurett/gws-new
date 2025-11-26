@@ -1,32 +1,30 @@
-import React, { useId } from "react";
+import { useId } from "react";
 import { CircleCheckbox } from "./checkboxes/CircleCheckbox";
-import { UseMode } from "../../hooks/theme/UseMode.js";
+import { useTheme } from "@/hooks/useTheme";
 
-export default function ThemeToggle() {
-  const [isLight, setIsLight] = UseMode();
+export default function DarkLightToggle() {
+  const { isLight, setTheme } = useTheme();
   const maskId = useId();
 
-  // Match sun's center disc
-  const R = 18;       // outer radius (same as sun disc)
-  const ratio = 0.69; // inner/outer radius ratio = slim crescent
-  const rIn = R * ratio; // inner cutout radius
-  const dx = -R * 0.4;   // flip horizontally so the crescent faces the other way
-  const dy = R * -0.2;   // y-offset of cutout
+  const R = 18;
+  const ratio = 0.69;
+  const rIn = R * ratio;
+  const dx = -R * 0.4;
+  const dy = R * -0.2;
 
   return (
     <div className="flex items-center gap-2">
       <CircleCheckbox
         checked={isLight}
-        onChange={(e) => setIsLight(e.target.checked)}
+        onChange={(event) => setTheme(event.target.checked ? "light" : "dark")}
         aria-label="Toggle light mode"
         className="faded-bg"
       >
-        {/* Dark icon (moon) */}
         <div className="light:hidden dark:block">
           <svg
-            viewBox="32 32 36 36" // tightly wraps a circle at (50,50) r=18
+            viewBox="32 32 36 36"
             xmlns="http://www.w3.org/2000/svg"
-            className="block w-4 h-4 sm:w-[14px] sm:h-[14px]" // 16px on mobile, 14px at sm+
+            className="block w-4 h-4 sm:w-[14px] sm:h-[14px]"
           >
             <defs>
               <mask id={maskId}>
@@ -45,13 +43,12 @@ export default function ThemeToggle() {
           </svg>
         </div>
 
-        {/* Light icon (sun) */}
         <div className="light:block dark:hidden">
           <svg
-            viewBox="13 13 74 74" // crops to the ray tips (includes stroke caps)
+            viewBox="13 13 74 74"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="block w-5 h-5 sm:w-[18px] sm:h-[18px]" // 20px on mobile, 18px at sm+
+            className="block w-5 h-5 sm:w-[18px] sm:h-[18px]"
           >
             <circle cx="50" cy="50" r="18" fill="var(--color-primary)" />
             <g
