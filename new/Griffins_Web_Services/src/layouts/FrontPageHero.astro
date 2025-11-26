@@ -64,26 +64,26 @@ const {
 } = Astro.props;
 
 // Prepare optimized background media
-const backgroundMedia = {
-  image: {
-    src: image || DefaultImg,
-    imageClass: "bg-cover bg-center",
-    aboveTheFold: true, // Front page hero is always LCP
-  },
-  video: video
-    ? {
-        src: video.src,
-        autoPlay: video.autoPlay ?? true,
-        muted: video.muted ?? true,
-        loop: video.loop ?? true,
-        playsInline: video.playsInline ?? true,
-        controls: video.controls ?? false,
-        preload: video.preload ?? "metadata",
-        videoClass: "object-cover",
-      }
-    : undefined,
-  overlayClass: "bg-gradient-to-b from-black/30 to-black/60",
-};
+// const backgroundMedia = {
+//   image: {
+//     src: image || DefaultImg,
+//     imageClass: "bg-cover bg-center",
+//     aboveTheFold: true, 
+//   },
+//   video: video
+//     ? {
+//         src: video.src,
+//         autoPlay: video.autoPlay ?? true,
+//         muted: video.muted ?? true,
+//         loop: video.loop ?? true,
+//         playsInline: video.playsInline ?? true,
+//         controls: video.controls ?? false,
+//         preload: video.preload ?? "metadata",
+//         videoClass: "object-cover",
+//       }
+//     : undefined,
+//   overlayClass: "bg-gradient-to-b from-black/30 to-black/60",
+// };
 ---
 
 <section id={id} class={`relative ${className}`}>
