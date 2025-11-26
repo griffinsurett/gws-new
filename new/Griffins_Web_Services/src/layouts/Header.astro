@@ -1,0 +1,41 @@
+---
+// src/layouts/Header.astro
+/**
+ * Site Header with Navigation
+ */
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query, sortBy } from "@/utils/query";
+import { siteData } from "@/content/siteData";
+---
+
+<header class="sticky top-0 z-[40] bg-bg shadow-sm">
+  <div class="">
+    <div class="flex items-center justify-between h-16 w-full">
+      <!-- Logo -->
+      <a
+        href="/"
+        class="text-2xl font-bold text-heading hover:text-primary transition-colors"
+      >
+        {siteData.title}
+      </a>
+
+      <!-- Navigation Menu using query -->
+      <ContentRenderer
+        query={query("menu-items")
+          .where((entry) => {
+            const menus = entry.data.menu;
+            if (Array.isArray(menus)) {
+              return menus.some((m) => m.id === "main-menu");
+            }
+            return menus?.id === "main-menu";
+          })
+          }
+        variant="MenuVariant"
+        mode="hamburger-only"
+        className="header-navigation"
+        hamburgerTransform={true}
+        closeButton={false}
+      />
+    </div>
+  </div>
+</header>
