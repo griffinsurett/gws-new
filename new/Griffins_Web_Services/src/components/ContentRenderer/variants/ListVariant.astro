@@ -40,7 +40,7 @@ const viewAllText = `See Complete ${collectionTitle || "List"}`;
     items.length > 0 && (
       <nav class="flex flex-wrap gap-2 list-none">
         {items.map((item) => (
-            <Button href={item.url} className="text-text" variant="link">
+            <Button client:load href={item.url} className="text-text" variant="link">
               {item.title}
             </Button>
         ))}
@@ -51,7 +51,7 @@ const viewAllText = `See Complete ${collectionTitle || "List"}`;
   {
     shouldShowCollectionCTA(collectionUrl, items.length) && (
       <div class="mt-12">
-        <Button href={collectionUrl} variant="tertiary">
+        <Button client:load href={collectionUrl} variant="tertiary">
           {viewAllText}
           <svg
             class="ml-2 w-5 h-5"

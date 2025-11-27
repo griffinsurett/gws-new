@@ -1,0 +1,108 @@
+---
+import { Image } from "astro:assets";
+import Counter from "@/components/Counter";
+import Heading from "@/components/Heading";
+import Placeholder from "@/assets/placeholder.jpg";
+import type { BaseVariantProps } from "../ContentRenderer.types";
+
+interface Props extends BaseVariantProps {
+  counterStart?: number;
+  counterEnd?: number;
+  counterDuration?: number;
+  link?: string;
+}
+
+const {
+  items = [],
+  className = "",
+  counterStart = 1,
+  counterEnd = 100,
+  counterDuration = 200,
+  link = "/#testimonials",
+  id,
+} = Astro.props as Props;
+
+const faces = items.slice(0, 3);
+if (faces.length === 0) {
+  return;
+}
+
+const resolveImage = (face: any) => {
+  const featured = face.featuredImage;
+  if (!featured) {
+    return { src: Placeholder, alt: face.author };
+  }
+
+  if ("src" in featured && "width" in featured && "height" in featured) {
+    return { src: featured, alt: face.author };
+  }
+
+  if (typeof featured === "object" && "src" in featured) {
+    const imageSrc =
+      typeof featured.src === "object" && "width" in featured.src
+        ? featured.src
+        : Placeholder;
+    return { src: imageSrc, alt: featured.alt || face.author };
+  }
+
+  return { src: Placeholder, alt: face.author };
+};
+---
+
+<a
+  id={id}
+  href={link}
+  class={`testimonials flex items-center gap-4 lg:gap-6 px-2 md:px-0 ${className}`.trim()}
+>
+  <div class="flex justify-center items-center">
+    {faces.map((face) => (
+      <div class="circle -mr-2 lg:-mr-4 first:ml-0 w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full overflow-hidden shrink-0 flex items-center justify-center">
+        {(() => {
+          const resolved = resolveImage(face);
+          return (
+            <Image
+              src={resolved.src}
+              alt={resolved.alt}
+              widths={[56]}
+              formats={["avif", "webp", "jpeg"]}
+              placeholder="blur"
+              class="object-cover w-full h-full"
+              fetchpriority="high"
+              loading="eager"
+            />
+          );
+        })()}
+      </div>
+    ))}
+  </div>
+
+  <div class="flex flex-col items-start">
+    <Heading tagName="span" className="text-heading m-0 p-0 text-3xl lg:text-4xl">
+      <Counter
+        client:idle
+        start={counterStart}
+        end={counterEnd}
+        duration={counterDuration}
+        className="inline-block"
+      />+
+    </Heading>
+    <Heading tagName="p" className="small-text m-0">
+      Happy Clients
+    </Heading>
+  </div>
+</a>
+
+<script client:idle>
+  const circles = document.querySelectorAll(".testimonials .circle");
+  if (circles.length) {
+    let idx = 0;
+    const pulse = () => {
+      const prev = (idx - 1 + circles.length) % circles.length;
+      circles[prev]?.classList.remove("heartbeat");
+      circles[idx]?.classList.add("heartbeat");
+      idx = (idx + 1) % circles.length;
+    };
+    pulse();
+    setInterval(pulse, 1600);
+  }
+</script>

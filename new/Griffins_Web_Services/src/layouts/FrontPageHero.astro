@@ -1,139 +1,124 @@
 ---
 // src/layouts/FrontPageHero.astro
-/**
- * Front Page Hero Layout
- *
- * Full-width hero section with optimized background media for homepage.
- *
- * Features:
- * - Responsive background images with LCP optimization
- * - Optional video background with poster image
- * - Large centered text with gradient overlay
- * - Primary and secondary CTAs
- * - Configurable minimum height (default 95vh)
- * - Supports both static images and video backgrounds
- *
- * This is a layout component for landing pages.
- * Use directly in your homepage or marketing pages.
- */
-
 import Button from "@/components/Button/Button";
-import BackgroundMedia from "@/components/BackgroundMedia.astro";
-import { ctaData } from "@/content/siteData";
-import DefaultImg from "@/assets/background.svg";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import Heading from "@/components/Heading";
+import TestimonialCircleSection from "@/components/sections/TestimonialCircleSection.astro";
+import { query } from "@/utils/query";
+
+interface CTA {
+  text: string;
+  link: string;
+}
 
 export interface Props {
   title?: string;
   description?: string;
-  image?: any; // Astro image asset or public path
-  video?: {
-    src: string;
-    autoPlay?: boolean;
-    muted?: boolean;
-    loop?: boolean;
-    playsInline?: boolean;
-    controls?: boolean;
-    preload?: string;
-  };
-  primaryCTA?: {
-    text: string;
-    link: string;
-  };
-  secondaryCTA?: {
-    text: string;
-    link: string;
-  };
+  primaryCTA?: CTA;
   className?: string;
   id?: string;
-  minHeight?: string;
 }
 
-const {
-  title = "Welcome",
-  description,
-  image,
-  video,
-  primaryCTA = {
-    text: ctaData.text,
-    link: ctaData.link,
+const heroTaglines = [
+  {
+    before: "Building ",
+    emphasized: "Future-Ready",
+    after: " Websites and Digital Solutions.",
   },
-  secondaryCTA,
+  {
+    before: "Get a Website That ",
+    emphasized: "Actually Sells",
+    after: " for Your Business",
+  },
+  {
+    before: "Build Your ",
+    emphasized: "Digital Empire",
+    after: " with Griffin's Web Services",
+  },
+  {
+    before: "Leave Your Competition ",
+    emphasized: "In the Dust",
+    after: " with a Blazing Fast Website",
+  },
+  {
+    before: "Your Business Deserves a ",
+    emphasized: "Professional Website",
+    after: " That Delivers.",
+  },
+  {
+    before: "Boost Your Business with a ",
+    emphasized: "Lightning-Fast",
+    after: " Website",
+  },
+];
+
+const defaultDescription =
+  "We craft blazing-fast, mobile-first websites designed to convert and built to last. More than just design, we manage and protect your site long-term. Say no to sluggish, bloated sites that drain revenue and leave you exposed to bad actors.";
+
+const {
+  title,
+  description,
+  primaryCTA = {
+    text: "Book An Intro Call",
+    link: "#contact",
+  },
   className = "",
   id = "hero",
-  minHeight = "95vh",
 } = Astro.props;
 
-// Prepare optimized background media
-// const backgroundMedia = {
-//   image: {
-//     src: image || DefaultImg,
-//     imageClass: "bg-cover bg-center",
-//     aboveTheFold: true, 
-//   },
-//   video: video
-//     ? {
-//         src: video.src,
-//         autoPlay: video.autoPlay ?? true,
-//         muted: video.muted ?? true,
-//         loop: video.loop ?? true,
-//         playsInline: video.playsInline ?? true,
-//         controls: video.controls ?? false,
-//         preload: video.preload ?? "metadata",
-//         videoClass: "object-cover",
-//       }
-//     : undefined,
-//   overlayClass: "bg-gradient-to-b from-black/30 to-black/60",
-// };
+const tagline = title
+  ? { before: "", emphasized: title, after: "" }
+  : heroTaglines[Math.floor(Math.random() * heroTaglines.length)];
+
+const heroDescription = description ?? defaultDescription;
 ---
 
-<section id={id} class={`relative ${className}`}>
-  <div
-    class="relative flex items-center justify-center overflow-hidden"
-    style={`min-height: ${minHeight}`}
-  >
-    {/* Optimized background media with overlay */}
-    <!-- <BackgroundMedia backgroundMedia={backgroundMedia} /> -->
+<section
+  id={id}
+  class={`min-h-screen bg-bg flex items-center justify-center relative overflow-hidden ${className}`}
+>
+  <div class="absolute inset-0 hero-gradient-bg"></div>
 
-    {/* Hero Content */}
-    <div class="relative text-center max-w-4xl mx-auto z-10">
-      <h1 class="h1 mb-2">
-        {title}
-      </h1>
+  <div class="relative z-10 min-h-screen inner-section flex">
+    <div
+      class="min-h-screen xl:h-auto inner-section mx-auto flex flex-col justify-center items-center"
+    >
+      <div
+        class="flex flex-col justify-left items-start lg:justify-center lg:items-center lg:text-center"
+      >
+        <Heading
+          tagName="h1"
+          className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-3 leading-tight"
+          before={tagline.before}
+          text={tagline.emphasized}
+          after={tagline.after}
+          textClass="emphasized-text"
+        />
 
-      {
-        description && (
-          <p class="text-xl md:text-2xl mb-10 opacity-95 leading-relaxed max-w-3xl mx-auto">
-            {description}
-          </p>
-        )
-      }
+        <p class="text-text mb-4 lg:mb-6 text-lg max-w-3xl leading-relaxed">
+          {heroDescription}
+        </p>
 
-      {/* CTA Buttons */}
-      <div class="flex gap-4 justify-center flex-wrap">
-        {
-          primaryCTA && (
-            <Button
-              href={primaryCTA.link}
-              variant="primary"
-              size="lg"
-              className="shadow-xl hover:shadow-2xl transition-shadow"
-            >
-              {primaryCTA.text}
-            </Button>
-          )
-        }
+        <div class="flex flex-col lg:flex-row items-center gap-6">
+          <Button
+            client:idle
+            href={primaryCTA.link}
+            variant="primary"
+            size="lg"
+          >
+            {primaryCTA.text}
+          </Button>
+
+          <ContentRenderer
+            query={query("testimonials")
+              .where((entry) => entry.data.featured === true)
+              .limit(3)}
+            variant="TestimonialCirclesVariant"
+            className="px-2 md:px-0"
+            counterEnd={100}
+          />
+        </div>
       </div>
     </div>
   </div>
-
-  {/* Optional slot for additional content below hero */}
-  <slot />
 </section>
-
-<style>
-  /* Ensure text is readable on all backgrounds */
-  h1,
-  p {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  }
-</style>

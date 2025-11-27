@@ -99,9 +99,11 @@ export const collections = {
   "testimonials": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({
+        author: z.string(),
         role: z.string(),
         company: z.string().optional(),
         rating: z.number().min(1).max(5).default(5),
+        featured: z.boolean().default(false),
       }),
   }),
 

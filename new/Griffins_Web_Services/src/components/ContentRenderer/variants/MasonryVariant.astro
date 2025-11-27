@@ -62,6 +62,7 @@ const safeItems = Array.isArray(items) ? items : [];
     shouldShowCollectionCTA(collectionUrl, safeItems.length) && (
       <div class="mt-12 text-center">
         <Button
+          client:load
           href={collectionUrl}
           variant="tertiary"
           >

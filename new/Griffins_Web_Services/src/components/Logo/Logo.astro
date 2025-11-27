@@ -1,0 +1,132 @@
+---
+import LottieLogo from "./LottieLogo";
+import TextLogo from "./TextLogo";
+import { Image } from "astro:assets";
+import POSTER_SRC from "@/assets/GWS-animated.png";
+
+export interface Props {
+  loading?: "lazy" | "eager";
+  trigger?: "auto" | "scroll" | "visible" | "load";
+  textFadeMs?: number;
+  animateOutText?: boolean;
+  class?: string;
+  useLottie?: boolean;
+}
+
+const {
+  loading = "eager",
+  trigger = "auto",
+  textFadeMs = 1200,
+  animateOutText = false,
+  class: className = "",
+  useLottie = true,
+} = Astro.props;
+
+const shouldUseLottie =
+  useLottie &&
+  (trigger === "scroll" ||
+    trigger === "visible" ||
+    trigger === "load");
+
+const LOGO_WIDTHS = [40, 45, 80, 90];
+const LOGO_SIZES = "(min-width: 1024px) 45px, 40px";
+const logoClasses = "block w-[40px] h-[40px] lg:w-[45px] lg:h-[45px] object-contain";
+---
+
+<a href="/" class={`flex justify-center items-center gap-1.5 ${className}`}>
+  {shouldUseLottie ? (
+    <>
+      {trigger === "scroll" ? (
+        <LottieLogo
+          alt="Griffin's Web Services Animated Logo"
+          loading={loading}
+          trigger={trigger}
+          className="logo-class"
+          mediaClasses={logoClasses}
+          client:idle
+        >
+          <Image
+            src={POSTER_SRC}
+            alt="Griffin's Web Services Logo"
+            loading={loading}
+            decoding="async"
+            format="webp"
+            widths={LOGO_WIDTHS}
+            sizes={LOGO_SIZES}
+            quality={90}
+            class={logoClasses}
+            fetchpriority={loading === "eager" ? "high" : undefined}
+          />
+        </LottieLogo>
+      ) : trigger === "visible" ? (
+        <LottieLogo
+          alt="Griffin's Web Services Animated Logo"
+          loading={loading}
+          trigger={trigger}
+          className="logo-class"
+          mediaClasses={logoClasses}
+          client:visible
+        >
+          <Image
+            src={POSTER_SRC}
+            alt="Griffin's Web Services Logo"
+            loading={loading}
+            decoding="async"
+            format="webp"
+            widths={LOGO_WIDTHS}
+            sizes={LOGO_SIZES}
+            quality={90}
+            class={logoClasses}
+            fetchpriority={loading === "eager" ? "high" : undefined}
+          />
+        </LottieLogo>
+      ) : (
+        <LottieLogo
+          alt="Griffin's Web Services Animated Logo"
+          loading={loading}
+          trigger={trigger}
+          className="logo-class"
+          mediaClasses={logoClasses}
+          client:load
+        >
+          <Image
+            src={POSTER_SRC}
+            alt="Griffin's Web Services Logo"
+            loading={loading}
+            decoding="async"
+            format="webp"
+            widths={LOGO_WIDTHS}
+            sizes={LOGO_SIZES}
+            quality={90}
+            class={logoClasses}
+            fetchpriority={loading === "eager" ? "high" : undefined}
+          />
+        </LottieLogo>
+      )}
+    </>
+  ) : (
+    <Image
+      src={POSTER_SRC}
+      alt="Griffin's Web Services Logo"
+      loading={loading}
+      decoding="async"
+      format="webp"
+      widths={LOGO_WIDTHS}
+      sizes={LOGO_SIZES}
+      quality={90}
+      class={logoClasses}
+      fetchpriority={loading === "eager" ? "high" : undefined}
+    />
+  )}
+
+  <div>
+    <TextLogo
+      title="Griffin's Web Services"
+      className="flex flex-col p-0 m-0"
+      fadeDuration={textFadeMs}
+      animateOutText={animateOutText}
+      client:load={loading === "eager"}
+      client:visible={loading !== "eager"}
+    />
+  </div>
+</a>

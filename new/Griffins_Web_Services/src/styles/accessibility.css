@@ -206,8 +206,9 @@ body {
    UTILITIES
    ============================================================================ */
 
-/* Controlled animations */
-* {
+[data-a11y-animations="true"] *,
+[data-a11y-animations="true"] *::before,
+[data-a11y-animations="true"] *::after {
   animation-duration: var(--a11y-animation-duration);
   transition-duration: calc(var(--a11y-animation-duration) * 0.5);
 }

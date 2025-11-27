@@ -29,6 +29,7 @@ export default function LinkButton({
       leftIcon={renderButtonIcon(leftIcon, size)}
       rightIcon={renderButtonIcon(rightIcon, size)}
       size={size}
+      unstyled
     >
       {children}
     </ButtonBase>

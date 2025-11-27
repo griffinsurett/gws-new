@@ -63,6 +63,7 @@ const columnClasses = {
     shouldShowCollectionCTA(collectionUrl, items.length) && (
       <div class="mt-12 text-center">
         <Button
+          client:load
           href={collectionUrl}
           rightIcon="lu:chevron-right"
           variant="secondary"

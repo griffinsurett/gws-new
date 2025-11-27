@@ -73,6 +73,7 @@ const bridgeId = id || "accordion";
     shouldShowCollectionCTA(collectionUrl, items.length) && (
       <div class="mt-12 text-center">
         <Button
+          client:load
           href={collectionUrl}
           rightIcon="lu:arrow-right"
           variant="primary"

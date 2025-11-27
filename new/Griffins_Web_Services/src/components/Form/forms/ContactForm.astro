@@ -109,6 +109,7 @@ const handleSubmit = async (values: any) => {
     >
       I have read and agree to the{" "}
       <Button
+        client:load
         variant="link"
         href="/privacy-policy"
         target="_blank"
@@ -118,7 +119,7 @@ const handleSubmit = async (values: any) => {
       </Button>
     </Checkbox>
 
-    <Button variant="primary" type="submit" className="w-full mx-auto">
+    <Button client:load variant="primary" type="submit" className="w-full mx-auto">
       Submit Form
     </Button>
   </FormWrapper>

@@ -121,8 +121,10 @@ export function applyPreferences(prefs: A11yPreferences) {
 
   if (prefs.reading.pauseAnimations) {
     root.style.setProperty("--a11y-animation-duration", "0.01ms");
+    root.setAttribute("data-a11y-animations", "true");
   } else {
-    root.style.setProperty("--a11y-animation-duration", "0.3s");
+    root.style.removeProperty("--a11y-animation-duration");
+    root.removeAttribute("data-a11y-animations");
   }
 
   // Attach/detach reading guide
@@ -185,6 +187,7 @@ function removePreferences() {
   root.removeAttribute("data-a11y-images");
   root.removeAttribute("data-a11y-sounds");
   root.removeAttribute("data-a11y-motion");
+  root.removeAttribute("data-a11y-animations");
 
   // Detach handlers
   detachReadingGuide();

@@ -3,6 +3,7 @@
 @import "@/styles/language-switcher.css";
 @import "@/styles/legal.css";
 @import "@/styles/system.css";
+@import "@/styles/animation.css";
 
 /* ============================================================
  * 1. COLOR MODES & TOKENS
@@ -20,10 +21,11 @@
   --color-tertiary-light: var(--color-zinc-200);
   --main-accent: #5e76f6;
 
-  /* ───── PRIMARY – change ONLY this one line for the brand ───── */
-  --color-primary: var(--main-accent);   /* your main brand color */
   /* ───── ACCENT – secondary / interactive ───── */
   --color-accent: var(--color-purple-700);  /* complementary accent color */
+
+  /* ───── PRIMARY – change ONLY this one line for the brand ───── */
+  --color-primary: var(--color-accent);   /* keep in sync with accent picker */
     --color-primary-secondary: color-mix(
     in srgb,
     var(--color-primary) 85%,
@@ -443,7 +445,7 @@ body {
 
   /* Typography helpers */
   .h1 {
-    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight text-heading;
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-heading;
   }
 
   .h2 {
@@ -487,11 +489,11 @@ body {
 
   /* Buttons */
   .button-transition {
-    @apply transition-all duration-450 hover:transform hover:shadow-2xl;
+    @apply transition-all main-duration hover:transform hover:shadow-2xl;
   }
 
   .button-hover-transition {
-    @apply hover:-translate-y-1;
+    @apply transition-all duration-700 ease-out hover:-translate-y-1 hover:shadow-2xl;
   }
 
   .primary-button-transition {
