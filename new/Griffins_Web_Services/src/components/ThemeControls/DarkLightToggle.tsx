@@ -1,11 +1,13 @@
 import { useId } from "react";
 import { CircleCheckbox } from "./checkboxes/CircleCheckbox";
-import { useTheme } from "@/hooks/useTheme";
+import { UseMode } from "@/hooks/theme/UseMode";
+import "./DarkLightToggle.css";
 
 export default function DarkLightToggle() {
-  const { isLight, setTheme } = useTheme();
+  const [isLight, setIsLight] = UseMode();
   const maskId = useId();
 
+  // Match sun's center disc to moon mask geometry from the previous project
   const R = 18;
   const ratio = 0.69;
   const rIn = R * ratio;
@@ -16,11 +18,12 @@ export default function DarkLightToggle() {
     <div className="flex items-center gap-2">
       <CircleCheckbox
         checked={isLight}
-        onChange={(event) => setTheme(event.target.checked ? "light" : "dark")}
+        onChange={(event) => setIsLight(event.target.checked)}
         aria-label="Toggle light mode"
         className="faded-bg"
       >
-        <div className="light:hidden dark:block">
+        {/* Dark icon (moon) */}
+        <div className="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">
           <svg
             viewBox="32 32 36 36"
             xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +46,8 @@ export default function DarkLightToggle() {
           </svg>
         </div>
 
-        <div className="light:block dark:hidden">
+        {/* Light icon (sun) */}
+        <div className="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">
           <svg
             viewBox="13 13 74 74"
             fill="none"

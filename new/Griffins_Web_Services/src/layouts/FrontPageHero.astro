@@ -3,8 +3,8 @@
 import Button from "@/components/Button/Button";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import Heading from "@/components/Heading";
-import TestimonialCircleSection from "@/components/sections/TestimonialCircleSection.astro";
 import { query } from "@/utils/query";
+import { siteData } from "@/content/siteData";
 
 interface CTA {
   text: string;
@@ -19,41 +19,8 @@ export interface Props {
   id?: string;
 }
 
-const heroTaglines = [
-  {
-    before: "Building ",
-    emphasized: "Future-Ready",
-    after: " Websites and Digital Solutions.",
-  },
-  {
-    before: "Get a Website That ",
-    emphasized: "Actually Sells",
-    after: " for Your Business",
-  },
-  {
-    before: "Build Your ",
-    emphasized: "Digital Empire",
-    after: " with Griffin's Web Services",
-  },
-  {
-    before: "Leave Your Competition ",
-    emphasized: "In the Dust",
-    after: " with a Blazing Fast Website",
-  },
-  {
-    before: "Your Business Deserves a ",
-    emphasized: "Professional Website",
-    after: " That Delivers.",
-  },
-  {
-    before: "Boost Your Business with a ",
-    emphasized: "Lightning-Fast",
-    after: " Website",
-  },
-];
-
 const defaultDescription =
-  "We craft blazing-fast, mobile-first websites designed to convert and built to last. More than just design, we manage and protect your site long-term. Say no to sluggish, bloated sites that drain revenue and leave you exposed to bad actors.";
+  "Hand-crafted websites, automated systems, and ongoing support so you can sell more, grow faster, and stay secure without juggling multiple vendors.";
 
 const {
   title,
@@ -66,11 +33,12 @@ const {
   id = "hero",
 } = Astro.props;
 
-const tagline = title
-  ? { before: "", emphasized: title, after: "" }
-  : heroTaglines[Math.floor(Math.random() * heroTaglines.length)];
+const tagline = {
+      before: "Build a website you’re proud of, ",
+      emphasized: "fast, secure, and ready to grow",
+      after: " with your business.",
+    };
 
-const heroDescription = description ?? defaultDescription;
 ---
 
 <section
@@ -88,7 +56,7 @@ const heroDescription = description ?? defaultDescription;
       >
         <Heading
           tagName="h1"
-          className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-3 leading-tight"
+          className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-3 leading-tight"
           before={tagline.before}
           text={tagline.emphasized}
           after={tagline.after}
@@ -96,7 +64,7 @@ const heroDescription = description ?? defaultDescription;
         />
 
         <p class="text-text mb-4 lg:mb-6 text-lg max-w-3xl leading-relaxed">
-          {heroDescription}
+          {siteData.description}
         </p>
 
         <div class="flex flex-col lg:flex-row items-center gap-6">
