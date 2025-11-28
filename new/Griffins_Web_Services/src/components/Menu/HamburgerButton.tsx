@@ -8,6 +8,7 @@ interface HamburgerButtonProps
     | Dispatch<SetStateAction<boolean>>;
   className?: string;
   hamburgerTransform?: boolean;
+  ariaLabel?: string;
 }
 
 export default function HamburgerButton({
