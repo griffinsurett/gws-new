@@ -1,6 +1,7 @@
 // src/components/LoopTemplates/Accordion.tsx
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import AccordionItem from "@/components/LoopComponents/AccordionItem";
+import type { IconType } from "@/content/schema";
 
 interface AccordionItemData {
   slug?: string;
@@ -19,6 +20,11 @@ interface AccordionProps {
     expanded: boolean;
   }) => ReactNode;
   headerClassName?: string;
+  showIndicator?: boolean;
+  indicatorIcons?: {
+    expanded?: IconType;
+    collapsed?: IconType;
+  };
 }
 
 export default function Accordion({
@@ -27,6 +33,8 @@ export default function Accordion({
   className = "",
   headerSlot,
   headerClassName = "",
+  showIndicator = true,
+  indicatorIcons,
 }: AccordionProps) {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const panelRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -88,6 +96,8 @@ export default function Accordion({
                 : undefined
             }
             headerClassName={headerClassName}
+            showIndicator={showIndicator}
+            indicatorIcons={indicatorIcons}
           >
             {/* Simple container - content gets cloned here when panel opens */}
             <div 

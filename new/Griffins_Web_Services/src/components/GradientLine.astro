@@ -1,0 +1,26 @@
+---
+/**
+ * GradientLine Component
+ *
+ * A decorative vertical gradient line that fades from transparent → primary → transparent.
+ * Matches the same style as the horizontal section-color-border used in the footer.
+ *
+ * Usage in MDX:
+ * <GradientLine>
+ *   "Your quote or highlighted text here"
+ * </GradientLine>
+ */
+
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<div class={`relative pl-6 ${className}`.trim()}>
+  <div
+    class="absolute left-0 top-0 bottom-0 w-px rounded-full primary-gradient"
+  />
+  <slot />
+</div>

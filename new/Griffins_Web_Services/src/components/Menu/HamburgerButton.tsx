@@ -27,21 +27,21 @@ export default function HamburgerButton({
       aria-label={ariaLabel}
       aria-expanded={isOpen}
       onClick={() => onChange(!isOpen)}
-      className={`group relative h-4.5 lg:h-5 w-6 cursor-pointer flex flex-col justify-between items-start text-current ${className}`.trim()}
+      className={`group relative h-6 w-7 cursor-pointer flex flex-col justify-between items-start text-text hover:text-heading ${className}`.trim()}
       {...props}
     >
       <span
-        className={`block h-px w-full bg-current transition-all duration-300 ${
+        className={`block h-[0.5px] w-full bg-current transition-all duration-300 ${
           shouldTransform ? "absolute top-1/2 -translate-y-1/2 rotate-45" : ""
         }`}
       />
       <span
-        className={`block h-px bg-current transition-all duration-300 ${
-          shouldTransform ? "opacity-0 w-full" : "opacity-100 w-4 group-hover:w-full"
+        className={`block h-[0.5px] bg-current transition-all duration-300 ${
+          shouldTransform ? "opacity-0 w-full" : "opacity-100 w-5 group-hover:w-full"
         }`}
       />
       <span
-        className={`block h-px w-full bg-current transition-all duration-300 ${
+        className={`block h-[0.5px] w-full bg-current transition-all duration-300 ${
           shouldTransform ? "absolute top-1/2 -translate-y-1/2 -rotate-45" : ""
         }`}
       />

@@ -1,0 +1,154 @@
+---
+// src/components/ContentRenderer/variants/PainPointsVariant.astro
+/**
+ * Pain Points Variant - Emotional problem agitation section
+ * Features: Red/warning styled bullets that highlight customer frustrations
+ * Perfect for sales pages to make visitors feel their pain before presenting solution
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import type { HeadingContent } from "@/content/schema";
+import SectionHeader from "@/components/SectionHeader.astro";
+import Button from "@/components/Button/Button";
+import { toArray } from "@/utils/array";
+
+interface Props extends BaseVariantProps {
+  columns?: 1 | 2;
+  ctaHref?: string;
+  ctaText?: string;
+  heading?: string | HeadingContent | null;
+  styleVariant?: "warning" | "muted" | "accent";
+  layout?: "list" | "grid" | "alternating";
+}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "",
+  columns = 1,
+  id,
+  showButtonSection = true,
+  ctaHref,
+  ctaText,
+  heading: headingValue,
+  styleVariant = "warning",
+  layout = "list",
+} = Astro.props as Props;
+
+const safeItems = toArray(items);
+
+// SectionHeader handles heading normalization automatically
+const showHeader = Boolean(title || headingValue || description);
+
+// Variant styling
+const variantStyles = {
+  warning: {
+    icon: "✕",
+    iconColor: "text-red-400",
+    iconBg: "bg-red-500/10",
+    borderColor: "border-red-500/20",
+  },
+  muted: {
+    icon: "•",
+    iconColor: "text-muted",
+    iconBg: "bg-muted/10",
+    borderColor: "border-muted/20",
+  },
+  accent: {
+    icon: "◆",
+    iconColor: "text-accent",
+    iconBg: "bg-accent/10",
+    borderColor: "border-accent/20",
+  },
+};
+
+const style = variantStyles[styleVariant];
+
+// Layout classes
+const layoutClasses = {
+  list: "flex flex-col gap-4",
+  grid: columns === 2 ? "grid grid-cols-1 md:grid-cols-2 gap-4" : "flex flex-col gap-4",
+  alternating: "flex flex-col gap-6",
+};
+---
+
+<section id={id} class={`outer-section bg-bg2 relative ${className}`.trim()}>
+  <div class="section-color-border"></div>
+
+  <div class="inner-section">
+    {showHeader && (
+      <SectionHeader
+        title={title}
+        heading={headingValue}
+        description={description}
+      />
+    )}
+
+    {safeItems.length > 0 && (
+      <div class={`${layoutClasses[layout]} mt-10`}>
+        {safeItems.map((item, index) => {
+          const record =
+            item && typeof item === "object" && "data" in item
+              ? (item as any).data ?? item
+              : item ?? {};
+
+          const itemTitle = record.title ?? "";
+          const itemDescription = record.description ?? "";
+
+          return layout === "alternating" ? (
+            <div
+              class={`flex items-start gap-4 p-6 rounded-2xl border ${style.borderColor} bg-bg/50 ${
+                index % 2 === 1 ? "md:flex-row-reverse md:text-right" : ""
+              }`}
+            >
+              <span
+                class={`shrink-0 flex h-10 w-10 items-center justify-center rounded-full ${style.iconBg} ${style.iconColor} text-lg font-bold`}
+                aria-hidden="true"
+              >
+                {style.icon}
+              </span>
+              <div class="space-y-1">
+                {itemTitle && (
+                  <p class="font-semibold text-heading text-lg">{itemTitle}</p>
+                )}
+                {itemDescription && (
+                  <p class="text-muted leading-relaxed">{itemDescription}</p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div class="flex items-start gap-4">
+              <span
+                class={`shrink-0 flex h-8 w-8 items-center justify-center rounded-full ${style.iconBg} ${style.iconColor} text-sm font-bold mt-0.5`}
+                aria-hidden="true"
+              >
+                {style.icon}
+              </span>
+              <div class="space-y-1">
+                {itemTitle && (
+                  <p class="font-medium text-heading">{itemTitle}</p>
+                )}
+                {itemDescription && (
+                  <p class="text-muted text-sm leading-relaxed">{itemDescription}</p>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    )}
+
+    {showButtonSection && ctaHref && ctaText && (
+      <div class="buttons-section-center">
+        <Button
+          href={ctaHref}
+          rightIcon="lu:arrow-right"
+          variant="primary"
+        >
+          {ctaText}
+        </Button>
+      </div>
+    )}
+  </div>
+</section>

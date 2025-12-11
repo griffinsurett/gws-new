@@ -1,0 +1,99 @@
+---
+// src/components/Logo/TextLogoStatic.astro
+// Lightweight Astro version of TextLogo using data-animate system
+// No React required - uses vanilla JS scroll observer
+
+interface Props {
+  title?: string;
+  className?: string;
+  firstClass?: string;
+  restClass?: string;
+  fadeDuration?: number;
+  animateOutText?: boolean;
+}
+
+const {
+  title = "",
+  className = "",
+  firstClass = "text-3xl -ml-[0.1rem] leading-wide font-bold",
+  restClass = "font-light emphasized-text uppercase text-xs lg:text-sm p-0 m-0 tracking-[0.2em]",
+  fadeDuration = 1200,
+  animateOutText = false,
+} = Astro.props;
+
+const words = title.split(" ");
+const firstWord = words[0] || "";
+const restOfTitle = words.slice(1).join(" ");
+---
+
+<div
+  class={`${className} transform transition-opacity transition-transform ease-in-out`}
+  style={`--fade-duration: ${fadeDuration}ms;`}
+  data-scroll-fade={animateOutText ? "true" : undefined}
+>
+  <span class={firstClass} style="line-height: normal;">
+    {firstWord}
+  </span>
+  {restOfTitle && (
+    <span class={restClass} style="line-height: normal;">
+      {" "}{restOfTitle}
+    </span>
+  )}
+</div>
+
+<style>
+  /* Scroll-aware fade animation */
+  [data-scroll-fade] {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--fade-duration, 1200ms) ease-in-out,
+      transform var(--fade-duration, 1200ms) ease-in-out;
+  }
+
+  [data-scroll-fade][data-scrolled="true"] {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+</style>
+
+<script>
+  // Lightweight scroll observer for fade-out behavior
+  // Only runs if data-scroll-fade elements exist
+  (function initScrollFade() {
+    if (typeof window === "undefined") return;
+
+    const elements = document.querySelectorAll("[data-scroll-fade]");
+    if (!elements.length) return;
+
+    let ticking = false;
+    let lastScrollY = 0;
+    const threshold = 50; // Pixels to scroll before fading
+
+    const updateElements = () => {
+      const scrolled = window.scrollY > threshold;
+      elements.forEach((el) => {
+        if (scrolled) {
+          el.setAttribute("data-scrolled", "true");
+        } else {
+          el.removeAttribute("data-scrolled");
+        }
+      });
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      lastScrollY = window.scrollY;
+      if (!ticking) {
+        requestAnimationFrame(updateElements);
+        ticking = true;
+      }
+    };
+
+    // Initial check
+    updateElements();
+
+    // Listen for scroll
+    window.addEventListener("scroll", onScroll, { passive: true });
+  })();
+</script>

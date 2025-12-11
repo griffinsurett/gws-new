@@ -1,32 +1,28 @@
 // src/components/accessibility/AccessibilityButton.tsx
-import { useState, useTransition, lazy, Suspense, memo } from "react";
+import { memo } from "react";
+import { useLazyLoad } from "@/hooks/useLazyLoad.tsx";
 
-const AccessibilityModal = lazy(() => import("./AccessibilityModal"));
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const BUTTON_ID = "accessibility-button";
 
 function AccessibilityButton() {
-  const [showModal, setShowModal] = useState(false);
-  const [isPending, startTransition] = useTransition();
-
-  const handleOpenModal = () => {
-    startTransition(() => {
-      setShowModal(true);
-    });
-  };
-
-  const handleCloseModal = () => {
-    startTransition(() => {
-      setShowModal(false);
-    });
-  };
+  const { Component: Modal, isOpen, close } = useLazyLoad<ModalProps>(
+    () => import("./AccessibilityModal"),
+    { triggerId: BUTTON_ID, toggle: true }
+  );
 
   return (
     <>
       <button
-        onClick={handleOpenModal}
+        id={BUTTON_ID}
         className="text-text hover:text-surface transition-colors inline-flex items-center gap-2"
         type="button"
         aria-label="Manage reading preferences"
-        disabled={isPending}
+        aria-expanded="false"
       >
         Reading Preferences
         <svg
@@ -44,11 +40,7 @@ function AccessibilityButton() {
         </svg>
       </button>
 
-      {showModal && (
-        <Suspense fallback={null}>
-          <AccessibilityModal isOpen={showModal} onClose={handleCloseModal} />
-        </Suspense>
-      )}
+      {Modal && <Modal isOpen={isOpen} onClose={close} />}
     </>
   );
 }

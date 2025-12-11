@@ -11,10 +11,10 @@ interface TextLogoProps {
 }
 
 export default function TextLogo({
-  title = "Griffin's Web Services",
+  title,
   className = "",
-  firstClass = "text-2xl lg:text-3xl -ml-[0.1rem] leading-wide font-bold",
-  restClass = "font-light text-accent uppercase text-xs lg:text-sm p-0 m-0 tracking-wider",
+  firstClass = "text-3xl -ml-[0.1rem] leading-wide font-bold",
+  restClass = "font-light emphasized-text uppercase text-xs lg:text-sm p-0 m-0 tracking-[0.2em]",
   fadeDuration = 1200,
   animateOutText = false,
 }: TextLogoProps) {

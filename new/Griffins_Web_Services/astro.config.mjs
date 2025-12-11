@@ -7,6 +7,7 @@ import react from '@astrojs/react';
 import partytown from '@astrojs/partytown';
 import { buildRedirectConfig } from './src/utils/redirects';
 import { manualChunks, assetFileNames } from './vite.chunks.js';
+import iconGeneratorIntegration from './src/utils/icons/icon-generator.integration.mjs';
 
 const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
 const redirects = await buildRedirectConfig();
@@ -25,19 +26,25 @@ export default defineConfig({
       cssCodeSplit: true,
       cssMinify: 'esbuild',
       rollupOptions: {
-        output: { assetFileNames, manualChunks },
+        output: {
+          assetFileNames,
+          manualChunks,
+          // Merge very small modules (< 5KB) to reduce chunk count without
+          // over-bundling unrelated components together.
+          experimentalMinChunkSize: 5000,
+        },
       },
     },
     css: {
       devSourcemap: false,
     },
     optimizeDeps: {
-      include: ['react', 'react-dom'],
-      exclude: ['@astrojs/react'],
+      include: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
     },
   },
   
   integrations: [
+    iconGeneratorIntegration(),
     mdx(),
     react({
       include: ['**/react/*', '**/components/**/*.jsx', '**/components/**/*.tsx', '**/hooks/**/*.js', '**/hooks/**/*.ts'],
@@ -57,4 +64,8 @@ export default defineConfig({
   
   compressHTML: true,
   redirects,
+
+  experimental: {
+    clientPrerender: false,
+  },
 });

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type MutableRefObject } from "react";
-import { useScrollInteraction } from "./useInteractions";
-import { useIntersectionObserver } from "@/utils/IntersectionObserver";
+import { useScrollInteraction } from "@/hooks/interactions/useScrollInteraction";
+import { createIntersectionObserver } from "@/utils/IntersectionObserver";
 
 interface VisibilityOptions {
   threshold?: number;
@@ -51,7 +51,7 @@ export function useVisibility(
     const element = ref?.current;
     if (!element) return;
 
-    const { isVisible, hasBeenSeen, disconnect } = useIntersectionObserver(element, {
+    const { isVisible, hasBeenSeen, disconnect } = createIntersectionObserver(element, {
       threshold,
       root,
       rootMargin: normalizedMargin,

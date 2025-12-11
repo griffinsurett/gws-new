@@ -1,0 +1,105 @@
+---
+// src/components/SectionHeader.astro
+import BorderTitle from "@/components/BorderTitle";
+import Heading from "@/components/Heading";
+import type { ReactNode } from "react";
+import type { VisibleRootMargin } from "@/components/AnimatedBorder/AnimatedBorder";
+import type { HeadingContent } from "@/content/schema";
+
+interface Props {
+  title?: ReactNode;
+  titleClassName?: string;
+  titlePillClassName?: string;
+  titleVisibleRootMargin?: VisibleRootMargin;
+  heading?: ReactNode | HeadingContent | null;
+  headingBefore?: ReactNode;
+  headingEmphasis?: ReactNode;
+  headingAfter?: ReactNode;
+  headingTag?: string;
+  headingClassName?: string;
+  emphasisClassName?: string;
+  description?: ReactNode;
+  descriptionClassName?: string;
+  className?: string;
+  headerProps?: Record<string, unknown>;
+}
+
+const {
+  title,
+  titleClassName = "",
+  titlePillClassName,
+  titleVisibleRootMargin,
+  heading,
+  headingBefore,
+  headingEmphasis,
+  headingAfter,
+  headingTag = "h2",
+  headingClassName = "h2 mb-6",
+  emphasisClassName = "emphasized-text",
+  description,
+  descriptionClassName = "large-text",
+  className = "text-section",
+  headerProps = {},
+} = Astro.props as Props;
+
+const isHeadingContent = (value: unknown): value is HeadingContent => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const record = value as Record<string, unknown>;
+  const hasKeys = "before" in record || "text" in record || "after" in record;
+  const looksLikeReactElement = "props" in record && "type" in record;
+  return hasKeys && !looksLikeReactElement;
+};
+
+const headingValue = heading;
+const headingContent = isHeadingContent(headingValue) ? headingValue : undefined;
+
+const hasSegmentedHeading =
+  headingBefore !== undefined ||
+  headingEmphasis !== undefined ||
+  headingAfter !== undefined;
+
+const hasContentHeading = headingContent !== undefined;
+const hasPlainHeading =
+  !hasContentHeading && headingValue !== undefined && headingValue !== null;
+---
+
+<div class={className}>
+  {title && (
+    <BorderTitle
+      client:visible
+      className={titleClassName}
+      pillClassName={titlePillClassName}
+      visibleRootMargin={titleVisibleRootMargin}
+    >
+      {title}
+    </BorderTitle>
+  )}
+
+  {hasContentHeading ? (
+    <Heading
+      tagName={headingTag}
+      className={headingClassName}
+      segmented={headingContent}
+      textClass={emphasisClassName}
+      {...headerProps}
+    />
+  ) : hasSegmentedHeading ? (
+    <Heading
+      tagName={headingTag}
+      className={headingClassName}
+      before={headingBefore}
+      text={headingEmphasis}
+      after={headingAfter}
+      textClass={emphasisClassName}
+      {...headerProps}
+    />
+  ) : (
+    hasPlainHeading && (
+      <Heading tagName={headingTag} className={headingClassName} {...headerProps}>
+        {headingValue as ReactNode}
+      </Heading>
+    )
+  )}
+
+  {description && <p class={descriptionClassName}>{description}</p>}
+</div>

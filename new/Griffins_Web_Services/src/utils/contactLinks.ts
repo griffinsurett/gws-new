@@ -28,7 +28,7 @@ export function normalizeContactLinks(items: Array<any>): ContactLink[] {
       const linkPrefix = data.linkPrefix ?? '';
       const tags: string[] = Array.isArray(data.tags) ? data.tags : data.tags ? [data.tags] : [];
 
-      const displayTitle = tags.includes('phone')
+      const displayTitle = isPhoneContactId(id)
         ? formatPhoneNumber(rawTitle)
         : rawTitle;
 
@@ -53,3 +53,12 @@ export async function getContactLinks(): Promise<ContactLink[]> {
   const entries = await getCollection('contact-us');
   return normalizeContactLinks(entries as CollectionEntry<'contact-us'>[]);
 }
+
+const PHONE_CONTACT_IDS = new Set(["phone"]);
+const EMAIL_CONTACT_IDS = new Set(["email", "support-email", "contact-email"]);
+
+export const isPhoneContactId = (id?: string | null): boolean =>
+  id ? PHONE_CONTACT_IDS.has(id.toLowerCase()) : false;
+
+export const isEmailContactId = (id?: string | null): boolean =>
+  id ? EMAIL_CONTACT_IDS.has(id.toLowerCase()) : false;

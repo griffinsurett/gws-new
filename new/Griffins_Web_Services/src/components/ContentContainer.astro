@@ -1,0 +1,40 @@
+---
+export interface Props {
+  icon?: string;
+  title?: string;
+  titleClassName?: string;
+  description?: string;
+  descriptionClassName?: string;
+  containerClassName?: string;
+  className?: string;
+}
+
+const {
+  icon,
+  title,
+  titleClassName = "text-heading font-semibold",
+  description,
+  descriptionClassName = "text-muted text-sm leading-relaxed",
+  containerClassName = "rounded-2xl border border-accent/30 bg-gradient-to-br from-accent/15 via-transparent to-primary/10 p-6",
+  className = "",
+} = Astro.props;
+---
+
+<div class={`${containerClassName} ${className}`}>
+  <div class={icon ? "flex items-start gap-4" : "space-y-4"}>
+    {icon && (
+      <div class="text-4xl" aria-hidden="true">
+        {icon}
+      </div>
+    )}
+    <div class={`${icon ? "flex-1" : ""} space-y-2`}>
+      {title && <p class={titleClassName}>{title}</p>}
+      {description && (
+        <p class={descriptionClassName}>
+          {description}
+        </p>
+      )}
+      <slot />
+    </div>
+  </div>
+</div>

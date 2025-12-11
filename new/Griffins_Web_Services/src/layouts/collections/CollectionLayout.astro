@@ -2,18 +2,18 @@
 // src/layouts/collections/CollectionLayout.astro
 /**
  * Collection Layout - Default Item Page Layout
- * 
+ *
  * The standard layout for individual collection items.
  * Features:
  * - Uses SecondaryHero with bannerImage (or default)
  * - Metadata display (date, author, reading time)
  * - MDX content rendering
  */
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import SecondaryHero from '@/layouts/SecondaryHero.astro';
-import type { CollectionLayoutProps } from './types';
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SecondaryHero from "@/layouts/SecondaryHero.astro";
+import type { CollectionLayoutProps } from "./types";
 
-const { 
+const {
   entry,
   collection,
   collectionMeta,
@@ -25,6 +25,7 @@ const {
 
 const data = entry?.data || {};
 ---
+
 <BaseLayout {...seoProps}>
   <main class="flex-1">
     {/* Hero section - always displayed */}
@@ -38,12 +39,15 @@ const data = entry?.data || {};
     />
 
     {/* MDX content */}
-    {Content && (
-      <article class="container mx-auto px-4 py-8 md:py-12">
-        <div class="prose prose-lg max-w-4xl mx-auto">
-          <Content />
-        </div>
-      </article>
-    )}
+    {
+      Content && (
+        <article class="container mx-auto px-4 py-8 md:py-12">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <Content />
+          </div>
+        </article>
+      )
+    }
+
   </main>
 </BaseLayout>

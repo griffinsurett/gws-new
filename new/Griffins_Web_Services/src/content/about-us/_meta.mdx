@@ -1,6 +1,9 @@
 ---
 title: "About Us"
-description: "We are dedicated to providing the best service possible. Learn more about our mission, vision, and team."
+description: "We're not another agency. We're your dedicated web team."
+heading:
+  before: "We're not another agency."
+  text: "We're your dedicated web team."
 hasPage: true
 itemsHasPage: false
 redirectFrom:
@@ -11,10 +14,10 @@ addToMenu:
     order: 5
 ---
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
-import { query } from "@/utils/query";
+import { query, sortByOrder } from "@/utils/query";
 
 <ContentRenderer
-  query={query("about-us")}
+  query={query("about-us").orderBy(sortByOrder())}
   variant="AccordionVariant"
   columns={1}
 />

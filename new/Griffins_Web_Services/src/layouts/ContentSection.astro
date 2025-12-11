@@ -1,0 +1,171 @@
+---
+// src/layouts/ContentSection.astro
+// Modern, editorial about section optimized for the refreshed build
+import SectionHeader from "@/components/SectionHeader.astro";
+import Button from "@/components/Button/Button";
+import IconListItem from "@/components/LoopComponents/IconListItem";
+import ContentContainer from "@/components/ContentContainer.astro";
+import LogoPoster from "@/assets/GWS-animated.png";
+
+const defaultHeading = {
+  title: "About Griffin's Web Services",
+  before: "Websites that make your business look credible, ",
+  text: "fast, secure, and easy to manage ",
+  after: "from day one.",
+  description:
+    "We build and manage websites that look elite, load instantly, and keep working long after launch so you never have to juggle multiple vendors again.",
+};
+
+const {
+  heading = defaultHeading,
+  primaryCTA = {
+    text: "Start Your Project",
+    href: "#contact",
+    rightIcon: "lu:arrow-right",
+  },
+  secondaryCTA,
+  sidebar = {},
+} = Astro.props;
+
+const headingTitle = heading.title ?? defaultHeading.title;
+const headingBefore = heading.before ?? defaultHeading.before;
+const headingEmphasis =
+  heading.text ?? (heading as Record<string, any>)?.emphasis ?? defaultHeading.text;
+const headingAfter = heading.after ?? defaultHeading.after;
+const headingDescription = heading.description ?? defaultHeading.description;
+
+const sidebarIcon = sidebar.icon ?? "lucide:layers";
+const sidebarTitle = sidebar.title ?? "We handle everything.";
+const sidebarEyebrow = sidebar.eyebrow ?? "Fully managed partnership";
+const sidebarDescription =
+  sidebar.description ??
+  "You do not have to chase multiple contractors. We plan, design, develop, host, and maintain your site so it keeps earning trust and revenue in the background.";
+const sidebarFootIcon = sidebar.footIcon ?? "🚀";
+const sidebarFootTitle =
+  sidebar.footTitle ?? "Your website, our expertise";
+const sidebarFootDescription =
+  sidebar.footDescription ??
+  "Strategy, design, development, and care plans working together so your online presence keeps up with the pace of your business.";
+type SidebarFeature = string | { title?: string; description?: string };
+
+const sidebarFeatures: SidebarFeature[] = Array.isArray(sidebar.features)
+  ? (sidebar.features as SidebarFeature[])
+  : [];
+const sidebarFeatureText = (feature: SidebarFeature) =>
+  typeof feature === "string" ? feature : feature.description ?? feature.title ?? "";
+const sidebarFeatureKey = (feature: SidebarFeature, index: number) =>
+  typeof feature === "string" ? feature : feature.title ?? `sidebar-feature-${index}`;
+---
+
+<section id="about" class="outer-section bg-bg2 relative">
+  <div class="section-color-border"></div>
+
+  <div class="inner-section space-y-20">
+    <div class="flex flex-col gap-12 lg:flex-row lg:items-start">
+      <article class="space-y-8 lg:flex-[1.25] min-w-0 sticky-section">
+        <SectionHeader
+          title={headingTitle}
+          headingBefore={headingBefore}
+          headingEmphasis={headingEmphasis}
+          headingAfter={headingAfter}
+          className="text-left"
+          headingClassName="h2 mb-6"
+          description={headingDescription}
+          descriptionClassName="text-lg lg:text-xl text-text max-w-3xl"
+        />
+
+        <slot name="text" />
+
+        <slot name="under-text" />
+
+        <div class="flex flex-wrap gap-4">
+          <Button
+            variant="primary"
+            size="lg"
+            href={primaryCTA.href}
+            rightIcon={primaryCTA.rightIcon}
+          >
+            {primaryCTA.text}
+          </Button>
+          {secondaryCTA && (
+            <Button
+              client:visible
+              variant="secondary"
+              size="lg"
+              href={secondaryCTA.href}
+              rightIcon={secondaryCTA.rightIcon}
+            >
+              {secondaryCTA.text}
+            </Button>
+          )}
+        </div>
+      </article>
+
+      <aside class="sticky-section lg:flex-[0.85] w-full">
+        <div class="bg-bg rounded-3xl border border-accent/20 p-4 lg:p-10 shadow-2xl space-y-6">
+          <IconListItem
+            client:visible
+            data={{
+              icon: sidebarIcon,
+              title: sidebarTitle,
+              description: sidebarEyebrow,
+            }}
+            layout="horizontal"
+            alignment="left"
+            className="items-start gap-4 w-full"
+            iconSize="lg"
+            titleClassName="h3"
+            descriptionClassName="text-xs font-semibold uppercase tracking-[0.3em] emphasized-text"
+            containerClassName="space-y-1"
+          />
+          <p class="text-muted leading-relaxed mt-4">
+            {sidebarDescription}
+          </p>
+
+          {sidebarFeatures.length > 0 && (
+            <ul class="mt-6 space-y-3">
+              {sidebarFeatures.map((feature, index) => (
+                <li
+                  class="flex items-start gap-3"
+                  key={sidebarFeatureKey(feature, index)}
+                >
+                  <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-accent/15">
+                    <svg
+                      class="h-4 w-4 text-accent"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                    >
+                      <path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <p class="text-muted text-sm leading-relaxed">
+                    {sidebarFeatureText(feature)}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div class="mt-8 space-y-6">
+            <slot name="quick-facts" />
+
+            <div>
+                <slot name="proof-points" />
+            </div>
+          </div>
+
+          <ContentContainer
+            icon={sidebarFootIcon}
+            title={sidebarFootTitle}
+            description={sidebarFootDescription}
+            className="mt-8"
+          />
+        </div>
+      </aside>
+    </div>
+
+    <slot name="bottom-section" />
+  </div>
+</section>

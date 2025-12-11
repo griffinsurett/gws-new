@@ -1,0 +1,49 @@
+---
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import { toArray } from "@/utils/array";
+
+interface Props extends BaseVariantProps {
+  columns?: 1 | 2 | 3 | 4;
+}
+
+const {
+  items = [],
+  className = "",
+  columns = 2,
+  id,
+} = Astro.props as Props;
+
+const safeItems = toArray(items);
+
+const columnClasses: Record<1 | 2 | 3 | 4, string> = {
+  1: "grid grid-cols-1 gap-4",
+  2: "grid grid-cols-1 sm:grid-cols-2 gap-4",
+  3: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5",
+  4: "grid grid-cols-2 md:grid-cols-4 gap-4",
+};
+
+const baseClass = columnClasses[columns] ?? columnClasses[2];
+const combinedClass = `${baseClass} ${className}`.trim();
+---
+
+{safeItems.length > 0 && (
+  <div id={id} class={combinedClass}>
+    {safeItems.map((item) => {
+      const record =
+        item && typeof item === "object" && "data" in item
+          ? (item as any).data ?? item
+          : item ?? {};
+
+      return (
+        <div class="rounded-2xl border card-bg border-accent/25 p-4">
+          <p class="text-xs uppercase tracking-[0.2em] text-muted">
+            {record.title ?? record.label}
+          </p>
+          <p class="text-heading text-xl font-semibold mt-2">
+            {record.description ?? record.value}
+          </p>
+        </div>
+      );
+    })}
+  </div>
+)}

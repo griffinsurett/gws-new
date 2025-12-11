@@ -22,7 +22,12 @@ export const ICON_LIBRARIES = {
   fa: {
     package: 'react-icons/fa',
     componentPrefix: 'Fa',
-    aliases: ['font-awesome', 'fas', 'fa6-brands', 'fa6-solid'],
+    aliases: ['font-awesome', 'fas'],
+  },
+  fa6: {
+    package: 'react-icons/fa6',
+    componentPrefix: 'Fa',
+    aliases: ['fa6-brands', 'fa6-solid'],
   },
   ai: {
     package: 'react-icons/ai',
@@ -56,6 +61,7 @@ export const SCANNABLE_PREFIXES = [
   'fi',
   'feather',
   'fa',
+  'fa6',
   'fas',
   'fa6-brands',
   'fa6-solid',

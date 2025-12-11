@@ -52,7 +52,7 @@ export default function DarkLightToggle() {
             viewBox="13 13 74 74"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="block w-5 h-5 sm:w-[18px] sm:h-[18px]"
+            className="block w-4 h-4 sm:w-[18px] sm:h-[18px]"
           >
             <circle cx="50" cy="50" r="18" fill="var(--color-primary)" />
             <g

@@ -7,6 +7,7 @@
 
 import Button from "@/components/Button/Button";
 import type { BaseVariantProps } from "../ContentRenderer.types";
+import { toArray } from "@/utils/array";
 
 interface Props extends BaseVariantProps {
   showIcons?: boolean;
@@ -21,6 +22,8 @@ const {
   showIcons = true,
 } = Astro.props as Props;
 
+const safeItems = toArray(items);
+
 // Type guard to check if item has openInNewTab property
 const isExternalLink = (item: any): boolean => {
   return (
@@ -31,25 +34,22 @@ const isExternalLink = (item: any): boolean => {
 
 <section id={id} class={`min-h-screen py-8 sm:py-12 lg:py-16 ${className}`}>
   <div class="max-w-[680px] mx-auto px-4 sm:px-8">
-    {
-      (title || description) && (
-        <header class="text-center mb-8 sm:mb-12">
-          {title && (
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 text-heading">
-              {title}
-            </h1>
-          )}
-          {description && (
-            <p class="text-base sm:text-lg text-text">{description}</p>
-          )}
-        </header>
-      )
-    }
+    {(title || description) && (
+      <header class="text-center mb-8 sm:mb-12">
+        {title && (
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 text-heading">
+            {title}
+          </h1>
+        )}
+        {description && (
+          <p class="text-base sm:text-lg text-text">{description}</p>
+        )}
+      </header>
+    )}
 
-    {
-      items.length > 0 && (
-        <nav class="flex flex-col gap-4" aria-label="Links menu">
-          {items.map((item) => {
+    {safeItems.length > 0 && (
+      <nav class="flex flex-col gap-4" aria-label="Links menu">
+        {safeItems.map((item) => {
             const isExternal = isExternalLink(item);
             return (
               <a
@@ -95,9 +95,8 @@ const isExternalLink = (item: any): boolean => {
                 )}
               </a>
             );
-          })}
-        </nav>
-      )
-    }
+        })}
+      </nav>
+    )}
   </div>
 </section>

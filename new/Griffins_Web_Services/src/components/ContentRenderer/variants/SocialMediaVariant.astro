@@ -5,8 +5,10 @@
  * Features: Horizontal/vertical layout, size variants, left/center/right alignment
  */
 
+import Heading from "@/components/Heading";
 import type { BaseVariantProps } from "../ContentRenderer.types";
-import SocialIcon from "@/components/LoopComponents/SocialIcon.astro";
+import SocialIcon from "@/components/LoopComponents/SocialIcon";
+import { toArray } from "@/utils/array";
 
 interface Props extends BaseVariantProps {
   size?: "sm" | "md" | "lg";
@@ -25,6 +27,8 @@ const {
   id,
 } = Astro.props as Props;
 
+const safeItems = toArray(items);
+
 const alignmentClasses = {
   left: "justify-start",
   center: "justify-center",
@@ -38,30 +42,26 @@ const layoutClasses = {
 ---
 
 <div id={id} class={`${className}`}>
-  {
-    (title || description) && (
-      <div class={`mb-6`}>
-        {title && (
-          <h3 class="text-2xl text-heading text-left font-bold">
-            {title}
-          </h3>
-        )}
-        {description && <p class="text-text">{description}</p>}
-      </div>
-    )
-  }
+  {(title || description) && (
+    <div class={`mb-6`}>
+      {title && (
+        <Heading className="h4 text-heading text-left font-bold">
+          {title}
+        </Heading>
+      )}
+      {description && <p class="text-text">{description}</p>}
+    </div>
+  )}
 
-  {
-    items.length > 0 && (
-      <ul
-        class={`flex ${layoutClasses[layout]} ${alignmentClasses[alignment]} gap-4 list-none flex-wrap`}
-      >
-        {items.map((item) => (
-          <li>
-            <SocialIcon {...item} size={size} />
-          </li>
-        ))}
-      </ul>
-    )
-  }
+  {safeItems.length > 0 && (
+    <ul
+      class={`flex ${layoutClasses[layout]} ${alignmentClasses[alignment]} gap-4 list-none flex-wrap`}
+    >
+      {safeItems.map((item) => (
+        <li>
+          <SocialIcon {...item} size={size} client:visible />
+        </li>
+      ))}
+    </ul>
+  )}
 </div>

@@ -6,7 +6,11 @@
  * Accessible navigation pattern with proper ARIA.
  */
 
-import { useState } from "react";
+import { lazy, Suspense } from "react";
+import Button from "@/components/Button/Button";
+
+// Lazy load Icon to prevent icons chunk from loading until actually needed
+const LazyIcon = lazy(() => import("@/components/Icon"));
 
 interface MobileMenuItemProps {
   title: string;
@@ -15,80 +19,83 @@ interface MobileMenuItemProps {
   children?: any[];
   openInNewTab?: boolean;
   onNavigate: () => void;
-  level?: number;
+  onOpenSubmenu?: (submenu: { title: string; items: any[] }) => void;
 }
 
 export default function MobileMenuItem({
   title,
   url,
-  slug,
   children = [],
   openInNewTab = false,
   onNavigate,
-  level = 0,
+  onOpenSubmenu,
 }: MobileMenuItemProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const hasChildren = children.length > 0;
-  const indent = level * 16; // 16px per level
+
+  const openSubmenu = () => {
+    if (!hasChildren) return;
+    onOpenSubmenu?.({ title, items: children });
+  };
+
+  const handleParentClick = () => {
+    if (url) {
+      onNavigate();
+      return;
+    }
+
+    openSubmenu();
+  };
 
   if (hasChildren) {
     return (
       <li>
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full text-left py-3 px-4 flex justify-between items-center hover:bg-text/5 rounded-md transition-colors"
-          aria-expanded={isExpanded}
-          aria-controls={`mobile-submenu-${slug}`}
-          style={{ paddingLeft: `${indent + 16}px` }}
-          type="button"
-        >
-          <span className="font-medium text-heading">{title}</span>
-          <svg
-            className={`w-5 h-5 text-text transition-transform ${
-              isExpanded ? "rotate-180" : ""
-            }`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
+        <div className="flex items-center gap-2">
+          <Button
+            variant="menuItemButton"
+            className="hover-emphasis-text inline-flex items-center gap-2 text-left"
+            onClick={handleParentClick}
+            {...(url
+              ? {
+                  href: url,
+                  target: openInNewTab ? "_blank" : undefined,
+                  rel: openInNewTab ? "noopener noreferrer" : undefined,
+                }
+              : { type: "button" as const })}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
+            {title}
+          </Button>
 
-        {isExpanded && (
-          <ul id={`mobile-submenu-${slug}`} className="mt-1 space-y-1">
-            {children.map((child) => (
-              <MobileMenuItem
-                key={child.slug || child.id}
-                {...child}
-                onNavigate={onNavigate}
-                level={level + 1}
+          <button
+            type="button"
+            onClick={openSubmenu}
+            aria-label={`View submenu for ${title}`}
+            className="text-text"
+          >
+            <Suspense fallback={null}>
+              <LazyIcon
+                icon="lu:chevron-right"
+                size="md"
+                className="w-6 h-6"
               />
-            ))}
-          </ul>
-        )}
+            </Suspense>
+          </button>
+        </div>
       </li>
     );
   }
 
   return (
     <li>
-      <a
+      <Button
+        variant="menuItemButton"
         href={url || "#"}
         onClick={onNavigate}
         target={openInNewTab ? "_blank" : undefined}
         rel={openInNewTab ? "noopener noreferrer" : undefined}
-        className="block py-3 px-4 text-text hover:text-primary hover:bg-text/5 rounded-md transition-colors"
-        style={{ paddingLeft: `${indent + 16}px` }}
+        className="hover-emphasis-text"
       >
         {title}
-      </a>
+      </Button>
     </li>
   );
 }

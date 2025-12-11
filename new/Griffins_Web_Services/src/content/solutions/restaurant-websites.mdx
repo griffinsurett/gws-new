@@ -1,17 +1,143 @@
 ---
 title: "Restaurant Websites"
-description: "Specialized websites for restaurants, cafes, and food service businesses"
-parent: "website-solutions"
+description: "Websites that fill tables and drive orders. We build beautiful, fast restaurant sites with menus, reservations, and online ordering that make it easy for hungry customers to become paying guests."
+heading:
+  before: "Restaurant sites"
+  text: "that fill tables"
+  after: "and drive orders."
 order: 4
 icon: "fa6-solid:utensils"
 price: "Starting from $2,000"
 features:
-  - "Menu display system"
-  - "Online ordering integration"
-  - "Reservation system"
-  - "Photo galleries"
-  - "Location & hours"
-  - "Mobile optimized"
-  - "Social media integration"
+  - title: "Menus that make mouths water"
+    description: "Beautiful, easy-to-update menu displays with photos, descriptions, and dietary info. Update specials in seconds."
+  - title: "Online ordering integration"
+    description: "Connect with DoorDash, Uber Eats, or your own ordering system. Make it effortless to order from you."
+  - title: "Reservation system"
+    description: "OpenTable, Resy, or simple booking forms that let guests reserve tables without calling."
+  - title: "Mobile-first design"
+    description: "Most people search for restaurants on their phones. Your site will look perfect on any device."
+  - title: "Local SEO optimized"
+    description: "Get found when people search for restaurants near them. Google Business Profile integration included."
+  - title: "Photo galleries that sell"
+    description: "Showcase your food, ambiance, and team with galleries designed to make people hungry."
+  - title: "Hours, location, and contact"
+    description: "Make it dead simple for customers to find you, call you, or get directions."
+benefits:
+  - title: "Fill more tables"
+    description: "Easy online reservations remove friction so hungry customers book with you instead of your competitor."
+    icon: "fa6-solid:calendar-check"
+  - title: "Boost online orders"
+    description: "Seamless ordering integration makes it effortless for customers to order delivery or pickup."
+    icon: "fa6-solid:bag-shopping"
+  - title: "Get found locally"
+    description: "Local SEO optimization puts you at the top when people search for restaurants in your area."
+    icon: "fa6-solid:location-dot"
+  - title: "Update menus instantly"
+    description: "Change prices, add specials, or 86 items yourself in seconds—no waiting on a developer."
+    icon: "fa6-solid:list-check"
+  - title: "Look as good as you taste"
+    description: "Mouthwatering photo galleries and professional design make customers hungry before they arrive."
+    icon: "fa6-solid:camera"
+  - title: "Answer questions 24/7"
+    description: "Hours, location, menu, and contact info always available so customers never have to call to find out."
+    icon: "fa6-solid:clock"
 ---
-Purpose-built websites for the food service industry. Featuring menu displays, online ordering capabilities, reservation systems, and everything restaurants need to serve customers online.
+import ContentSection from "@/layouts/ContentSection.astro";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro"
+import {
+  query,
+} from "@/utils/query";
+
+<ContentSection
+  heading={{
+    title: "Hungry customers are searching for you",
+    before: "If they can't find you online,",
+    text: "they'll find your competitor.",
+    after: "Don't let that happen.",
+    description:
+      "When someone's deciding where to eat, they're looking at your website. A dated, slow, or hard-to-navigate site sends them straight to the restaurant down the street."
+  }}
+  primaryCTA={{
+    text: "Get Your Free Quote",
+    href: "#services-quote-hero",
+    rightIcon: "lu:arrow-right"
+  }}
+  secondaryCTA={{
+    text: "See our work",
+    href: "#services-projects"
+  }}
+  sidebar={{
+    icon: frontmatter.icon,
+    title: "Turn browsers into diners",
+    eyebrow: "Why our restaurant sites work",
+    description:
+      "Fast load times, mouthwatering visuals, and seamless ordering that turns hungry searchers into paying customers.",
+    footIcon: "🍽",
+    footTitle: "Your menu, always up to date",
+    footDescription:
+      "Update specials, prices, and hours yourself in minutes—no waiting on a developer.",
+    features: frontmatter.features
+  }}
+>
+  <div slot="text" class="space-y-6 text-lg text-muted">
+    <p>
+      People don't just want to find your restaurant online—they want to immediately understand what you're about, see what you serve, and know how to get there or order. If your website makes any of that hard, they'll move on to the next option.
+    </p>
+    <p>
+      We build restaurant websites that work as hard as you do. Menus that are easy to browse and make people hungry. Seamless connections to your reservation system or online ordering. And mobile-first design because that's where most of your customers are looking.
+    </p>
+    <p>
+      Behind the scenes, you get a site you can actually update yourself. Change tonight's specials, update your hours, or swap out photos without calling us. Plus local SEO optimization so hungry people in your area actually find you on Google.
+    </p>
+  </div>
+
+  <div slot="quick-facts" class="grid gap-4 md:grid-cols-3">
+    <div class="p-4 rounded-2xl border border-muted/20 bg-bg">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">Timeline</p>
+      <p class="text-heading font-semibold">2-4 weeks to launch</p>
+    </div>
+    <div class="p-4 rounded-2xl border border-muted/20 bg-bg">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">What's included</p>
+      <p class="text-heading font-semibold">Design, menu setup, training</p>
+    </div>
+    <div class="p-4 rounded-2xl border border-muted/20 bg-bg">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">Integrations</p>
+      <p class="text-heading font-semibold">Reservations + ordering</p>
+    </div>
+  </div>
+
+  <ul slot="proof-points" class="space-y-3">
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Beautiful menu displays with photos, descriptions, and easy updates.
+      </p>
+    </li>
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Online ordering and reservation integrations that work seamlessly.
+      </p>
+    </li>
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Local SEO and Google Business Profile setup to get found in searches.
+      </p>
+    </li>
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Mobile-first design that looks perfect on phones, tablets, and desktops.
+      </p>
+    </li>
+  </ul>
+
+  <div slot="bottom-section">
+    <ContentRenderer
+      query={query("stats")}
+      variant="StatsVariant"
+    />
+  </div>
+</ContentSection>

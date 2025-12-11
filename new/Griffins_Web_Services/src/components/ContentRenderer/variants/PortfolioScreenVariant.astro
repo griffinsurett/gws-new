@@ -1,0 +1,395 @@
+---
+// PortfolioScreenVariant.astro
+import { getImage } from "astro:assets";
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import PortfolioScreenShowcase from "@/components/LoopTemplates/PortfolioScreenShowcase";
+import { getImageAlt, resolveImageMetadata, generateCroppedPreview } from "@/utils/images";
+import { toArray } from "@/utils/array";
+
+/**
+ * Loading strategy for the portfolio showcase:
+ * - "static-preview": Renders a static cropped thumbnail eagerly, then loads full image after hydration (best for LCP)
+ * - "client-only": No static preview, all images load client-side after hydration (simpler, less initial HTML)
+ * - "responsive": Desktop uses static-preview, mobile uses client-only (uses media queries to prevent mobile loading)
+ */
+type LoadingStrategy = "static-preview" | "client-only" | "responsive";
+type HydrationMode = "visible" | "idle" | "load" | "media";
+
+interface Props extends BaseVariantProps {
+  /** How to load images - "static-preview" for LCP, "client-only" for simple, "responsive" for auto-switch */
+  loadingStrategy?: LoadingStrategy;
+  /**
+   * Controls when the interactive React carousel hydrates.
+   * Default "visible" keeps existing behavior, but you can opt into "idle" to
+   * delay hydration until after LCP, or "media" to hydrate only on matching screens.
+   */
+  hydrateOn?: HydrationMode;
+  /** Media query string for hydrateOn="media" */
+  hydrateMedia?: string;
+}
+
+const {
+  items = [],
+  className = "",
+  id,
+  loadingStrategy = "responsive",
+  hydrateOn = "visible",
+  hydrateMedia = "(min-width: 768px)",
+} = Astro.props as Props;
+
+// For responsive mode, we generate static preview but use media queries to only load on desktop
+const useStaticPreviewMode = loadingStrategy === "static-preview" || loadingStrategy === "responsive";
+const isResponsive = loadingStrategy === "responsive";
+
+const safeItems = toArray(items);
+
+if (!safeItems.length) {
+  return;
+}
+
+// Target widths for responsive images - container is max-w-4xl (896px) with section p-6 padding
+const IMAGE_WIDTHS = [320, 480, 520, 640, 860];
+// Sizes: mobile full width minus padding, tablet ~80vw, desktop maxes at 896px container
+const SIZES = "(max-width: 640px) calc(100vw - 48px), (max-width: 1024px) min(calc(100vw - 48px), 896px), 896px";
+// Clamp extremely tall scrolling screenshots so the downloaded file
+// isn't much larger than the visible area in the showcase.
+const MAX_RENDER_HEIGHT = 3600;
+type OptimizedFormat = "avif" | "webp";
+const FALLBACK_FORMAT: OptimizedFormat = "webp";
+const IMAGE_FORMATS: { format: OptimizedFormat; quality: number }[] = [
+  // AVIF first for maximum compression, with a slightly lower quality target
+  { format: "avif", quality: 45 },
+  // WebP fallback keeps quality high enough for crisp UI details
+  { format: "webp", quality: 65 },
+];
+
+// Container dimensions (from Tailwind classes)
+const CONTAINER_MAX_WIDTH = 896; // max-w-4xl
+const CONTAINER_HEIGHT_MOBILE = 420; // h-[420px] on mobile
+const CONTAINER_HEIGHT_DESKTOP = 500; // h-[500px] on sm+
+const HEADER_BAR_HEIGHT = 48;
+// Use full container height for preview (it will use object-cover to fill)
+const VISIBLE_HEIGHT_DESKTOP = CONTAINER_HEIGHT_DESKTOP - HEADER_BAR_HEIGHT; // 452px visible in figure
+// Include 520 for ~521px displayed size on medium viewports
+const PREVIEW_WIDTHS = [320, 480, 520, 640, CONTAINER_MAX_WIDTH];
+
+/**
+ * Calculate the exact crop height for a preview image.
+ *
+ * When CSS `object-cover object-top` is applied:
+ * 1. Image scales to COVER the container (smallest scale that fills both dimensions)
+ * 2. For tall screenshots (height >> width), image scales to fit WIDTH
+ * 3. Scale factor = targetWidth / sourceWidth
+ * 4. Visible source pixels in height = visibleContainerHeight / scaleFactor
+ *
+ * This gives us the exact number of source image pixels visible "above the fold"
+ */
+function calculateVisibleSourceHeight(
+  sourceWidth: number,
+  sourceHeight: number,
+  containerWidth: number,
+  visibleContainerHeight: number
+): number {
+  // Scale factor when fitting to container width
+  const scaleFactor = containerWidth / sourceWidth;
+  // How many source pixels are visible in the container height
+  const visibleSourceHeight = Math.ceil(visibleContainerHeight / scaleFactor);
+  // Don't exceed source height (for images shorter than container)
+  return Math.min(visibleSourceHeight, sourceHeight);
+}
+
+// Toggle to disable carousel for debugging the static preview
+const ENABLE_CAROUSEL = true;
+
+// Process items and generate optimized images
+const processedItems = await Promise.all(
+  safeItems.map(async (item, index) => {
+    const primaryImage =
+      item.featuredImage ??
+      item.bannerImage;
+
+    const metadata = resolveImageMetadata(primaryImage);
+    const altText = primaryImage
+      ? getImageAlt(primaryImage, item.title ?? "Project preview")
+      : item.title ?? "Project preview";
+
+    // First image should be eager loaded for LCP optimization
+    const isFirst = index === 0;
+
+    if (!metadata) {
+      return { data: item, mediaEntry: undefined, croppedPreview: undefined };
+    }
+
+    // Generate optimized images for each requested format + width combo
+    const optimizedByFormat = await Promise.all(
+      IMAGE_FORMATS.map(async ({ format, quality }) => {
+        const images = await Promise.all(
+          IMAGE_WIDTHS.map((width) => {
+            const aspectRatio = metadata.height / metadata.width;
+            const naturalHeight = Math.round(aspectRatio * width);
+            const constrainedHeight = Math.min(naturalHeight, MAX_RENDER_HEIGHT);
+            const shouldConstrain = constrainedHeight < naturalHeight;
+            const resizeOptions = shouldConstrain
+              ? {
+                  height: constrainedHeight,
+                  fit: "cover" as const,
+                  position: "top" as const,
+                }
+              : {};
+
+            return getImage({
+              src: metadata,
+              width,
+              format,
+              quality,
+              ...resizeOptions,
+            });
+          })
+        );
+
+        return { format, images };
+      })
+    );
+
+    const fallbackFormatEntry =
+      optimizedByFormat.find((entry) => entry.format === FALLBACK_FORMAT) ??
+      optimizedByFormat[optimizedByFormat.length - 1];
+
+    if (!fallbackFormatEntry) {
+      return { data: item, mediaEntry: undefined, croppedPreview: undefined };
+    }
+
+    const fallbackImages = fallbackFormatEntry.images;
+    if (!fallbackImages.length) {
+      return { data: item, mediaEntry: undefined, croppedPreview: undefined };
+    }
+
+    const fallbackSrcSet = fallbackImages
+      .map((img, i) => `${img.src} ${IMAGE_WIDTHS[i]}w`)
+      .join(", ");
+    const defaultImage = fallbackImages[fallbackImages.length - 1];
+
+    const pictureSources = optimizedByFormat
+      .filter((entry) => entry.format !== FALLBACK_FORMAT)
+      .map((entry) => ({
+        type: `image/${entry.format}`,
+        srcSet: entry.images
+          .map((img, i) => `${img.src} ${IMAGE_WIDTHS[i]}w`)
+          .join(", "),
+        sizes: SIZES,
+      }));
+
+    // For the first item, generate a cropped "above the fold" preview
+    // This shows the top portion - slightly taller than visible to ensure full coverage
+    // Generate for static-preview or responsive mode
+    let croppedPreview = undefined;
+    if (isFirst && useStaticPreviewMode) {
+      // Calculate how many source pixels are visible in the container
+      const visibleSourceHeight = calculateVisibleSourceHeight(
+        metadata.width,
+        metadata.height,
+        CONTAINER_MAX_WIDTH,
+        VISIBLE_HEIGHT_DESKTOP
+      );
+
+      // Add 20% extra height so CSS object-cover has enough to work with on all screen sizes
+      const paddedSourceHeight = Math.round(visibleSourceHeight * 1.2);
+
+      // Generate responsive widths, each cropped with extra padding for object-cover
+      const previewConfigs: { width: number; height: number; format: "avif" | "webp"; quality: number }[] = [];
+      for (const width of PREVIEW_WIDTHS) {
+        // Scale the crop height proportionally for each responsive width
+        const scaledCropHeight = Math.round(paddedSourceHeight * (width / CONTAINER_MAX_WIDTH));
+        previewConfigs.push({ width, height: scaledCropHeight, format: "avif", quality: 55 });
+        previewConfigs.push({ width, height: scaledCropHeight, format: "webp", quality: 75 });
+      }
+
+      const previewResults = await generateCroppedPreview(metadata, previewConfigs);
+
+      const avifResults = previewResults.filter(r => r.config.format === "avif");
+      const webpResults = previewResults.filter(r => r.config.format === "webp");
+
+      const webpSrcSet = webpResults
+        .map(r => `${r.image.src} ${r.config.width}w`)
+        .join(", ");
+      const avifSrcSet = avifResults
+        .map(r => `${r.image.src} ${r.config.width}w`)
+        .join(", ");
+
+      const defaultWebp = webpResults[webpResults.length - 1];
+
+      croppedPreview = {
+        src: defaultWebp?.image.src ?? previewResults[0]?.image.src,
+        srcSet: webpSrcSet,
+        sizes: SIZES,
+        width: CONTAINER_MAX_WIDTH,
+        height: paddedSourceHeight, // Padded height for object-cover to work properly
+        alt: altText,
+        sources: avifSrcSet ? [{
+          type: "image/avif",
+          srcSet: avifSrcSet,
+          sizes: SIZES,
+        }] : [],
+      };
+    }
+
+    return {
+      data: item,
+      mediaEntry: {
+        src: defaultImage.src,
+        srcSet: fallbackSrcSet,
+        sizes: SIZES,
+        width: defaultImage.attributes.width as number,
+        height: defaultImage.attributes.height as number,
+        alt: altText,
+        loading: "lazy" as const,
+        decoding: "async" as const,
+        // With static-preview/responsive: first image uses "low" priority since preview handles LCP (on desktop)
+        // With client-only: first image uses "auto" like others (no preview competing)
+        fetchPriority: (isFirst && useStaticPreviewMode ? "low" : "auto") as "low" | "auto",
+        sources: pictureSources,
+      },
+      croppedPreview,
+    };
+  })
+);
+
+const portfolioItems = processedItems.map((entry) => entry.data);
+const showcaseMedia = processedItems.map((entry) => entry.mediaEntry);
+
+// Extract first item's cropped preview for static rendering
+const firstPreview = useStaticPreviewMode ? processedItems[0]?.croppedPreview : undefined;
+const firstItem = portfolioItems[0];
+const hasPreview = useStaticPreviewMode && firstPreview?.src;
+const staticContainerId = hasPreview ? "portfolio-static-first" : undefined;
+
+const showcaseProps = {
+  items: portfolioItems,
+  mediaEntries: showcaseMedia,
+  className: "w-full mx-auto",
+  staticContainerId,
+  loadingStrategy,
+};
+---
+
+<section
+  id={id}
+  class={`relative overflow-hidden p-6 ${className}`.trim()}
+>
+  <div class="relative w-full max-w-4xl mx-auto h-[420px] sm:h-[500px]">
+    {/* React carousel */}
+    <div class={hasPreview ? "absolute inset-0 z-0" : "relative h-full"}>
+      {hydrateOn === "idle" ? (
+        <PortfolioScreenShowcase client:idle {...showcaseProps} />
+      ) : hydrateOn === "load" ? (
+        <PortfolioScreenShowcase client:load {...showcaseProps} />
+      ) : hydrateOn === "media" ? (
+        <PortfolioScreenShowcase client:media={hydrateMedia} {...showcaseProps} />
+      ) : (
+        <PortfolioScreenShowcase client:visible {...showcaseProps} />
+      )}
+    </div>
+
+    {/* Static preview - only rendered on desktop for responsive mode */}
+    {hasPreview && (
+      isResponsive ? (
+        /* Responsive mode: Use inline style to guarantee display:none before CSS loads */
+        <div
+          id="portfolio-static-first"
+          class="absolute inset-0 z-10 overflow-hidden rounded-lg transition-opacity duration-500"
+          style="display: none;"
+        >
+          <style set:html="@media (min-width: 1024px) { #portfolio-static-first { display: block !important; } }" />
+          <div class="relative h-full w-full">
+            <div class="relative h-full bg-bg3">
+              <div class="flex flex-col gap-3 border-b border-white/10 px-4 py-3 text-white/70 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-white/50">
+                  <span class="flex items-center gap-1.5">
+                    <span class="h-3 w-3 rounded-full bg-gray-800"></span>
+                    <span class="h-3 w-3 rounded-full bg-gray-800"></span>
+                    <span class="h-3 w-3 rounded-full bg-gray-800"></span>
+                  </span>
+                </div>
+              </div>
+              <figure class="relative h-full overflow-y-auto overscroll-contain bg-black/40">
+                {/* Desktop-only image with media queries on all sources */}
+                <picture>
+                  {firstPreview.sources?.map((source) => (
+                    <source
+                      media="(min-width: 1024px)"
+                      srcset={source.srcSet}
+                      sizes={source.sizes}
+                      type={source.type}
+                    />
+                  ))}
+                  <source
+                    media="(min-width: 1024px)"
+                    srcset={firstPreview.srcSet}
+                    sizes={firstPreview.sizes}
+                    type="image/webp"
+                  />
+                  {/* Empty img fallback - no src means no request on mobile */}
+                  {/* loading="eager" + fetchpriority="high" for LCP on desktop */}
+                  <img
+                    alt={firstPreview.alt || firstItem?.title || "Project preview"}
+                    width={firstPreview.width}
+                    height={firstPreview.height}
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
+                    draggable="false"
+                    class="block h-auto min-h-full w-full select-none object-cover object-top"
+                  />
+                </picture>
+              </figure>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Static-preview mode: Always render the preview */
+        <div
+          id="portfolio-static-first"
+          class="absolute inset-0 z-10 overflow-hidden rounded-lg transition-opacity duration-500"
+        >
+          <div class="relative h-full w-full">
+            <div class="relative h-full bg-bg3">
+              <div class="flex flex-col gap-3 border-b border-white/10 px-4 py-3 text-white/70 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-white/50">
+                  <span class="flex items-center gap-1.5">
+                    <span class="h-3 w-3 rounded-full bg-gray-800"></span>
+                    <span class="h-3 w-3 rounded-full bg-gray-800"></span>
+                    <span class="h-3 w-3 rounded-full bg-gray-800"></span>
+                  </span>
+                </div>
+              </div>
+              <figure class="relative h-full overflow-y-auto overscroll-contain bg-black/40">
+                <picture>
+                  {firstPreview.sources?.map((source) => (
+                    <source
+                      srcset={source.srcSet}
+                      sizes={source.sizes}
+                      type={source.type}
+                    />
+                  ))}
+                  <img
+                    src={firstPreview.src}
+                    srcset={firstPreview.srcSet}
+                    sizes={firstPreview.sizes}
+                    alt={firstPreview.alt || firstItem?.title || "Project preview"}
+                    width={firstPreview.width}
+                    height={firstPreview.height}
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
+                    draggable="false"
+                    class="block h-auto min-h-full w-full select-none object-cover object-top"
+                  />
+                </picture>
+              </figure>
+            </div>
+          </div>
+        </div>
+      )
+    )}
+  </div>
+</section>

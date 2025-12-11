@@ -1,0 +1,41 @@
+---
+// src/layouts/AboutSection.astro
+/**
+ * About Section Layout
+ *
+ * A simple centered section with a section heading and description.
+ * Used for introducing content or providing context.
+ */
+import SectionHeader from "@/components/SectionHeader.astro";
+import type { HeadingContent } from "@/content/schema";
+import type { ReactNode } from "react";
+
+interface Props {
+  id?: string;
+  title?: ReactNode;
+  heading?: ReactNode | HeadingContent;
+  description?: ReactNode;
+  className?: string;
+}
+
+const {
+  id,
+  title,
+  heading,
+  description,
+  className = "",
+} = Astro.props as Props;
+---
+
+<section id={id} class={`outer-section bg-bg ${className}`.trim()}>
+  <div class="inner-section">
+    <SectionHeader
+      title={title}
+      heading={heading}
+      description={description}
+      className="text-section"
+      descriptionClassName="large-text max-w-3xl mx-auto"
+    />
+    <slot />
+  </div>
+</section>

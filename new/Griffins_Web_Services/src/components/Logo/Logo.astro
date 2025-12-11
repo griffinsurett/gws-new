@@ -1,8 +1,9 @@
 ---
 import LottieLogo from "./LottieLogo";
-import TextLogo from "./TextLogo";
+import TextLogoStatic from "./TextLogoStatic.astro";
 import { Image } from "astro:assets";
 import POSTER_SRC from "@/assets/GWS-animated.png";
+import { siteData } from "@/content/siteData";
 
 export interface Props {
   loading?: "lazy" | "eager";
@@ -28,9 +29,9 @@ const shouldUseLottie =
     trigger === "visible" ||
     trigger === "load");
 
-const LOGO_WIDTHS = [40, 45, 80, 90];
+const LOGO_WIDTHS = [45, 80, 90];
 const LOGO_SIZES = "(min-width: 1024px) 45px, 40px";
-const logoClasses = "block w-[40px] h-[40px] lg:w-[45px] lg:h-[45px] object-contain";
+const logoClasses = "block w-[43px] h-[43px] lg:w-[45px] lg:h-[45px] object-contain";
 ---
 
 <a href="/" class={`flex justify-center items-center gap-1.5 ${className}`}>
@@ -55,7 +56,7 @@ const logoClasses = "block w-[40px] h-[40px] lg:w-[45px] lg:h-[45px] object-cont
             sizes={LOGO_SIZES}
             quality={90}
             class={logoClasses}
-            fetchpriority={loading === "eager" ? "high" : undefined}
+            fetchpriority={loading === "eager" ? "high" : "low"}
           />
         </LottieLogo>
       ) : trigger === "visible" ? (
@@ -65,7 +66,7 @@ const logoClasses = "block w-[40px] h-[40px] lg:w-[45px] lg:h-[45px] object-cont
           trigger={trigger}
           className="logo-class"
           mediaClasses={logoClasses}
-          client:visible
+          client:idle
         >
           <Image
             src={POSTER_SRC}
@@ -87,7 +88,7 @@ const logoClasses = "block w-[40px] h-[40px] lg:w-[45px] lg:h-[45px] object-cont
           trigger={trigger}
           className="logo-class"
           mediaClasses={logoClasses}
-          client:load
+          client:idle
         >
           <Image
             src={POSTER_SRC}
@@ -120,13 +121,11 @@ const logoClasses = "block w-[40px] h-[40px] lg:w-[45px] lg:h-[45px] object-cont
   )}
 
   <div>
-    <TextLogo
-      title="Griffin's Web Services"
+    <TextLogoStatic
+      title={siteData.title}
       className="flex flex-col p-0 m-0"
       fadeDuration={textFadeMs}
       animateOutText={animateOutText}
-      client:load={loading === "eager"}
-      client:visible={loading !== "eager"}
     />
   </div>
 </a>

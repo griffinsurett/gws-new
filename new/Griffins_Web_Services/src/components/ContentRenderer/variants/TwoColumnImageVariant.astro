@@ -1,0 +1,212 @@
+---
+// TwoColumnImageVariant.astro
+/**
+ * Two Column Image Variant - Side-by-side layout with image and content
+ * Features: Configurable image position (left/right), sticky image, slot for custom image area
+ * Perfect for feature sections, about sections, and storytelling layouts
+ *
+ * USAGE:
+ * 1. With ContentRenderer (items array):
+ *    <ContentRenderer variant="TwoColumnImageVariant" items={[...]} contentType="checklist" />
+ *
+ * 2. Direct with custom image slot:
+ *    <TwoColumnImageVariant items={[...]} contentType="checklist">
+ *      <video src="/video.mp4" autoplay loop muted />
+ *    </TwoColumnImageVariant>
+ *
+ * 3. With text content:
+ *    <ContentRenderer variant="TwoColumnImageVariant" items={[...]} contentType="text" />
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeader from "@/components/SectionHeader.astro";
+import IconListItem from "@/components/LoopComponents/IconListItem";
+import Button from "@/components/Button/Button";
+import type { HeadingContent } from "@/content/schema";
+import { toArray } from "@/utils/array";
+import { shouldShowCollectionCTA } from "../utils/helpers";
+
+interface ContentItem {
+  title?: string;
+  description?: string;
+  text?: string;
+  icon?: string;
+  // Support collection entries which have data nested
+  data?: {
+    title?: string;
+    description?: string;
+    icon?: string;
+  };
+  // Support rendered MDX content (from prepareEntry)
+  Content?: any;
+  // Legacy support for rendered content
+  rendered?: {
+    Content?: any;
+  };
+}
+
+interface Props extends BaseVariantProps {
+  imagePosition?: "left" | "right";
+  imagePlaceholder?: string;
+  imageAlt?: string;
+  imageSrc?: string;
+  stickyImage?: boolean;
+  heading?: string | HeadingContent | null;
+  bgClass?: string;
+  borderClass?: string;
+  contentClassName?: string;
+  imageClassName?: string;
+  items?: ContentItem[];
+  contentType?: "checklist" | "text" | "custom";
+  ctaHref?: string;
+  ctaText?: string;
+}
+
+const {
+  title,
+  description,
+  heading,
+  className = "",
+  id,
+  imagePosition = "left",
+  imagePlaceholder = "🖼️",
+  imageAlt = "Section image",
+  imageSrc,
+  stickyImage = true,
+  bgClass = "bg-bg2",
+  borderClass = "section-color-border",
+  contentClassName = "",
+  imageClassName = "",
+  items = [],
+  contentType = "checklist",
+  collectionUrl,
+  collectionTitle,
+  showButtonSection = true,
+  ctaHref,
+  ctaText,
+} = Astro.props as Props;
+
+const safeItems = toArray(items);
+const hasSlotContent = Astro.slots.has("default");
+const hasItems = safeItems.length > 0;
+const showHeader = Boolean(title || heading || description);
+
+// CTA button logic
+const showCTA =
+  showButtonSection &&
+  shouldShowCollectionCTA(collectionUrl, safeItems.length) &&
+  (ctaText || title || collectionTitle) &&
+  (ctaHref || collectionUrl);
+
+// Determine order classes based on image position
+const imageOrderClass = imagePosition === "left"
+  ? "order-2 lg:order-1"
+  : "order-2 lg:order-2";
+const contentOrderClass = imagePosition === "left"
+  ? "order-1 lg:order-2"
+  : "order-1 lg:order-1";
+---
+
+<section id={id} class={`outer-section ${bgClass} relative ${className}`.trim()}>
+  {borderClass && <div class={borderClass}></div>}
+
+  <div class="inner-section">
+    <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+      {/* Image Column */}
+      <div class={`lg:flex-1 w-full ${stickyImage ? "sticky-section" : ""} ${imageOrderClass} ${imageClassName}`.trim()}>
+        <div class="aspect-5/3 rounded-3xl bg-muted/10 border border-muted/20 flex items-center justify-center overflow-hidden">
+          {hasSlotContent ? (
+            <slot />
+          ) : imageSrc ? (
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              class="w-full h-full object-cover rounded-3xl"
+            />
+          ) : (
+            <div class="text-center p-8">
+              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-accent/10 flex items-center justify-center">
+                <span class="text-accent text-2xl">{imagePlaceholder}</span>
+              </div>
+              <p class="text-muted text-sm">{imageAlt}</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Content Column */}
+      <div class={`lg:flex-1 space-y-8 ${contentOrderClass} ${contentClassName}`.trim()}>
+        {showHeader && (
+          <SectionHeader
+            title={title}
+            heading={heading}
+            description={description}
+            className="text-left"
+          />
+        )}
+
+        {/* Render items if provided */}
+        {hasItems && contentType === "checklist" && (
+          <ul class="grid grid-cols-1 gap-5 list-none">
+            {safeItems.map((item) => {
+              // Support both direct props and collection entry format (data.title)
+              const itemTitle = item.data?.title || item.title;
+              const itemDescription = item.data?.description || item.description;
+              const itemIcon = item.data?.icon || item.icon || "lu:check";
+              return (
+                <li>
+                  <IconListItem
+                    data={{
+                      icon: itemIcon,
+                      title: itemTitle,
+                      description: itemDescription,
+                    }}
+                    layout="horizontal"
+                    alignment="left"
+                    iconClassName="icon-small card-icon-color"
+                    iconSize="sm"
+                    titleTag="span"
+                    titleClassName="font-medium text-heading"
+                    descriptionClassName="text-sm text-muted mt-1"
+                    descriptionTag="span"
+                    className="gap-4 items-start"
+                    containerClassName="flex flex-col"
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        {hasItems && contentType === "text" && (
+          <div class="space-y-4 text-lg text-muted leading-relaxed">
+            {safeItems.map((item) => {
+              // Support both direct props and collection entry format
+              const itemText = item.text || item.data?.description || item.description;
+              // Content can be at item.Content (from prepareEntry) or item.rendered?.Content
+              const Content = item.Content || item.rendered?.Content;
+              return Content ? (
+                <div class="[&>p]:text-muted [&>p]:text-lg [&>p]:leading-relaxed [&>strong]:text-heading [&>blockquote]:blockquote-gradient-line [&>blockquote]:italic [&>blockquote]:text-heading [&>blockquote]:font-medium [&>blockquote]:text-xl"><Content /></div>
+              ) : (
+                <p set:html={itemText} />
+              );
+            })}
+          </div>
+        )}
+
+        {/* CTA Button */}
+        {showCTA && (
+          <div class="mt-8">
+            <Button
+              href={ctaHref ?? collectionUrl}
+              rightIcon="lu:arrow-right"
+              variant="secondary"
+            >
+              {ctaText ?? `View All ${(title ?? collectionTitle ?? "").trim()}`}
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

@@ -6,36 +6,34 @@
  * Consolidates all user preference systems:
  * - Cookie consent (with script management)
  * - Accessibility preferences
- * - Language switcher (Google Translate)
+ * - Language translation scripts (Google Translate)
  *
  * All use the same lazy-load, zero-impact pattern.
  */
 
 // Cookie Consent Preferences
 import CookiePreferencesButton from "@/components/preferences/consent/CookiePreferencesButton";
-import CookieConsentBanner from "@/components/preferences/consent/CookieConsentBanner";
+import LazyCookieConsentBanner from "@/components/preferences/consent/CookieConsentBanner/Lazy";
 import ConsentScript from "@/components/preferences/consent/ConsentScript.astro";
 
 // Accessibility Preferences
 import AccessibilityButton from "@/components/preferences/accessibility/AccessibilityButton";
 import "../styles/accessibility.css";
 
-// Language Switcher
-import LanguageSwitcher from "@/components/preferences/language/LanguageSwitcher";
-import GoogleTranslateScript from "@/components/preferences/language/GoogleTranslateScript.astro";
+import BrowserTranslateScript from "@/components/preferences/language/BrowserTranslateScript.astro";
 import "../styles/language-switcher.css";
+import DividerHeading from "@/components/DividerHeading/DividerHeading";
 ---
 
 {/* Consent Script - Inline initialization, runs immediately */}
 <ConsentScript />
 
-{/* Google Translate Script - Only loads if user has language preference */}
-<GoogleTranslateScript />
+{/* Browser Translation Script - Both native and Google enabled */}
+<BrowserTranslateScript enableNative={true} enableGoogle={true} />
 
-<div class="flex flex-wrap justify-center items-center gap-3">
+<DividerHeading title="Preferences" className="mb-4" />
 
-{/* Language Switcher - Client-side only */}
-<LanguageSwitcher client:visible />
+<div class="flex flex-col justify-center items-start gap-3">
 
 {/* CCPA Opt-Out Link */}
 <a href="/privacy-policy#ccpa-rights" class="text-text hover:underline"
@@ -44,8 +42,8 @@ import "../styles/language-switcher.css";
 
 {/* Cookie Preferences Button - Client-side only */}
 <CookiePreferencesButton client:visible />
-<CookieConsentBanner client:idle />
+<LazyCookieConsentBanner client:visible />
 
 {/* Accessibility Button - Client-side only */}
-<AccessibilityButton client:idle />
+<AccessibilityButton client:visible />
 </div>

@@ -1,21 +1,24 @@
 ---
 // src/components/Form/forms/QuoteForm.astro
 /**
- * Quote Form - Astro Version
- * Pure HTML with optional React enhancement via client:idle
+ * Quote Form - Compact version for hero sections
+ * Simplified form with essential fields: name, email, phone, message
  */
 import Button from "@/components/Button/Button";
 import FormWrapper from "@/components/Form/FormWrapper";
 import Input from "@/components/Form/inputs/Input";
-import Checkbox from "@/components/Form/inputs/Checkbox";
+import Textarea from "@/components/Form/inputs/Textarea";
+import Checkbox from "../inputs/Checkbox";
 
 interface Props {
-  title?: string;
-  description?: string;
   className?: string;
+  buttonText?: string;
 }
 
-const { title, description, className = "" } = Astro.props;
+const {
+  className = "",
+  buttonText = "Get Your Quote"
+} = Astro.props;
 
 const handleSubmit = async (values: any) => {
   console.log("Quote form submitted:", values);
@@ -23,90 +26,98 @@ const handleSubmit = async (values: any) => {
 ---
 
 <div class={className}>
-  {title && <h2 class="text-3xl font-bold mb-3">{title}</h2>}
-  {description && <p class="text-text mb-8">{description}</p>}
-
   <FormWrapper
     client:idle
     onSubmit={handleSubmit}
-    successMessage="Thank you for your quote request! We'll get back to you soon."
+    successMessage="Thank you! We'll get back to you within 24 hours."
     resetOnSuccess={true}
-    className="w-full gap-0"
+    className="group flex flex-col relative overflow-hidden"
   >
-    <div class="flex flex-col lg:flex-row justify-between gap-2 mb-4">
-      <Input
-        name="firstName"
-        label="First Name"
-        type="text"
-        required={true}
-        minLength={2}
-        placeholder="First Name"
-        containerClassName="mb-0 flex-1"
-        inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-      />
 
-      <Input
-        name="lastName"
-        label="Last Name"
-        type="text"
-        required={true}
-        minLength={2}
-        placeholder="Last Name"
-        containerClassName="mb-0 flex-1"
-        inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-      />
-    </div>
+    <div class="relative z-10 space-y-4">
+      <div class="grid gap-3 md:grid-cols-2">
+        <Input
+          client:idle
+          name="firstName"
+          label="First Name"
+          type="text"
+          required={true}
+          minLength={2}
+          placeholder="First Name *"
+          inputClassName="md:col-span-1 card-bg "
+          showLabel={false}
+        />
 
-    <Input
-      name="email"
-      label="Email"
-      type="email"
-      required={true}
-      placeholder="me@website.com"
-      containerClassName="mb-4"
-      inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-    />
+        <Input
+          client:idle
+          name="lastName"
+          label="Last Name"
+          type="text"
+          required={true}
+          minLength={2}
+          placeholder="Last Name *"
+          inputClassName="card-bg"
+          showLabel={false}
+        />
 
-    <Input
-      name="phone"
-      label="Phone Number"
-      type="tel"
-      required={true}
-      pattern="[0-9]{10,}"
-      placeholder="012-345-6789"
-      containerClassName="mb-4"
-      inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-    />
+        <Input
+          client:idle
+          name="email"
+          label="Email"
+          type="email"
+          required={true}
+          placeholder="Email Address *"
+          inputClassName="card-bg"
+          showLabel={false}
+        />
 
-    <Input
-      name="company"
-      label="Company Name"
-      type="text"
-      placeholder="LLC or whatever you trade as"
-      containerClassName="mb-4"
-      inputClassName="w-full px-4 py-3 bg-surface border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-    />
+        <Input
+          client:idle
+          name="phone"
+          label="Phone"
+          type="tel"
+          placeholder="Phone Number"
+          inputClassName="card-bg"
+          showLabel={false}
+        />
 
-    <Checkbox
+        <Textarea
+          client:idle
+          name="message"
+          label="Message"
+          required={true}
+          minLength={10}
+          placeholder="Tell us about your project *"
+          rows={3}
+          containerClassName="md:col-span-2"
+          textareaClassName="card-bg"
+          showLabel={false}
+        />
+      </div>
+
+       <Checkbox
       name="privacy"
       required
-      containerClassName="mb-6"
-      checkboxClassName="w-4 h-4 text-MainDark border-surface rounded"
+      containerClassName="relative z-10 flex items-center gap-2 md:col-span-2 my-4"
+      labelClassName="flex items-start gap-2 text-sm text-text"
+      checkboxClassName="h-4 w-4 rounded border-muted/60 accent-primary"
     >
       I have read and agree to the{" "}
-      <Button
-        client:load
-        variant="link"
+      <a
         href="/privacy-policy"
         target="_blank"
         rel="noopener noreferrer"
+        class="link-base link-md"
       >
         Privacy Policy
-      </Button>
+      </a>
     </Checkbox>
 
-    <Button client:load variant="primary" type="submit" className="w-full">
-      Get Your Quote
-    </Button>
+      <div class="text-left pt-2">
+        <Button variant="primary" type="submit" className="w-full">
+          {buttonText}
+        </Button>
+      </div>
+    </div>
   </FormWrapper>
 </div>

@@ -1,14 +1,24 @@
 // src/components/Form/inputs/Input.tsx
 /**
- * Hybrid Input Component
- * Pure TSX component - uses HTML5 validation
+ * Hybrid Input Component with Animated Border styling from the legacy project.
+ * Preserves the API we built for the new project while matching the old visuals.
  */
 
-import type { InputHTMLAttributes } from "react";
+import {
+  useCallback,
+  useId,
+  useState,
+  type FocusEvent,
+  type HTMLInputTypeAttribute,
+  type InputHTMLAttributes,
+} from "react";
+import AnimatedBorder from "@/components/AnimatedBorder/AnimatedBorder";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
   name: string;
   label?: string;
+  type?: HTMLInputTypeAttribute;
 
   // Styling
   containerClassName?: string;
@@ -17,38 +27,93 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
   // Control visibility
   showLabel?: boolean;
+  labelHidden?: boolean;
+
+  // Accessibility helpers
+  describedBy?: string;
+
+  // Animated border tweaks
+  borderDuration?: number;
+  borderWidth?: number;
+  borderRadius?: string;
 }
 
 export default function Input({
   name,
   label,
   required = false,
-  containerClassName = "mb-4",
-  labelClassName = "block text-sm font-medium text-text mb-1",
-  inputClassName = "w-full px-4 py-2 border border-surface rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-colors",
+  containerClassName = "space-y-2",
+  labelClassName = "block text-sm text-text/80",
+  inputClassName = "",
   showLabel = true,
+  labelHidden = false,
+  describedBy,
+  borderDuration = 900,
+  borderWidth = 2,
+  borderRadius = "rounded-xl",
+  id: idProp,
+  onFocus,
+  onBlur,
   ...inputProps
 }: InputProps) {
+  const [focused, setFocused] = useState(false);
+  const reactId = useId();
+  const id = idProp ?? `${name}-${reactId}`;
+
+  const handleFocus = useCallback(
+    (event: FocusEvent<HTMLInputElement>) => {
+      setFocused(true);
+      onFocus?.(event);
+    },
+    [onFocus]
+  );
+
+  const handleBlur = useCallback(
+    (event: FocusEvent<HTMLInputElement>) => {
+      setFocused(false);
+      onBlur?.(event);
+    },
+    [onBlur]
+  );
+
+  const labelClasses = [
+    labelClassName,
+    !showLabel || labelHidden ? "sr-only" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <div className={containerClassName}>
-      {showLabel && label && (
-        <label htmlFor={name} className={labelClassName}>
+      {label && (
+        <label htmlFor={id} className={labelClasses}>
           {label}
-          {required && (
-            <span className="text-red-500 ml-1" aria-label="required">
-              *
-            </span>
-          )}
+          {required && <span aria-hidden="true"> *</span>}
         </label>
       )}
 
-      <input
-        id={name}
-        name={name}
-        className={inputClassName}
-        required={required}
-        {...inputProps}
-      />
+      <AnimatedBorder
+        variant="solid"
+        triggers="controlled"
+        active={focused}
+        duration={borderDuration}
+        borderWidth={borderWidth}
+        borderRadius={borderRadius}
+        color="var(--color-accent)"
+        innerClassName={`!bg-transparent !border-transparent p-0 ${borderRadius}`}
+      >
+        <input
+          id={id}
+          name={name}
+          required={required}
+          aria-required={required || undefined}
+          aria-describedby={describedBy}
+          className={`form-field ${inputClassName}`.trim()}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...inputProps}
+        />
+      </AnimatedBorder>
     </div>
   );
 }

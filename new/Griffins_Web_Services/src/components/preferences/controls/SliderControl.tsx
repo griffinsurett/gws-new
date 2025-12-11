@@ -1,6 +1,7 @@
 // Shared slider control for numeric preferences
 
-import { useId } from "react";
+import { useCallback, useId, useState } from "react";
+import AnimatedBorder from "@/components/AnimatedBorder/AnimatedBorder";
 
 interface SliderControlProps {
   label: string;
@@ -28,6 +29,11 @@ export default function SliderControl({
   const generatedId = useId();
   const controlId = id ?? generatedId;
   const descriptionId = description ? `${controlId}-description` : undefined;
+  const [engaged, setEngaged] = useState(false);
+
+  const handleFocus = useCallback(() => setEngaged(true), []);
+  const handleBlur = useCallback(() => setEngaged(false), []);
+  const handlePointerUp = useCallback(() => setEngaged(false), []);
 
   return (
     <div className="mb-6">
@@ -45,21 +51,41 @@ export default function SliderControl({
           {description}
         </p>
       )}
-      <input
-        id={controlId}
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        aria-valuemin={min}
-        aria-valuemax={max}
-        aria-valuenow={value}
-        aria-describedby={descriptionId}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-full h-2 bg-text/10 rounded-lg appearance-none cursor-pointer accent-blue-600"
-      />
-      <div className="flex justify-between text-xs text-text mt-1">
+      <AnimatedBorder
+        variant="solid"
+        triggers="controlled"
+        active={engaged}
+        duration={900}
+        borderWidth={2}
+        borderRadius="rounded-xl"
+        color="var(--color-accent)"
+        className="block"
+        innerClassName="!bg-transparent !border-transparent rounded-xl"
+      >
+        <div className="rounded-xl border border-accent/30 px-4 py-3 bg-transparent">
+          <input
+            id={controlId}
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            aria-valuemin={min}
+            aria-valuemax={max}
+            aria-valuenow={value}
+            aria-describedby={descriptionId}
+            onChange={(e) => onChange(parseFloat(e.target.value))}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onMouseDown={handleFocus}
+            onMouseUp={handlePointerUp}
+            onTouchStart={handleFocus}
+            onTouchEnd={handlePointerUp}
+            className="w-full h-2 bg-text/20 rounded-lg appearance-none cursor-pointer accent-primary"
+          />
+        </div>
+      </AnimatedBorder>
+      <div className="flex justify-between text-xs text-text mt-2">
         <span>
           {min}
           {suffix}

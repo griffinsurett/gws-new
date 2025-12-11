@@ -1,0 +1,148 @@
+---
+// src/components/ContentRenderer/variants/PortfolioVariant.astro
+/**
+ * Portfolio Variant
+ * Renders featured projects inside the React-based PortfolioCarousel.
+ */
+
+import { Image } from "astro:assets";
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeader from "@/components/SectionHeader.astro";
+import Button from "@/components/Button/Button";
+import PortfolioCarousel from "@/components/LoopTemplates/PortfolioCarousel";
+import { shouldShowCollectionCTA } from "../utils/helpers";
+import { getImageAlt, resolveImageMetadata } from "@/utils/images";
+import { toArray } from "@/utils/array";
+
+interface Props extends BaseVariantProps {
+  autoplay?: boolean;
+  autoAdvanceDelay?: number;
+  ctaHref?: string;
+  ctaText?: string;
+}
+
+const {
+  items = [],
+  title,
+  heading: headingValue,
+  description,
+  className = "",
+  collectionUrl,
+  collectionTitle,
+  id,
+  autoplay = true,
+  autoAdvanceDelay = 7000,
+  showButtonSection = true,
+  ctaHref,
+  ctaText,
+} = Astro.props as Props;
+
+const safeItems = toArray(items) as Record<string, any>[];
+
+const processedItems = safeItems.map((item, index) => {
+  const primaryImage =
+    (typeof item.image === "object" ? item.image : undefined) ??
+    item.featuredImage ??
+    item.bannerImage;
+
+  const metadata = resolveImageMetadata(primaryImage);
+  const altText = primaryImage
+    ? getImageAlt(primaryImage, item.title ?? "Project preview")
+    : (item.title ?? "Project preview");
+
+  return {
+    data: {
+      ...item,
+      ...(altText ? { alt: altText } : {}),
+    },
+    media: metadata ? {
+          metadata,
+          alt: altText,
+          key: item.slug ?? item.id ?? `portfolio-${index}`,
+        }
+      : undefined,
+  };
+});
+
+const portfolioItems = processedItems.map((entry) => entry.data);
+const carouselMedia = processedItems.map((entry) => entry.media);
+const sectionTitle = collectionTitle ?? title;
+const fallbackHeading = title ?? collectionTitle;
+const normalizedHeading = headingValue ?? fallbackHeading;
+const isSegmentedHeading =
+  typeof normalizedHeading === "object" && normalizedHeading !== null;
+const headingString =
+  typeof normalizedHeading === "string"
+    ? normalizedHeading
+    : isSegmentedHeading
+    ? normalizedHeading.text ?? ""
+    : undefined;
+const segmentedHeading = isSegmentedHeading ? normalizedHeading : undefined;
+const resolvedHeading =
+  headingString ?? (segmentedHeading ? segmentedHeading.text : undefined);
+const headingPayload = segmentedHeading ?? resolvedHeading;
+const showHeader = Boolean(sectionTitle || headingPayload || description);
+---
+
+<section
+  id={id}
+  class={`outer-section bg-bg relative overflow-hidden ${className}`.trim()}
+>
+  <div class="section-dim-border"></div>
+
+  <div class="">
+    {showHeader && (
+      <SectionHeader
+        title={sectionTitle}
+        heading={headingPayload}
+        description={description}
+        className="text-center"
+        headingClassName="h2 mb-6 heading-padding"
+        descriptionClassName="large-text max-w-2xl mx-auto"
+      />
+    )}
+
+    {portfolioItems.length > 0 && (
+      <PortfolioCarousel
+        client:visible
+        items={portfolioItems}
+        autoplay={autoplay}
+        autoAdvanceDelay={autoAdvanceDelay}
+        className={showHeader ? "mt-12" : ""}
+      >
+        {carouselMedia.map((media, index) =>
+          media ? (
+            <Image
+              data-portfolio-media
+              src={media.metadata}
+              alt={media.alt}
+              loading="lazy"
+              widths={[480, 640, 860, 1024, 1280, 1600]}
+              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 70vw, 860px"
+              class="block w-full h-auto min-h-full select-none object-cover object-top"
+              draggable="false"
+            />
+          ) : (
+            <span data-portfolio-placeholder class="hidden" />
+          ),
+        )}
+      </PortfolioCarousel>
+    )}
+
+    {showButtonSection &&
+      shouldShowCollectionCTA(collectionUrl, portfolioItems.length) &&
+      (ctaText || title || collectionTitle) &&
+      (ctaHref || collectionUrl) && (
+      <div class="buttons-section-center">
+        <Button
+          client:visible
+          href={ctaHref ?? collectionUrl}
+          rightIcon="lu:arrow-right"
+          variant="secondary"
+        >
+          {ctaText ?? `View All ${(title ?? collectionTitle ?? "").trim()}`}
+        </Button>
+      </div>
+    )}
+  </div>
+</section>

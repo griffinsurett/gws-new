@@ -1,0 +1,147 @@
+---
+// src/layouts/collections/ServicesLayout.astro
+/**
+ * Services Layout - Item Page Layout for Solutions & Capabilities
+ *
+ * A specialized layout for service-type collection items.
+ * Features:
+ * - QuoteHero with title, description, and quote form
+ * - Features list display
+ * - MDX content rendering
+ * - Related services section (siblings from same parent)
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import QuoteHero from '@/layouts/QuoteHero.astro';
+import AboutSection from '@/layouts/AboutSection.astro';
+import ContentRenderer from '@/components/ContentRenderer/ContentRenderer.astro';
+import CTASection from '@/layouts/CTASection.astro';
+import { query, sortByOrder, related } from '@/utils/query';
+import { capitalizeWords } from '@/utils/string';
+import type { CollectionLayoutProps } from './types';
+    
+const {
+  entry,
+  collection,
+  collectionMeta,
+  Content,
+  isIndexPage,
+  seoProps = {},
+  ...extraProps
+} = Astro.props as CollectionLayoutProps;
+
+const data = entry?.data || {};
+const { title, description, price, features = [], benefits = [], parent, heading } = data;
+
+// Get the current entry's slug for filtering related capabilities
+const currentSlug = entry?.id;
+
+// Get related items (siblings with same parent, excluding current item)
+const relatedQuery = parent
+  ? query(collection as any)
+      .where((e: any) => e.data.parent === parent && e.id !== entry?.id)
+      .orderBy(sortByOrder())
+      .limit(6)
+  : null;
+
+// Query capabilities related to this solution using the `related` shortcut
+const relatedCapabilitiesQuery = currentSlug
+  ? related("capabilities", "solutions", currentSlug)
+  : null;
+
+// Build the description with price if available
+const heroDescription = price
+  ? `${description} ${price}`
+  : description;
+
+// Capitalize the slug for display (e.g., "standard-websites" -> "Standard-Websites")
+const displayTitle = title || capitalizeWords(entry?.slug?.replace(/-/g, ' ') || '');
+const capitalizedSlug = capitalizeWords(entry?.slug?.replace(/-/g, ' ') || '');
+---
+<BaseLayout {...seoProps}>
+  <main class="flex-1">
+    {/* Quote Hero Section */}
+    <QuoteHero
+      title={title}
+      heading={heading}
+      description={heroDescription}
+      primaryCTA={{
+        text: `View All ${collectionMeta?.data?.title || 'Services'}`,
+        link: `/${collection}`,
+        rightIcon: "lu:arrow-left"
+      }}
+      id='services-quote-hero'
+    />
+      <div class="min-h-screen flex flex-col justify-center">
+      <ContentRenderer
+      query={query("projects")}
+      id="services-projects"
+      variant="PortfolioScreenVariant"
+      title="Our Work"
+      heading={{
+        before: "Websites we've",
+        text: "designed & built",
+        after: "for real clients.",
+      }}
+      description="Every project is custom-crafted to help businesses stand out and convert visitors into customers. Yours could be next."
+      ctaHref="#services-quote-hero"
+      ctaText="Get Your Free Quote"
+      hydrateOn="idle"
+    />
+</div>
+
+    {benefits.length > 0 && (
+      <ContentRenderer
+        items={benefits}
+        variant="CardVariant"
+        title="Benefits"
+        heading={{
+          before: "Why choose",
+          text: title,
+          after: "for your business.",
+        }}
+        description="Real results that matter for your bottom line."
+        ctaHref="#services-quote-hero"
+        ctaText="Get Your Free Quote"
+        columns={3}
+      />
+    )}
+
+        {/* MDX Content */}
+    {Content && <Content />}
+
+        <ContentRenderer
+      query={related("capabilities", "solutions", currentSlug)}
+      variant="ChecklistVariant"
+      title="What's Included"
+      heading={{
+        before: "Everything included in your",
+        text: displayTitle,
+        after: "build.",
+      }}
+      description={`No surprises, no upsells—just the full package to get your ${displayTitle.toLowerCase()} live and performing.`}
+      ctaHref="#services-quote-hero"
+      ctaText="Get Your Free Quote"
+      columns={2}
+    />
+
+    <ContentRenderer
+      query={query("testimonials")}
+      variant="TestimonialCarouselVariant"
+    />
+
+    <CTASection
+      id="services-page-cta"
+      className="min-h-[60vh]"
+      title={`Ready to get started with a ${entry.slug}?`}
+      heading={{
+        before: "Let's build your",
+        text: entry.slug,
+        after: " today.",
+      }}
+      primaryCTA={{
+        text: "Get Your Free Quote",
+        link: "#services-quote-hero",
+      }}
+    />
+  </main>
+</BaseLayout>

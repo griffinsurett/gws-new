@@ -241,6 +241,21 @@ export const iconSchema = ({ image }: { image: Function }) =>
 export type IconType = z.infer<ReturnType<typeof iconSchema>>;
 
 // ============================================================================
+// HEADING SCHEMA
+// ============================================================================
+
+export const headingSchema = z.union([
+  z.string().optional(),
+  z.object({
+    before: z.string().optional(),
+    text: z.string().optional(),
+    after: z.string().optional(),
+  }),
+]);
+
+export type HeadingContent = z.infer<typeof headingSchema>;
+
+// ============================================================================
 // SEO SCHEMA
 // ============================================================================
 
@@ -296,6 +311,7 @@ export const baseSchema = ({ image }: { image: Function }) =>
     layout: z.string().optional(),
     // Parent reference for content hierarchy (slug of parent item in same collection)
     parent: z.union([z.string(), z.array(z.string())]).optional(),
+    heading: headingSchema.optional(),
   });
 
 export type BaseData = z.infer<ReturnType<typeof baseSchema>>;
@@ -308,6 +324,7 @@ export const metaSchema = ({ image }: { image: Function }) =>
   z.object({
     title: z.string().optional(),
     description: z.string().optional(),
+    heading: headingSchema.optional(),
     hasPage: z.boolean().default(true),
     featuredImage: imageInputSchema({ image }).optional(),
     seo: seoSchema({ image }),

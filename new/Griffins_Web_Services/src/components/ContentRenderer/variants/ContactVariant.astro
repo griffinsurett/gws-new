@@ -11,9 +11,12 @@ import Button from "@/components/Button/Button";
 import { query } from "@/utils/query";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 import ContactForm from "@/components/Form/forms/ContactForm.astro";
+import { toArray } from "@/utils/array";
 
 interface Props extends BaseVariantProps {
   columns?: 1 | 2 | 3;
+  ctaHref?: string;
+  ctaText?: string;
 }
 
 const {
@@ -25,9 +28,12 @@ const {
   collectionUrl,
   collectionTitle,
   id,
+  showButtonSection = true,
+  ctaHref,
+  ctaText,
 } = Astro.props as Props;
 
-const viewAllText = `Contact Us`;
+const safeItems = toArray(items);
 
 const columnClasses = {
   1: "grid-cols-1",
@@ -39,33 +45,31 @@ const columnClasses = {
 <section id={id} class={`py-16 w-full ${className}`}>
   <div class="flex flex-col-reverse lg:flex-row w-full">
     <div class="px-4">
-      {
-        items.length > 0 && (
-          <ul class={`flex flex-col gap-6 list-none`}>
-            {items.map((item) => (
-              <li>
-                <ContactCard {...item} />
-              </li>
-            ))}
-          </ul>
-        )
-      }
+      {safeItems.length > 0 && (
+        <ul class={`flex flex-col gap-6 list-none`}>
+          {safeItems.map((item) => (
+            <li>
+              <ContactCard {...item} />
+            </li>
+          ))}
+        </ul>
+      )}
 
-      {
-        shouldShowCollectionCTA(collectionUrl, items.length) && (
-          <div class="mt-12 text-left">
-            <Button
-              client:load
-              href={collectionUrl}
-              rightIcon="lu:arrow-right"
-              variant="primary"
-              size="lg"
-            >
-              {viewAllText}
-            </Button>
-          </div>
-        )
-      }
+      {showButtonSection &&
+        shouldShowCollectionCTA(collectionUrl, safeItems.length) &&
+        (ctaText || title || collectionTitle) &&
+        (ctaHref || collectionUrl) && (
+        <div class="mt-12 text-left">
+          <Button
+            href={ctaHref ?? collectionUrl}
+            rightIcon="lu:arrow-right"
+            variant="primary"
+            size="lg"
+          >
+            {ctaText ?? `View All ${(title ?? collectionTitle ?? "").trim()}`}
+          </Button>
+        </div>
+      )}
     </div>
     <div class="flex flex-col justify-between w-full">
       <ContactForm />

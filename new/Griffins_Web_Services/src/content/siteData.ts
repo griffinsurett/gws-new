@@ -11,6 +11,10 @@ export const siteData = {
   location: "Freehold, New Jersey, United States",
   address: null,
   tagline: "Get a website your business can be proud of — fast, secure, and built to last.",
+  ceoName: "Griffin Surett",
+  ceoTitle: "Founder & CEO",
+  ceoQuote:
+    "A website should do two things extremely well: be easy for your customers to use and be structured in a way that search engines are confident recommending.",
 };
 
 export const ctaData = {

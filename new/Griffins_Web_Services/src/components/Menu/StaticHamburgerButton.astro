@@ -1,0 +1,60 @@
+---
+/**
+ * Static Hamburger Button - No JavaScript Required
+ *
+ * Renders a pure HTML/CSS hamburger button that can trigger
+ * lazy loading of the mobile menu when clicked.
+ */
+
+interface Props {
+  id?: string;
+  className?: string;
+  ariaLabel?: string;
+}
+
+const {
+  id = "mobile-menu-toggle",
+  className = "",
+  ariaLabel = "Open menu",
+} = Astro.props;
+---
+
+<button
+  type="button"
+  id={id}
+  aria-label={ariaLabel}
+  aria-expanded="false"
+  aria-haspopup="true"
+  class={`group relative h-6 w-7 cursor-pointer flex flex-col justify-between items-start text-text hover:text-heading ${className}`.trim()}
+>
+  <span
+    class="hamburger-line block h-[0.5px] w-full bg-current transition-all duration-300"
+    data-line="top"
+  />
+  <span
+    class="hamburger-line block h-[0.5px] w-5 bg-current transition-all duration-300 opacity-100 group-hover:w-full"
+    data-line="middle"
+  />
+  <span
+    class="hamburger-line block h-[0.5px] w-full bg-current transition-all duration-300"
+    data-line="bottom"
+  />
+</button>
+
+<style>
+  /* Open state styles applied via JS */
+  button[aria-expanded="true"] [data-line="top"] {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  button[aria-expanded="true"] [data-line="middle"] {
+    opacity: 0;
+    width: 100%;
+  }
+  button[aria-expanded="true"] [data-line="bottom"] {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+</style>

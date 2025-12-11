@@ -69,7 +69,6 @@ function Modal({
 }: ModalProps): ReactPortal | null {
   const [mounted, setMounted] = useState<boolean>(ssr ? isOpen : false);
   const modalRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   // Only mount on client side if ssr is false
   useEffect(() => {
@@ -82,8 +81,6 @@ function Modal({
   useEffect(() => {
     if (isOpen) {
       setMounted(true);
-      // Store previously focused element
-      previousFocusRef.current = document.activeElement as HTMLElement;
     }
   }, [isOpen]);
 
@@ -124,25 +121,6 @@ function Modal({
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [mounted, isOpen, onClose]);
-
-  // Focus management - only when modal opens
-  useEffect(() => {
-    if (mounted && isOpen && modalRef.current) {
-      // Small delay to ensure modal is rendered
-      requestAnimationFrame(() => {
-        modalRef.current?.focus();
-      });
-    }
-
-    return () => {
-      // Restore focus when unmounting
-      if (!isOpen && previousFocusRef.current) {
-        requestAnimationFrame(() => {
-          previousFocusRef.current?.focus();
-        });
-      }
-    };
-  }, [mounted, isOpen]);
 
   // Unmount modal after exit animation completes
   const handleAnimationEnd = (): void => {

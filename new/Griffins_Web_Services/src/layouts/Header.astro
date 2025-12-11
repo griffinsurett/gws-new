@@ -5,35 +5,38 @@
  */
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import Logo from "@/components/Logo/Logo.astro";
-import ThemeControls from "@/components/ThemeControls/ThemeControls";
+import ThemeControls from "@/components/ThemeControls/ThemeControls.astro";
 import { query } from "@/utils/query";
 ---
-
 <header class="fixed w-full top-0 z-[100000]">
-    <div class="relative flex items-center justify-between w-19/20 lg:9/10 mx-auto py-2 gap-4">
+    <div class="relative flex items-center justify-between head-foot-section py-2 gap-4">
       <!-- Logo -->
       <Logo loading="eager" trigger="scroll" animateOutText={true} />
-      
-      <ThemeControls client:load />
+
+      <!-- ThemeControls - each sub-component hydrates as separate island -->
+      <ThemeControls />
 
       <div class="flex items-center gap-4">
-        <!-- Navigation Menu using query -->
-        <ContentRenderer
-          query={query("menu-items")
-            .where((entry) => {
-              const menus = entry.data.menu;
-              if (Array.isArray(menus)) {
-                return menus.some((m) => m.id === "main-menu");
+
+        <div class="flex items-center justify-center sm:gap-4">
+          <!-- Navigation Menu using query -->
+          <ContentRenderer
+            query={query("menu-items")
+              .where((entry) => {
+                const menus = entry.data.menu;
+                if (Array.isArray(menus)) {
+                  return menus.some((m) => m.id === "main-menu");
+                }
+                return menus?.id === "main-menu";
+              })
               }
-              return menus?.id === "main-menu";
-            })
-            }
-          variant="MenuVariant"
-          mode="hamburger-only"
-          className="header-navigation"
-          hamburgerTransform={true}
-          closeButton={false}
-        />
+            variant="MenuVariant"
+            mode="hamburger-only"
+            className="header-navigation"
+            hamburgerTransform={true}
+            closeButton={false}
+          />
+        </div>
       </div>
     </div>
 </header>

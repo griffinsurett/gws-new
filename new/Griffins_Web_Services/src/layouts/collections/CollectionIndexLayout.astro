@@ -4,7 +4,7 @@
  * Default Collection Index Layout
  *
  * The default layout for collection index pages (e.g., /blog, /services).
- * 
+ *
  * Behavior:
  * - Always shows SecondaryHero with title and description
  * - Uses featuredImage from _meta.mdx if provided, otherwise default
@@ -58,7 +58,10 @@ const heroImage = collectionMeta.featuredImage;
           <Content />
         ) : (
           /* Default: Grid of collection items */
-          <ContentRenderer query={query(collectionName)} variant="GridVariant" />
+          <ContentRenderer
+            query={query(collectionName)}
+            variant="CardVariant"
+          />
         )
       }
     </div>

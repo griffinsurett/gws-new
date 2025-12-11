@@ -1,0 +1,172 @@
+---
+// IconListVariant.astro
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import IconListItem from "@/components/LoopComponents/IconListItem";
+import SectionHeader from "@/components/SectionHeader.astro";
+import { toArray } from "@/utils/array";
+import Button from "@/components/Button/Button";
+
+interface HeadingContent {
+    title?: string;
+    before?: string;
+    text?: string;
+    after?: string;
+    description?: string;
+}
+
+interface Props extends BaseVariantProps {
+    columns?: 1 | 2 | 3;
+    gap?: "sm" | "md" | "lg";
+    heading?: HeadingContent;
+    itemLayout?: "vertical" | "horizontal" | "horizontal-reverse";
+    slotContainerClassName?: string;
+}
+
+const {
+    items = [],
+    title,
+    collectionTitle,
+    heading,
+    headingTag,
+    headingClassName = "text-3xl md:text-4xl lg:text-5xl leading-[1.15em] text-heading",
+    description,
+    className = "",
+    columns = 2,
+    gap = "lg",
+    id,
+    itemLayout = "horizontal",
+    slotContainerClassName = "",
+} = Astro.props as Props;
+
+const hasSlotContent = Astro.slots.has("default");
+
+const safeItems = toArray(items);
+const headingTitle = heading?.title ?? title ?? collectionTitle;
+const headingBefore = heading?.before;
+const headingText = heading?.text;
+const headingAfter = heading?.after;
+const headingDescription = heading?.description ?? description;
+const showHeader = Boolean(
+    headingTitle ??
+        headingDescription ??
+        headingBefore ??
+        headingText ??
+        headingAfter,
+);
+
+const resolveItemUrl = (item: Record<string, any>): string | undefined => {
+    if (!item || typeof item !== "object") return undefined;
+    const candidates = [
+        item.url,
+        item.href,
+        item.link,
+        item.route,
+        item?.data?.url,
+    ];
+    return candidates.find(
+        (value): value is string =>
+            typeof value === "string" && value.trim().length > 0,
+    );
+};
+---
+
+<section id={id} class={`py-16 ${className}`.trim()}>
+    <div class="mx-auto inner-section">
+        <div
+            class={`flex flex-col lg:space-x-15 ${
+                showHeader ? "lg:flex-row lg:items-start" : ""
+            }`.trim()}
+        >
+            {
+                showHeader && (
+                    <div class="w-full lg:w-1/2 sticky-section lg:self-start">
+                        <SectionHeader
+                            title={headingTitle}
+                            headingBefore={headingBefore}
+                            headingEmphasis={headingText}
+                            headingAfter={headingAfter}
+                            description={headingDescription}
+                            className="space-y-4 text-left w-full"
+                            headingTag={headingTag}
+                            headingClassName={headingClassName}
+                            descriptionClassName="large-text leading-relaxed"
+                            titleVisibleRootMargin={0}
+                        />
+                    </div>
+                )
+            }
+
+            {
+                safeItems.length > 0 && (
+                    <div
+                        class={`w-full py-6 lg:py-0 ${showHeader ? "lg:w-1/2" : ""}`.trim()}
+                    >
+                        <ul
+                            class={`flex flex-col gap-4 list-none`.trim()}
+                        >
+                            {safeItems.map((item) => {
+                                const route = resolveItemUrl(item);
+                                const linkLabel =
+                                    typeof item?.title === "string"
+                                        ? item.title
+                                        : typeof item?.heading === "string"
+                                          ? item.heading
+                                          : "Open link";
+
+                                const clickableWrapper = (content: any) =>
+                                    route ? (
+                                        <a
+                                            href={route}
+                                            class="block"
+                                            aria-label={linkLabel}
+                                        >
+                                            {content}
+                                        </a>
+                                    ) : (
+                                        content
+                                    );
+
+                                return (
+                                    <li
+                                        class={`relative h-full rounded-3xl p-6 lg:p-8 flex items-center gap-6 transition-colors duration-300 group/icon-card ${route ? "cursor-pointer hover:bg-bg3 hover:shadow-xl" : ""}`.trim()}
+                                    >
+                                        <div class="flex-1 w-full">
+                                            {clickableWrapper(
+                                                <IconListItem
+                                                    data={item}
+                                                    layout={itemLayout}
+                                                    alignment="left"
+                                                    className={`text-left gap-1 w-full flex items-start ${route ? "group-hover/icon-card:opacity-90 transition-opacity duration-300" : ""}`}
+                                                    iconClassName="icon-large card-icon-color mr-4"
+                                                    iconSize="xl"
+                                                    titleTag="h3"
+                                                    titleClassName="text-heading h3 my-4"
+                                                    descriptionClassName="text-lg text-text"
+                                                />,
+                                            )}
+                                        </div>
+
+                                        {route ? (
+                                            <Button
+                                                variant="arrowLink"
+                                                href={route}
+                                                className="shrink-0 ml-4 flex items-center justify-center opacity-0 pointer-events-none transition-opacity transition-transform duration-300 group-hover/icon-card:opacity-100 group-hover/icon-card:pointer-events-auto group-hover/icon-card:animate-bounce"
+                                                aria-label={`Open ${linkLabel}`}
+                                            />
+                                        ) : null}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                )
+            }
+        </div>
+
+        {hasSlotContent && (
+            <div class={`mt-8 ${slotContainerClassName}`.trim()}>
+                <slot />
+            </div>
+        )}
+    </div>
+</section>

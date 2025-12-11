@@ -8,14 +8,19 @@
  * After preferences are saved, enables scripts via scriptManager.
  */
 
-import { useState, useMemo, useTransition, memo } from "react";
+import { useState, useMemo, useTransition, memo, lazy, Suspense } from "react";
 import Modal from "@/components/Modal";
 import { useCookieStorage } from "@/hooks/useCookieStorage";
 import { enableConsentedScripts } from "@/utils/scriptManager";
 import type { CookieConsent, CookieCategoryInfo } from "./types";
 import Button from "@/components/Button/Button";
 import ToggleControl from "../controls/ToggleControl";
-import Accordion from "@/components/LoopTemplates/Accordion";
+
+// Lazy load Icon to prevent icons chunk from loading until actually needed
+const LazyIcon = lazy(() => import("@/components/Icon"));
+
+// Lazy load Accordion to prevent accordion chunk from loading in critical path
+const LazyAccordion = lazy(() => import("@/components/LoopTemplates/Accordion"));
 
 interface CookiePreferencesModalProps {
   isOpen: boolean;
@@ -153,7 +158,7 @@ function CookiePreferencesModal({
         <h2 className="text-3xl font-bold text-heading mb-4">
           Manage Consent Preferences
         </h2>
-        <p className="text-text text-sm leading-relaxed mb-3">
+        <p className="text-text text-xs lg:text-sm leading-relaxed mb-3">
           We use cookies and similar technologies to help personalize content
           and offer a better experience. You can click{" "}
           <Button
@@ -187,16 +192,32 @@ function CookiePreferencesModal({
         </Button>
       </div>
 
-      <Accordion
-        allowMultiple
-        className="space-y-3"
-        items={accordionItems}
-        headerSlot={({ item, id, expanded }) => {
+      <Suspense fallback={<div className="space-y-3">{cookieCategories.map((c) => <div key={c.id} className="h-16 rounded-lg bg-white/5 animate-pulse" />)}</div>}>
+        <LazyAccordion
+          allowMultiple
+          className="space-y-3"
+          items={accordionItems}
+          showIndicator={false}
+          headerSlot={({ item, id, expanded }) => {
           const category = cookieCategories.find((c) => c.id === item.slug);
           if (!category) return null;
           const toggleId = `${id}-toggle`;
           return (
             <div className="flex items-center gap-3 w-full">
+              <div
+                className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-500 text-lg font-semibold ${
+                  expanded ? "bg-primary text-bg" : "bg-primary/20 text-accent"
+                }`}
+                aria-hidden="true"
+              >
+                <Suspense fallback={null}>
+                  <LazyIcon
+                    icon={expanded ? "lucide:minus" : "lucide:plus"}
+                    size="sm"
+                    className="w-4 h-4"
+                  />
+                </Suspense>
+              </div>
               <span className="font-semibold text-heading text-base flex-1">
                 {category.title}
               </span>
@@ -224,7 +245,8 @@ function CookiePreferencesModal({
             </div>
           );
         }}
-      />
+        />
+      </Suspense>
 
       {accordionItems.map((item, idx) => (
         <div
@@ -242,7 +264,7 @@ function CookiePreferencesModal({
         <Button
           variant="secondary"
           onClick={handleRejectAll}
-          className="flex-1 rounded-xl border-2 border-primary bg-bg px-6 py-4 font-semibold text-primary transition-colors hover:bg-primary/10 disabled:opacity-50"
+          className="flex-1"
           type="button"
           disabled={isPending}
         >
@@ -251,7 +273,8 @@ function CookiePreferencesModal({
         <Button
           variant="primary"
           onClick={handleConfirm}
-          className="flex-1 rounded-xl bg-primary px-6 py-4 font-semibold text-bg transition-colors hover:bg-primary-700 disabled:opacity-50"
+          className="flex-1"
+          animated={false}
           type="button"
           disabled={isPending}
         >

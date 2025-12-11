@@ -1,9 +1,14 @@
 ---
 title: "Capabilities"
 description: "Our technical expertise and service capabilities"
+heading:
+  before: "Capabilities that keep your site"
+  text: "fast, secure, and constantly improving."
+  after: "Tap the talent you need—design, development, SEO, hosting, and support."
 hasPage: true
 itemsHasPage: true
 itemsRootPath: false
+itemsLayout: "../../layouts/collections/ServicesLayout.astro"
 itemsAddToMenu:
   - menu: "main-menu"
 addToMenu:
@@ -15,7 +20,7 @@ import { query, sortByOrder } from '@/utils/query';
 
 <ContentRenderer
   query={query("capabilities").orderBy(sortByOrder())}
-  variant="GridVariant"
+  variant="CardVariant"
   columns={3}
   gap="md"
 />

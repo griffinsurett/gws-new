@@ -31,7 +31,7 @@ interface Props {
   /** Array of items with Content component or raw HTML */
   items: ContentItem[];
   /** Unique identifier for this bridge instance (used for DOM IDs) */
-  bridgeId: string;
+  bridgeId?: string | number;
   /** Additional CSS classes */
   className?: string;
 }
@@ -41,16 +41,25 @@ const {
   bridgeId,
   className = "",
 } = Astro.props as Props;
+
+const normalizedBridgeId =
+  (
+    typeof bridgeId === "string"
+      ? bridgeId.trim()
+      : bridgeId != null
+        ? String(bridgeId)
+        : ""
+  ) || "content-bridge";
 ---
 
-<div class={`content-bridge ${className}`} data-bridge-id={bridgeId}>
+<div class={`content-bridge ${className}`} data-bridge-id={normalizedBridgeId}>
   {/* 
     Server-Side Rendering: 
     Render all content in hidden containers with unique IDs
   */}
   {items.map((item, index) => (
     <div
-      id={`${bridgeId}-slot-${index}`}
+      id={`${normalizedBridgeId}-slot-${index}`}
       style="display: none;"
       data-bridge-slot={index}
     >
@@ -69,5 +78,5 @@ const {
     Receives normal props (including contentSlotId strings)
     Uses document.getElementById() to access content
   */}
-  <slot />
+  <slot bridgeId={normalizedBridgeId} />
 </div>

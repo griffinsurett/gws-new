@@ -117,3 +117,15 @@ export {
   findWhere,
   findAll,
 } from './query';
+
+// Query snippets (pre-built patterns)
+export {
+  byTag,
+  roots,
+  leaves,
+  children,
+  parent,
+  siblings,
+  related,
+  relatedRoots,
+} from './snippets';

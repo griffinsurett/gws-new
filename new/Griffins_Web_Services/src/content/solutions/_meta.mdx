@@ -1,9 +1,14 @@
 ---
 title: "Solutions"
 description: "Comprehensive web solutions tailored to your business needs"
+heading:
+  before: "Website packages that start with"
+  text: "your business goals"
+  after: "and end with measurable growth."
 hasPage: true
 itemsHasPage: true
 itemsRootPath: false
+itemsLayout: "../../layouts/collections/ServicesLayout.astro"
 itemsAddToMenu:
   - menu: "main-menu"
 addToMenu:
@@ -15,7 +20,7 @@ import { query, sortByOrder } from '@/utils/query';
 
 <ContentRenderer
   query={query("solutions").orderBy(sortByOrder())}
-  variant="GridVariant"
+  variant="CardVariant"
   columns={3}
   gap="lg"
 />

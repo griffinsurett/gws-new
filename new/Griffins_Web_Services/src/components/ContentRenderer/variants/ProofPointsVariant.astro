@@ -1,0 +1,46 @@
+---
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import { Image } from "astro:assets";
+import LogoPoster from "@/assets/GWS-animated.png";
+import { toArray } from "@/utils/array";
+
+interface Props extends BaseVariantProps {}
+
+const { items = [], className = "", id } = Astro.props as Props;
+const safeItems = toArray(items);
+const listClass = ["space-y-4", className].filter(Boolean).join(" ");
+---
+
+{safeItems.length > 0 && (
+  <ul id={id} class={listClass}>
+    {safeItems.map((item) => {
+      const record =
+        item && typeof item === "object" && "data" in item
+          ? (item as any).data ?? item
+          : item ?? {};
+
+      const rendered =
+        (record.title && record.description)
+          ? `${record.title} — ${record.description}`
+          : record.title ?? record.description ?? "";
+
+      return (
+        <li class="flex items-start gap-2 text-base leading-relaxed text-text">
+          <span class="shrink-0">
+            <Image
+              src={LogoPoster}
+              alt="Griffin's Web Services Logo"
+              widths={[32]}
+              heights={[32]}
+              sizes="32px"
+              class="w-6 h-6 rounded-full object-contain border border-accent/30 card-bg"
+            />
+          </span>
+          <span class="text-muted text-sm leading-snug block">
+            {rendered}
+          </span>
+        </li>
+      );
+    })}
+  </ul>
+)}

@@ -14,44 +14,97 @@ import { siteData } from "@/content/siteData";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import { query, sortBy } from "@/utils/query";
 import PreferencesLayout from "./PreferencesLayout.astro";
+import { roots } from "@/utils/query/snippets";
+import Logo from "@/components/Logo/Logo.astro";
 ---
 
-<footer class="mt-auto">
-  <div class="mx-auto">
-    <div class="flex flex-col justify-between items-center gap-6 py-4 w-full">
-      {/* Legal and privacy links */}
-      <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+<footer class="mt-auto relative border-t border-accent/10 bg-bg2/60">
+  <div class="section-color-border"></div>
+  <div class="mx-auto w-full">
+    <div
+      class="flex flex-wrap gap-10 text-left inner-section sm:text-left justify-between py-20"
+    >
+      {/* Column 1: Brand summary */}
+      <div class="flex flex-col items-start gap-4 lg:w-1/4">
+        <Logo loading="lazy" trigger="scroll" animateOutText={false} />
+        <p class="text-sm text-text/80 lg:text-base">
+          {siteData.description}
+        </p>
         <ContentRenderer
-        query={query("menu-items")
-          .where((entry) => {
-            const menus = entry.data.menu;
-            if (Array.isArray(menus)) {
-              return menus.some((m) => m.id === "footer-menu");
-            }
-            return menus?.id === "footer-menu";
-          })
-          .orderBy(sortBy("order", "asc"))}
-        variant="ListVariant"
-        className="text-bg flex"
-      />
-          
-        <PreferencesLayout />
+          query={query("social-media")}
+          variant="SocialMediaVariant"
+          size="lg"
+          alignment="left"
+          className="text-bg"
+        />
+             {/* Column 3: Contact-Us */}
+        <ContentRenderer
+          query={query("contact-us")}
+          variant="ContactListVariant"
+          size="lg"
+          alignment="left"
+          className="text-bg"
+          showButtonSection={false}
+          showHeadingSection={false}
+        />
       </div>
 
-      {/* Social media icons */}
-      <ContentRenderer
-        query={query("social-media")}
-        variant="SocialMediaVariant"
-        size="md"
-        alignment="left"
-        className="text-bg"
-      />
+      {/* Column 2: Legal links & preferences */}
+      <div class="flex flex-col items-start gap-8 text-sm">
+        <ContentRenderer
+          query={roots("capabilities")}
+          variant="ListVariant"
+          showButtonSection={false}
+          showHeadingDivider
+        />
+        <ContentRenderer
+          query={roots("solutions")}
+          variant="ListVariant"
+          showButtonSection={false}
+          showHeadingDivider
+        />
+      </div>
 
-      {/* Copyright notice */}
-      <p class="text-text text-sm">
-        &copy; {new Date().getFullYear()}
-        {siteData.legalName}. All rights reserved.
-      </p>
+      {/* Column 2: Legal links & preferences */}
+      <div class="flex flex-col items-start gap-8 text-sm">
+        <ContentRenderer
+          query={query("menu-items")
+            .where((entry) => {
+              const menus = entry.data.menu;
+              if (Array.isArray(menus)) {
+                return menus.some((m) => m.id === "footer-menu");
+              }
+              return menus?.id === "footer-menu";
+            })
+            .orderBy(sortBy("order", "asc"))}
+          variant="ListVariant"
+          title="Legal Links"
+          className="text-bg flex flex-col items-start justify-center"
+          showHeadingDivider
+        />
+        <div class="flex flex-col items-start gap-2 text-sm">
+          <PreferencesLayout />
+        </div>
+      </div>
+
+         {/* Column 2: Legal links & preferences */}
+      <div class="flex flex-col items-start gap-8 text-sm">
+        {/* Column 3: Contact-Us */}
+        <ContentRenderer
+          query={roots("industries")}
+          variant="ListVariant"
+          showButtonSection={false}
+          showHeadingDivider
+        />
+      </div>
+    </div>
+
+    <div
+      class="relative flex flex-col text-center items-center border-t border-accent/10 text-text text-sm sm:flex-row justify-center py-6"
+    >
+      <div class="section-color-border"></div>
+      &copy; {new Date().getFullYear()}
+      {siteData.legalName}. All rights reserved.
     </div>
   </div>
 </footer>

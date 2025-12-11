@@ -1,0 +1,111 @@
+---
+// src/components/ContentRenderer/variants/ListCardVariant.astro
+/**
+ * List Card Variant
+ * Single column of horizontal FeatureCards.
+ * Uses the same CardRenderer pattern as CardVariant but with horizontal layout.
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import type { FeatureCardData, FeatureCardProps } from "@/components/LoopComponents/FeatureCard";
+import type { HeadingContent } from "@/content/schema";
+import CardRenderer from "@/components/LoopTemplates/CardRenderer.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import Button from "@/components/Button/Button";
+import { shouldShowCollectionCTA } from "../utils/helpers";
+import { toArray } from "@/utils/array";
+
+interface Props extends BaseVariantProps {
+  ctaHref?: string;
+  ctaText?: string;
+  heading?: string | HeadingContent | null;
+}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "outer-section bg-bg",
+  collectionUrl,
+  collectionTitle,
+  id,
+  showButtonSection = true,
+  ctaHref,
+  ctaText,
+  heading: headingValue,
+} = Astro.props as Props;
+
+const safeItems = toArray(items) as FeatureCardData[];
+
+const normalizedHeading = headingValue ?? title;
+const isSegmentedHeading =
+  typeof normalizedHeading === "object" && normalizedHeading !== null;
+const headingString =
+  typeof normalizedHeading === "string"
+    ? normalizedHeading
+    : isSegmentedHeading
+    ? normalizedHeading.text ?? ""
+    : undefined;
+const segmentedHeading = isSegmentedHeading ? normalizedHeading : undefined;
+const resolvedHeading = headingString ?? (segmentedHeading ? segmentedHeading.text : undefined);
+const headingPayload = segmentedHeading ?? resolvedHeading;
+const showHeader = Boolean(title || headingPayload || description);
+const gridMarginClass = showHeader ? "mt-12" : "";
+const showCTA =
+  showButtonSection &&
+  shouldShowCollectionCTA(collectionUrl, safeItems.length) &&
+  (ctaText || title || collectionTitle) &&
+  (ctaHref || collectionUrl);
+
+// Configure FeatureCard for horizontal layout
+const featureCardProps: Partial<FeatureCardProps> = {
+  listItemProps: {
+    layout: "horizontal",
+    alignment: "left",
+    className: "gap-6 items-start",
+    iconClassName: "card-icon-color mr-2",
+    iconSize: "xl",
+    titleClassName: "h3 mb-1",
+    titleTag: "h3",
+    descriptionClassName: "text-text leading-relaxed",
+    descriptionTag: "p",
+  },
+};
+---
+
+<section id={id} class={`relative overflow-hidden ${className}`.trim()}>
+  <div class="section-dim-border"></div>
+
+  <div class="inner-section">
+    {showHeader && (
+      <div class="heading-padding">
+        <SectionHeader
+          title={title}
+          heading={headingPayload}
+          description={description}
+        />
+      </div>
+    )}
+
+    <div class="list-card-variant">
+      <CardRenderer
+        items={safeItems}
+        columns={1}
+        className={gridMarginClass}
+        featureCardProps={featureCardProps}
+      />
+    </div>
+
+    {showCTA && (
+      <div class="buttons-section-center">
+        <Button
+          href={ctaHref ?? collectionUrl}
+          rightIcon="lu:arrow-right"
+          variant="secondary"
+        >
+          {ctaText ?? `View All ${(title ?? collectionTitle ?? "").trim()}`}
+        </Button>
+      </div>
+    )}
+  </div>
+</section>

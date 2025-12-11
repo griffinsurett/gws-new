@@ -1,10 +1,16 @@
 // src/components/Form/inputs/Select.tsx
 /**
- * Hybrid Select Component
- * Pure TSX component - uses HTML5 validation
+ * Hybrid Select Component with Animated Border styling.
  */
 
-import type { SelectHTMLAttributes } from "react";
+import {
+  useCallback,
+  useId,
+  useState,
+  type FocusEvent,
+  type SelectHTMLAttributes,
+} from "react";
+import AnimatedBorder from "@/components/AnimatedBorder/AnimatedBorder";
 
 interface SelectOption {
   value: string;
@@ -24,6 +30,12 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
   // Control
   showLabel?: boolean;
+  labelHidden?: boolean;
+  describedBy?: string;
+
+  borderDuration?: number;
+  borderWidth?: number;
+  borderRadius?: string;
 }
 
 export default function Select({
@@ -32,43 +44,108 @@ export default function Select({
   required = false,
   options,
   placeholder = "Select an option",
-  containerClassName = "mb-4",
-  labelClassName = "block text-sm font-medium text-text mb-1",
-  selectClassName = "w-full px-4 py-2 border border-surface rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors",
+  containerClassName = "space-y-2",
+  labelClassName = "block text-sm text-text/80",
+  selectClassName = "",
   showLabel = true,
+  labelHidden = false,
+  describedBy,
+  borderDuration = 900,
+  borderWidth = 2,
+  borderRadius = "rounded-xl",
+  id: idProp,
+  onFocus,
+  onBlur,
   ...selectProps
 }: SelectProps) {
+  const [focused, setFocused] = useState(false);
+  const reactId = useId();
+  const id = idProp ?? `${name}-${reactId}`;
+
+  const handleFocus = useCallback(
+    (event: FocusEvent<HTMLSelectElement>) => {
+      setFocused(true);
+      onFocus?.(event);
+    },
+    [onFocus]
+  );
+
+  const handleBlur = useCallback(
+    (event: FocusEvent<HTMLSelectElement>) => {
+      setFocused(false);
+      onBlur?.(event);
+    },
+    [onBlur]
+  );
+
+  const labelClasses = [
+    labelClassName,
+    !showLabel || labelHidden ? "sr-only" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <div className={containerClassName}>
-      {showLabel && label && (
-        <label htmlFor={name} className={labelClassName}>
+      {label && (
+        <label htmlFor={id} className={labelClasses}>
           {label}
-          {required && (
-            <span className="text-red-500 ml-1" aria-label="required">
-              *
-            </span>
-          )}
+          {required && <span aria-hidden="true"> *</span>}
         </label>
       )}
 
-      <select
-        id={name}
-        name={name}
-        className={selectClassName}
-        required={required}
-        {...selectProps}
+      <AnimatedBorder
+        variant="solid"
+        triggers="controlled"
+        active={focused}
+        duration={borderDuration}
+        borderWidth={borderWidth}
+        borderRadius={borderRadius}
+        color="var(--color-accent)"
+        innerClassName={`!bg-transparent !border-transparent p-0 ${borderRadius}`}
       >
-        {placeholder && (
-          <option value="" disabled>
-            {placeholder}
-          </option>
-        )}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+        <div className="relative">
+          <select
+            id={id}
+            name={name}
+            required={required}
+            aria-required={required || undefined}
+            aria-describedby={describedBy}
+            className={`form-field appearance-none pr-10 ${selectClassName}`.trim()}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            {...selectProps}
+          >
+            {placeholder && (
+              <option value="" className="form-option" disabled>
+                {placeholder}
+              </option>
+            )}
+            {options.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                className="form-option"
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+
+          <svg
+            aria-hidden="true"
+            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-primary"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="6,9 12,15 18,9" />
+          </svg>
+        </div>
+      </AnimatedBorder>
     </div>
   );
 }

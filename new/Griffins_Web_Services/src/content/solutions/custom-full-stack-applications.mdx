@@ -1,17 +1,143 @@
 ---
 title: "Custom Full-Stack Applications"
-description: "Bespoke web applications built to your exact specifications"
-parent: "website-solutions"
+description: "When off-the-shelf software doesn't cut it, we build exactly what you need. Custom web applications tailored to your unique workflows, designed to scale with your business."
+heading:
+  before: "Custom apps"
+  text: "built for your business,"
+  after: "not the other way around."
 order: 6
 icon: "fa6-solid:code"
 price: "Starting from $8,000"
 features:
-  - "Custom functionality"
-  - "Database integration"
-  - "User authentication"
-  - "API development"
-  - "Third-party integrations"
-  - "Scalable architecture"
-  - "Ongoing support"
+  - title: "Built to your exact requirements"
+    description: "No compromises or workarounds. We build software that matches how you actually work."
+  - title: "Modern, scalable architecture"
+    description: "Clean code and proven technologies that grow with your business and won't become outdated."
+  - title: "Secure by design"
+    description: "User authentication, role-based permissions, and data encryption baked in from the start."
+  - title: "Third-party integrations"
+    description: "Connect with the tools you already use—CRMs, payment processors, APIs, and more."
+  - title: "Real-time dashboards and reporting"
+    description: "See what's happening in your business at a glance with custom analytics and visualizations."
+  - title: "Mobile-responsive design"
+    description: "Works beautifully on desktop, tablet, and mobile so your team can work from anywhere."
+  - title: "Ongoing support and maintenance"
+    description: "We don't disappear after launch. Hosting, updates, and support plans available."
+benefits:
+  - title: "Eliminate busywork"
+    description: "Automate repetitive tasks and free up your team to focus on work that actually moves the needle."
+    icon: "fa6-solid:wand-magic-sparkles"
+  - title: "Own your edge"
+    description: "Custom software built around your unique processes gives you a competitive advantage no one can copy."
+    icon: "fa6-solid:shield-halved"
+  - title: "Decide with data"
+    description: "Real-time dashboards and custom reporting give you the insights to run your business smarter."
+    icon: "fa6-solid:chart-pie"
+  - title: "Connect your tools"
+    description: "Integrate with your existing CRM, payment processor, or third-party APIs—no more manual data entry."
+    icon: "fa6-solid:plug"
+  - title: "Grow without limits"
+    description: "Modern architecture means your app scales with your business without expensive rebuilds."
+    icon: "fa6-solid:layer-group"
+  - title: "Get support for life"
+    description: "We don't disappear after launch. Ongoing maintenance, updates, and support keep everything running smoothly."
+    icon: "fa6-solid:handshake"
 ---
-For businesses with unique requirements that can't be met by off-the-shelf solutions. We build custom web applications from the ground up, tailored to your specific business processes and workflows.
+import ContentSection from "@/layouts/ContentSection.astro";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro"
+import {
+  query,
+} from "@/utils/query";
+
+<ContentSection
+  heading={{
+    title: "Your business is unique. Your software should be too.",
+    before: "Stop forcing your workflow",
+    text: "into generic software.",
+    after: "Get a solution built for you.",
+    description:
+      "Off-the-shelf tools force you to work around their limitations. Custom applications work exactly how you need them to—no compromises, no workarounds."
+  }}
+  primaryCTA={{
+    text: "Get Your Free Quote",
+    href: "#services-quote-hero",
+    rightIcon: "lu:arrow-right"
+  }}
+  secondaryCTA={{
+    text: "See our work",
+    href: "#services-projects"
+  }}
+  sidebar={{
+    icon: frontmatter.icon,
+    title: "From concept to production",
+    eyebrow: "How we build",
+    description:
+      "We partner with you from discovery through launch and beyond. You get a dedicated team that understands your business and builds software that grows with it.",
+    footIcon: "🛠",
+    footTitle: "Built to last",
+    footDescription:
+      "Clean architecture, thorough documentation, and ongoing support mean your investment keeps paying off.",
+    features: frontmatter.features
+  }}
+>
+  <div slot="text" class="space-y-6 text-lg text-muted">
+    <p>
+      Every business has unique processes, data flows, and requirements. When you try to force those into generic software, you end up with workarounds, manual processes, and frustrated teams. Custom software eliminates all of that.
+    </p>
+    <p>
+      We build web applications that match exactly how you work. Customer portals, internal tools, booking systems, dashboards, workflow automation—whatever you need, designed around your specific requirements and integrated with your existing tools.
+    </p>
+    <p>
+      Our process starts with understanding your business deeply. We map out requirements, design interfaces, and build iteratively with your feedback at every step. You're never left guessing what we're building or why.
+    </p>
+  </div>
+
+  <div slot="quick-facts" class="grid gap-4 md:grid-cols-3">
+    <div class="p-4 rounded-2xl border border-muted/20 bg-bg">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">Timeline</p>
+      <p class="text-heading font-semibold">8-16 weeks typical</p>
+    </div>
+    <div class="p-4 rounded-2xl border border-muted/20 bg-bg">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">Process</p>
+      <p class="text-heading font-semibold">Discovery, design, build, launch</p>
+    </div>
+    <div class="p-4 rounded-2xl border border-muted/20 bg-bg">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">After launch</p>
+      <p class="text-heading font-semibold">Hosting + support included</p>
+    </div>
+  </div>
+
+  <ul slot="proof-points" class="space-y-3">
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Built to your exact specifications—no compromises or workarounds needed.
+      </p>
+    </li>
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Modern, secure architecture that scales as your business grows.
+      </p>
+    </li>
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Integrations with your existing tools: CRMs, payment systems, APIs, and more.
+      </p>
+    </li>
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Thorough documentation and training so your team can use it confidently.
+      </p>
+    </li>
+  </ul>
+
+  <div slot="bottom-section">
+    <ContentRenderer
+      query={query("stats")}
+      variant="StatsVariant"
+    />
+  </div>
+</ContentSection>

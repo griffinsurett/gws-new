@@ -1,0 +1,97 @@
+---
+// src/layouts/QuoteHero.astro
+import Button from "@/components/Button/Button";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import QuoteForm from "@/components/Form/forms/QuoteForm.astro";
+import { query } from "@/utils/query";
+import { siteData } from "@/content/siteData";
+
+interface CTA {
+  text: string;
+  link: string;
+  rightIcon?: string;
+  /**
+   * @deprecated Prefer rightIcon for consistency with Button props.
+   */
+  icon?: string;
+}
+
+export interface Props {
+  title?: string;
+  headingBefore?: string;
+  headingEmphasis?: string;
+  headingAfter?: string;
+  description?: string;
+  primaryCTA?: CTA;
+  className?: string;
+  id?: string;
+}
+
+const defaultDescription =
+  "Hand-crafted websites, automated systems, and ongoing support so you can sell more, grow faster, and stay secure without juggling multiple vendors.";
+
+const {
+  title,
+  headingBefore,
+  headingEmphasis,
+  headingAfter,
+  description = siteData.description ?? defaultDescription,
+  primaryCTA: incomingPrimaryCTA = {
+    text: "Book An Intro Call",
+    link: "#contact",
+    rightIcon: "lu:arrow-right"
+  },
+  className = "",
+  id = "hero",
+} = Astro.props as Props;
+
+const primaryCTA = {
+  ...incomingPrimaryCTA,
+  rightIcon:
+    incomingPrimaryCTA.rightIcon ??
+    incomingPrimaryCTA.icon ??
+    "lu:arrow-right",
+};
+---
+
+<section
+  id={id}
+  class={`min-h-screen bg-bg flex items-center justify-center relative overflow-hidden ${className}`}
+>
+  <div class="absolute inset-0 hero-gradient-bg"></div>
+
+  <div class="relative z-10 min-h-screen inner-section  mx-auto flex flex-col lg:flex-row justify-between items-center lg:gap-12 space-y-8">
+
+      <div
+        class="flex-1 flex flex-col gap-2 lg:gap-6 justify-center items-start min-h-screen hero-spacing w-full"
+      >
+        <SectionHeader
+          className="text-left w-full hero-spacing"
+          title={title}
+          headingBefore={headingBefore}
+          headingEmphasis={headingEmphasis}
+          headingAfter={headingAfter}
+          headingTag="h1"
+          headingClassName="text-4xl lg:text-5xl leading-tight"
+          description={description ?? defaultDescription}
+          descriptionClassName="hero-text text-lg leading-relaxed mx-0 lg:mx-auto"
+        />
+
+        <div class="flex flex-col lg:flex-row items-center justify-left gap-3 lg:gap-6 w-auto">
+          <Button
+            href={primaryCTA.link}
+            variant="primary"
+            size="lg"
+            rightIcon={primaryCTA.rightIcon}
+          >
+            {primaryCTA.text}
+          </Button>
+        </div>
+      </div>
+
+      <div class="flex-1 w-full md:mb-0 mb-20">
+        <QuoteForm />
+      </div>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+---
+// src/components/ContentRenderer/variants/TechnologiesVariant.astro
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import TechStackSection from "@/components/LoopTemplates/TechStackSection";
+import { toArray } from "@/utils/array";
+
+interface Props extends BaseVariantProps {}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "",
+  id,
+  collectionTitle,
+} = Astro.props as Props;
+
+const safeItems = toArray(items);
+---
+
+<section
+  id={id}
+  class={`outer-section bg-bg relative overflow-hidden ${className}`.trim()}
+>
+  <!-- <div class="section-dim-border"></div> -->
+
+  {safeItems.length > 0 && (
+    <TechStackSection
+      client:visible
+      technologies={safeItems}
+      eyebrow={collectionTitle ?? title}
+      title={title ?? collectionTitle}
+      description={description}
+    />
+  )}
+</section>

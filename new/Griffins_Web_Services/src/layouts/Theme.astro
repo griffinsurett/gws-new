@@ -23,40 +23,35 @@ import "../styles/global.css";
 
 <!-- Theme detection script (runs before content loads to prevent FOUC) -->
 <script is:inline>
-  // Prevent FOUC (Flash of Unstyled Content)
+  // Minimal blocking script - only set essential theme attributes
   (function() {
-    try {
-      // Get saved theme; default to dark unless user picked light
-      const savedTheme = localStorage.getItem('theme');
-      const theme = (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme : 'dark';
-      
-      // Get saved accent color
-      const accent = localStorage.getItem('accent') || 'var(--main-accent)';
-      
-      // Apply theme immediately
-      const root = document.documentElement;
-      root.setAttribute('data-theme', theme);
-      root.style.setProperty('--color-accent', accent);
-      
-      // Set color-scheme for native elements
-      root.style.colorScheme = theme;
-      
-      // Update theme-color meta tag
-      const computed = getComputedStyle(root).getPropertyValue('--color-bg').trim();
-      if (computed) {
-        let meta = document.querySelector('meta[name="theme-color"]');
-        if (!meta) {
-          meta = document.createElement('meta');
-          meta.setAttribute('name', 'theme-color');
-          document.head.appendChild(meta);
+    var d = document.documentElement;
+    var t = localStorage.getItem('theme');
+    t = (t === 'light' || t === 'dark') ? t : 'dark';
+    d.setAttribute('data-theme', t);
+    d.style.colorScheme = t;
+    var a = localStorage.getItem('accent');
+    if (a) d.style.setProperty('--color-accent', a);
+  })();
+</script>
+<!-- Deferred theme enhancements (non-blocking) -->
+<script>
+  // Update theme-color meta after paint - double-deferred to avoid forced reflow
+  (function() {
+    function updateThemeColor() {
+      // Use rAF to batch with next paint, avoiding layout thrashing
+      requestAnimationFrame(function() {
+        var computed = getComputedStyle(document.documentElement).getPropertyValue('--color-bg').trim();
+        if (computed) {
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', computed);
         }
-        meta.setAttribute('content', computed);
-      }
-    } catch (e) {
-      // Fallback to dark theme if anything fails
-      const root = document.documentElement;
-      root.setAttribute('data-theme', 'dark');
-      root.style.colorScheme = 'dark';
+      });
+    }
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(updateThemeColor, { timeout: 2000 });
+    } else {
+      setTimeout(updateThemeColor, 100);
     }
   })();
 </script>

@@ -1,0 +1,12 @@
+---
+/**
+ * ThemeControls - Deferred Loading
+ *
+ * Uses LazyThemeControls which returns null until browser is idle,
+ * then dynamically imports and renders the full ThemeControls.
+ * This prevents flash of unstyled content during initial load.
+ */
+import LazyThemeControls from "./LazyThemeControls";
+---
+
+<LazyThemeControls client:idle />

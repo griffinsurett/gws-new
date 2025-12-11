@@ -9,9 +9,12 @@ import type { BaseVariantProps } from "../ContentRenderer.types";
 import ArticleCard from "@/components/LoopComponents/ArticleCard.astro";
 import Button from "@/components/Button/Button";
 import { shouldShowCollectionCTA } from "../utils/helpers";
+import { toArray } from "@/utils/array";
 
 interface Props extends BaseVariantProps {
   columns?: 1 | 2 | 3;
+  ctaHref?: string;
+  ctaText?: string;
 }
 
 const {
@@ -23,9 +26,12 @@ const {
   collectionUrl,
   collectionTitle,
   id,
+  showButtonSection = true,
+  ctaHref,
+  ctaText,
 } = Astro.props as Props;
 
-const viewAllText = `View All ${collectionTitle || "Articles"}`;
+const safeItems = toArray(items);
 
 const columnClasses = {
   1: "grid-cols-1",
@@ -35,40 +41,38 @@ const columnClasses = {
 ---
 
 <section id={id} class={`py-16 ${className}`}>
-  {
-    (title || description) && (
-      <div class="text-center mb-12">
-        {title && <h2 class="text-4xl font-bold mb-4">{title}</h2>}
-        {description && (
-          <p class="text-lg text-text max-w-2xl mx-auto">{description}</p>
-        )}
-      </div>
-    )
-  }
+  {(title || description) && (
+    <div class="text-center mb-12">
+      {title && <h2 class="text-4xl font-bold mb-4">{title}</h2>}
+      {description && (
+        <p class="text-lg text-text max-w-2xl mx-auto">{description}</p>
+      )}
+    </div>
+  )}
 
-  <ul class={`grid ${columnClasses[columns]} gap-8 list-none`}>
-    {
-      items.map((item) => (
+  {safeItems.length > 0 && (
+    <ul class={`grid ${columnClasses[columns]} gap-8 list-none`}>
+      {safeItems.map((item) => (
         <li>
           <ArticleCard {...item} />
         </li>
-      ))
-    }
-  </ul>
+      ))}
+    </ul>
+  )}
 
-  {
-    shouldShowCollectionCTA(collectionUrl, items.length) && (
-      <div class="mt-12 text-center">
-        <Button
-          client:load
-          href={collectionUrl}
-          rightIcon="lu:arrow-right"
-          variant="primary"
-          size="lg"
-        >
-          {viewAllText}
-        </Button>
-      </div>
-    )
-  }
+  {showButtonSection &&
+    shouldShowCollectionCTA(collectionUrl, safeItems.length) &&
+    (ctaText || title || collectionTitle) &&
+    (ctaHref || collectionUrl) && (
+    <div class="mt-12 text-center">
+      <Button
+        href={ctaHref ?? collectionUrl}
+        rightIcon="lu:arrow-right"
+        variant="primary"
+        size="lg"
+      >
+        {ctaText ?? `View All ${(title ?? collectionTitle ?? "").trim()}`}
+      </Button>
+    </div>
+  )}
 </section>

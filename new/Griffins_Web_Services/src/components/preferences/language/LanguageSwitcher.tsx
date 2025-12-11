@@ -70,6 +70,17 @@ export default function LanguageSwitcher() {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const handler = (event: StorageEvent) => {
+      if (event.key !== "user-language") return;
+      const next = getLanguageByCode(event.newValue || "en") || supportedLanguages[0];
+      setCurrentLanguage(next);
+    };
+
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, []);
+
   const handleLanguageChange = (code: string) => {
     // Check for functional consent before allowing language change
     if (!hasFunctionalConsent) {
@@ -81,7 +92,12 @@ export default function LanguageSwitcher() {
 
     setIsOpen(false);
 
-    // Update localStorage and reload page
+    const nextLanguage = getLanguageByCode(code);
+    if (nextLanguage) {
+      setCurrentLanguage(nextLanguage);
+    }
+
+    // Persist preference and trigger translation
     if (typeof window !== "undefined" && (window as any).changeLanguage) {
       (window as any).changeLanguage(code);
     }

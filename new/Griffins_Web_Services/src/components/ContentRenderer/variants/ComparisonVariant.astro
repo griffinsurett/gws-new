@@ -1,0 +1,140 @@
+---
+// src/components/ContentRenderer/variants/ComparisonVariant.astro
+/**
+ * Comparison Variant - Side-by-side "For You / Not For You" qualifier
+ * Features: Two columns with checkmarks vs X marks to qualify/disqualify buyers
+ * Perfect for sales pages to filter serious buyers and build trust through honesty
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import type { HeadingContent } from "@/content/schema";
+import SectionHeader from "@/components/SectionHeader.astro";
+import Button from "@/components/Button/Button";
+import { toArray } from "@/utils/array";
+
+interface ComparisonItem {
+  title?: string;
+  description?: string;
+}
+
+interface Props extends BaseVariantProps {
+  heading?: string | HeadingContent | null;
+  leftTitle?: string;
+  rightTitle?: string;
+  leftItems?: ComparisonItem[];
+  rightItems?: ComparisonItem[];
+  ctaHref?: string;
+  ctaText?: string;
+}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "",
+  id,
+  showButtonSection = true,
+  heading: headingValue,
+  leftTitle = "This is for you if...",
+  rightTitle = "This is NOT for you if...",
+  leftItems = [],
+  rightItems = [],
+  ctaHref,
+  ctaText,
+} = Astro.props as Props;
+
+// SectionHeader handles heading normalization automatically
+const showHeader = Boolean(title || headingValue || description);
+
+const safeLeftItems = toArray(leftItems);
+const safeRightItems = toArray(rightItems);
+---
+
+<section id={id} class={`outer-section bg-bg relative ${className}`.trim()}>
+  <div class="section-dim-border"></div>
+
+  <div class="inner-section">
+    {showHeader && (
+      <SectionHeader
+        title={title}
+        heading={headingValue}
+        description={description}
+      />
+    )}
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
+      {/* Left Column - For You */}
+      <div class="rounded-3xl border border-accent/30 bg-accent/5 p-6 lg:p-8">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-accent/20 text-accent text-xl font-bold">
+            ✓
+          </span>
+          <h3 class="text-xl font-semibold text-heading">{leftTitle}</h3>
+        </div>
+
+        {safeLeftItems.length > 0 && (
+          <ul class="space-y-4">
+            {safeLeftItems.map((item) => (
+              <li class="flex items-start gap-3">
+                <span class="shrink-0 flex h-6 w-6 items-center justify-center rounded-full bg-accent/15 text-accent text-xs font-bold mt-0.5">
+                  ✓
+                </span>
+                <div>
+                  {item.title && (
+                    <p class="text-heading font-medium">{item.title}</p>
+                  )}
+                  {item.description && (
+                    <p class="text-muted text-sm mt-0.5">{item.description}</p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* Right Column - Not For You */}
+      <div class="rounded-3xl border border-red-500/20 bg-red-500/5 p-6 lg:p-8">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-red-500/15 text-red-400 text-xl font-bold">
+            ✕
+          </span>
+          <h3 class="text-xl font-semibold text-heading">{rightTitle}</h3>
+        </div>
+
+        {safeRightItems.length > 0 && (
+          <ul class="space-y-4">
+            {safeRightItems.map((item) => (
+              <li class="flex items-start gap-3">
+                <span class="shrink-0 flex h-6 w-6 items-center justify-center rounded-full bg-red-500/10 text-red-400 text-xs font-bold mt-0.5">
+                  ✕
+                </span>
+                <div>
+                  {item.title && (
+                    <p class="text-heading font-medium">{item.title}</p>
+                  )}
+                  {item.description && (
+                    <p class="text-muted text-sm mt-0.5">{item.description}</p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+
+    {showButtonSection && ctaHref && ctaText && (
+      <div class="buttons-section-center">
+        <Button
+          href={ctaHref}
+          rightIcon="lu:arrow-right"
+          variant="primary"
+          size="lg"
+        >
+          {ctaText}
+        </Button>
+      </div>
+    )}
+  </div>
+</section>

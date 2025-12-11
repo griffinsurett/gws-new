@@ -14,7 +14,7 @@
  * @returns Object mapping variant names to their component modules
  * @example
  * {
- *   'GridVariant': GridVariantComponent,
+ *   'CardVariant': CardVariantComponent,
  *   'BlogVariant': BlogVariantComponent,
  *   ...
  * }

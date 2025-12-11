@@ -21,7 +21,7 @@ export function SquareCheckbox({
         {...props}
       />
       <span
-        className="w-8 h-8 block rounded-sm border-2 border-transparent peer-checked:border-primary-light peer-checked:shadow-lg transition-colors"
+        className="w-7 h-7 sm:w-8 sm:h-8 block rounded-sm border-2 border-transparent peer-checked:border-primary-light peer-checked:shadow-lg transition-colors"
         style={{ backgroundColor: color }}
       />
     </label>

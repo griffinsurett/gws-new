@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import useLocalStorageState from "@/hooks/useLocalStorageState";
 
+// Cache for theme colors to avoid repeated getComputedStyle calls
+const themeColorCache: Record<string, string> = {};
+
 export function UseMode() {
   const [theme, setTheme] = useLocalStorageState<"light" | "dark">(
     "theme",
@@ -18,21 +21,33 @@ export function UseMode() {
     const root = document.documentElement;
     const nextTheme = isLight ? "light" : "dark";
 
+    // Batch DOM writes first (no reflow)
     root.setAttribute("data-theme", nextTheme);
     root.style.colorScheme = nextTheme;
 
-    const computed = getComputedStyle(root)
-      .getPropertyValue("--color-bg")
-      .trim();
+    // Triple-defer: idle → rAF → read
+    // This ensures styles have settled before we read computed values
+    const updateMeta = () => {
+      requestAnimationFrame(() => {
+        // Check cache first to avoid expensive getComputedStyle
+        let bgColor = themeColorCache[nextTheme];
 
-    if (computed) {
-      let meta = document.querySelector('meta[name="theme-color"]');
-      if (!meta) {
-        meta = document.createElement("meta");
-        meta.name = "theme-color";
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute("content", computed);
+        if (!bgColor) {
+          bgColor = getComputedStyle(root).getPropertyValue("--color-bg").trim();
+          if (bgColor) themeColorCache[nextTheme] = bgColor;
+        }
+
+        if (bgColor) {
+          const meta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
+          if (meta) meta.content = bgColor;
+        }
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(updateMeta, { timeout: 2000 });
+    } else {
+      setTimeout(updateMeta, 50);
     }
   }, [isLight]);
 

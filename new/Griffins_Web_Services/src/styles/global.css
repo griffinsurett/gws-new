@@ -5,6 +5,17 @@
 @import "@/styles/system.css";
 @import "@/styles/animation.css";
 
+@font-face {
+  font-family: "TikTok Sans";
+  src: url("/fonts/TikTok_Sans/TikTokSans-Latin.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
 /* ============================================================
  * 1. COLOR MODES & TOKENS
  * ============================================================ */
@@ -22,7 +33,7 @@
   --main-accent: #5e76f6;
 
   /* ───── ACCENT – secondary / interactive ───── */
-  --color-accent: var(--color-purple-700);  /* complementary accent color */
+  --color-accent: #5e76f6;  /* complementary accent color */
 
   /* ───── PRIMARY – change ONLY this one line for the brand ───── */
   --color-primary: var(--color-accent);   /* keep in sync with accent picker */
@@ -35,8 +46,8 @@
   /* ───── Neutrals ───── */
   /* Text colors */
   --color-heading: var(--color-tertiary-dark);
-  --color-text: var(--text-zinc-700);
-  --color-muted: var(--text-zinc-200);
+  --color-text: var(--color-zinc-300);
+  --color-muted: var(--color-zinc-200);
 
   /* Background surfaces */
   --color-bg: var(--color-primary-dark);
@@ -71,11 +82,12 @@
 
     /* Extras */
   --color-border-dim: rgba(255, 255, 255, 0.2);
-  --font-header: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body: "Open Sans", Helvetica, Arial, sans-serif;
+  --font-header: "TikTok Sans", Helvetica, Arial, sans-serif;
+  --font-body: "TikTok Sans", Helvetica, Arial, sans-serif;
 }
 
 body {
+  font-family: var(--font-body, "TikTok Sans", Helvetica, Arial, sans-serif);
   @apply overflow-x-hidden;
 }
 
@@ -88,7 +100,7 @@ body {
   .btn-base {
     @apply inline-flex items-center justify-center gap-2;
     @apply font-semibold rounded-lg transition-all duration-200;
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply focus:outline-none;
     @apply disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
@@ -98,20 +110,20 @@ body {
   }
 
   .btn-sm {
-    @apply px-3 py-1.5 text-sm;
+    @apply px-4 py-2 lg:px-8 lg:py-3 text-sm;
   }
   
   .btn-md {
-    @apply px-4 py-2 text-base;
+    @apply px-6 py-3 lg:px-10 lg:py-4 text-base;
   }
   
   .btn-lg {
-    @apply px-6 py-3 text-lg;
+    @apply px-8 py-4 lg:px-12 lg:py-5 text-lg;
   }
 
   /* Link base styles */
   .link-base {
-    @apply inline-flex items-center gap-1;
+    @apply inline-flex items-center gap-1 tracking-wide;
     @apply text-primary hover:text-primary-700 hover:underline;
     @apply bg-transparent font-normal;
     @apply transition-colors duration-200;
@@ -134,6 +146,11 @@ body {
 }
 
 @layer utilities {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+  }
+
   @keyframes slide-up {
     from {
       opacity: 0;
@@ -174,6 +191,7 @@ body {
   }
 
   body {
+    font-family: var(--font-body, "TikTok Sans", Helvetica, Arial, sans-serif);
     @apply bg-bg overflow-x-hidden;
   }
 
@@ -186,7 +204,7 @@ body {
   [data-theme="light"] {
     --color-primary: var(--color-zinc-900);
     --color-heading: var(--color-tertiary-dark);
-    --color-text: var(--text-zinc-700);
+    --color-text: var(--color-zinc-600);
     --color-muted: var(--text-zinc-600);
     --color-bg: var(--color-primary-light);
     --color-bg2: var(--color-secondary-light);
@@ -196,8 +214,8 @@ body {
   [data-theme="dark"] {
     --color-primary: var(--color-accent);
     --color-heading: var(--color-primary-light);
-    --color-text: var(--color-secondary-light);
-    --color-muted: var(--text-zinc-200);
+    --color-text: var(--color-zinc-300);
+    --color-muted: var(--color-zinc-200);
     --color-bg: var(--color-primary-dark);
     --color-bg2: var(--color-secondary-dark);
     --color-bg3: var(--color-tertiary-dark);
@@ -240,6 +258,10 @@ body {
   @apply dark:bg-primary-light/5 light:bg-primary-dark/5 faded-accent-border transition-all main-duration;
 }
 
+@utility card-bg-2 {
+  @apply bg-bg3 faded-accent-border transition-all main-duration;
+}
+
 /* @utility hover-card-bg {
   @apply hover:bg-transparent hover:border-primary/50;
 } */
@@ -262,7 +284,7 @@ body {
 }
 
 @utility button-style {
-  @apply px-8 py-4 rounded-full cursor-pointer w-full lg:w-auto;
+  @apply rounded-full cursor-pointer;
 }
 
 @utility section-border-styles {
@@ -276,6 +298,7 @@ body {
 /* Form controls */
 @utility form-field {
   @apply w-full bg-transparent border border-accent/20 rounded-xl px-4 py-3 focus:outline-none main-duration transition-all;
+  @apply focus:border-accent;
   @apply dark:focus:bg-primary-dark/70 light:focus:bg-primary-light/70;
   @apply text-muted;
 
@@ -296,6 +319,54 @@ body {
 @utility form-option {
   @apply bg-bg text-heading;
 }
+
+@utility primary-gradient {
+  @apply bg-linear-to-r from-primary to-primary-700;
+}
+
+@utility secondary-gradient {
+  @apply bg-linear-to-r from-accent-300 to-accent;
+}
+
+@utility gradient-disappear-on-hover {
+  @apply hover:bg-transparent hover:from-transparent hover:to-transparent
+}
+
+@utility inner-card-transition {
+    @apply opacity-0 group-hover:opacity-100 transition-opacity main-duration;
+  }
+
+  @utility inner-card-style {
+    @apply absolute;
+  }
+
+  @utility inner-card-color {
+    @apply inset-0 bg-gradient-to-br from-accent/10 to-transparent;
+  }
+
+  @utility consent-banner {
+  @apply max-w-xl w-full bg-transparent border-0 p-0 shadow-none;
+}
+
+  @utility hero-spacing {
+    @apply space-y-5 lg:space-y-3;
+  }
+
+  @utility menu-item-spacing {
+    @apply space-y-5;
+  }
+
+  @utility heading-padding {
+    @apply lg:px-20;
+  }
+
+  @utility sticky-section {
+    @apply lg:sticky lg:top-30;
+  }
+
+  @utility head-foot-section {
+    @apply w-19/20 mx-auto;
+  }
 
 /* ============================================================
  * 4. COMPONENT PATTERNS
@@ -321,7 +392,7 @@ body {
   }
 
   .inner-section {
-    @apply w-9/10 lg:max-w-6xl mx-auto;
+    @apply w-9/10 lg:max-w-7xl lg:px-2 mx-auto;
   }
 
   .inner-section-sm {
@@ -330,6 +401,10 @@ body {
 
   .section-box {
     @apply rounded-3xl p-8 lg:p-12 relative overflow-hidden;
+  }
+
+  .buttons-section-center {
+    @apply text-center mt-12 w-2/3 lg:w-1/2 mx-auto;
   }
 
   .section-dim-border {
@@ -346,12 +421,26 @@ body {
     @apply section-border-styles bg-gradient-to-r from-transparent via-primary to-transparent;
   }
 
+  /* Vertical gradient line for blockquotes - matches section-color-border style */
+  .blockquote-gradient-line {
+    @apply relative pl-6;
+  }
+
+  .blockquote-gradient-line::before {
+    content: "";
+    @apply absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary to-transparent;
+  }
+
   .text-section {
     @apply text-center mb-8;
   }
 
   .emphasized-text {
-    @apply font-bold text-accent;
+    @apply font-bold text-transparent secondary-gradient bg-clip-text;
+  }
+
+  .hover-emphasis-text {
+    @apply font-bold text-heading hover:text-transparent hover:secondary-gradient hover:bg-clip-text
   }
 
   /* Card shells */
@@ -384,7 +473,7 @@ body {
   }
 
   .card-icon-color {
-    @apply bg-gradient-to-br from-primary light:to-bg2 dark:to-primary/25 text-bg;
+    @apply bg-gradient-to-br border-primary border-2 from-primary light:to-bg2 dark:to-primary/25 text-bg;
   }
 
   /* Grid helpers */
@@ -409,17 +498,17 @@ body {
     @apply hover:-translate-y-2 hover:shadow-xl hover:border-accent;
   }
 
-  /* Icon sizing */
+/* Icon sizing */
   .icon-large {
-    @apply w-15 h-15 text-xl lg:text-2xl flex items-center justify-center mx-auto rounded-full relative;
+    @apply w-16 h-16 text-xl lg:text-2xl flex items-center justify-center rounded-full relative;
   }
 
   .icon-medium {
-    @apply w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold;
+    @apply w-14 h-14 rounded-full flex items-center justify-center text-lg font-bold shrink-0;
   }
 
   .icon-small {
-    @apply relative rounded-full w-10 h-10 flex items-center justify-center text-xl;
+    @apply relative rounded-full w-8 h-8 lg:w-12 lg:h-12 flex items-center justify-center text-lg lg:text-xl;
   }
 
   .icon-xsmall {
@@ -445,38 +534,43 @@ body {
 
   /* Typography helpers */
   .h1 {
-    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-heading;
+    @apply text-4xl md:text-5xl leading-tight font-bold text-heading;
   }
 
   .h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-heading;
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold text-heading;
   }
 
   .h3 {
-    @apply text-xl font-semibold text-heading;
+    @apply text-2xl md:text-3xl font-semibold text-heading;
   }
 
   .h4 {
+    @apply font-semibold text-xl text-heading;
+  }
+
+  .h5 {
     @apply font-semibold text-lg text-heading;
   }
 
   .h1,
   .h2,
   .h3,
-  .h4 {
-    @apply font-header;
+  .h4,
+  .h5 {
+    @apply font-header tracking-wide;
   }
 
   p {
     @apply text-text;
   }
 
-  .hero-heading {
+  /* .hero-heading {
     @apply text-4xl md:text-5xl lg:text-6xl xl:text-7xl;
-  }
+  } */
 
   .hero-text {
-    @apply text-lg sm:text-xl md:text-2xl leading-relaxed;
+    @apply text-sm sm:text-xl md:text-2xl leading-relaxed;
   }
 
   .small-text {
@@ -484,7 +578,7 @@ body {
   }
 
   .large-text {
-    @apply text-xl lg:text-2xl leading-relaxed paragraph-spacing;
+    @apply text-xl lg:text-2xl leading-relaxed;
   }
 
   /* Buttons */
@@ -493,7 +587,7 @@ body {
   }
 
   .button-hover-transition {
-    @apply transition-all duration-700 ease-out hover:-translate-y-1 hover:shadow-2xl;
+    @apply transition-all duration-700 ease-out hover:shadow-2xl;
   }
 
   .primary-button-transition {

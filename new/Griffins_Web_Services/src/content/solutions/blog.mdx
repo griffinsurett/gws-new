@@ -1,0 +1,143 @@
+---
+title: "Blogs"
+description: "Turn your expertise into a traffic-driving content engine. We build blogs that rank, convert readers into subscribers, and position you as the go-to authority in your space."
+heading:
+  before: "Content that"
+  text: "ranks & converts"
+  after: "while you sleep."
+order: 3
+icon: "fa6-solid:pen-nib"
+price: "Starting from $1,500"
+features:
+  - title: "Custom CMS built for you"
+    description: "No fighting with clunky page builders. We create an intuitive content system where publishing a polished article takes minutes, not hours."
+  - title: "SEO architecture from day one"
+    description: "Structured data, optimized URLs, internal linking strategy, and Core Web Vitals performance baked into every page so Google actually finds and ranks your content."
+  - title: "Category & tag systems"
+    description: "Smart organization that helps readers discover more of your content while sending clear topical signals to search engines."
+  - title: "Author profiles that build trust"
+    description: "Showcase your team's expertise with professional bios, credentials, and post archives that establish credibility with every article."
+  - title: "Newsletter & subscriber capture"
+    description: "Strategic opt-in placements, lead magnets, and email integrations that turn casual readers into loyal subscribers."
+  - title: "Social sharing on autopilot"
+    description: "Custom Open Graph images, Twitter cards, and share buttons that make your content look professional everywhere it's shared."
+  - title: "Lightning-fast performance"
+    description: "Sub-second load times that keep readers engaged and help you outrank slower competitors in search results."
+benefits:
+  - title: "Become the go-to expert"
+    description: "Consistent, valuable content positions you as the authority customers trust and competitors envy."
+    icon: "fa6-solid:crown"
+  - title: "Drive free organic traffic"
+    description: "Every article is a new opportunity to rank on Google and bring in potential customers without paying for ads."
+    icon: "fa6-solid:arrow-trend-up"
+  - title: "Build your email list"
+    description: "Strategic opt-ins turn casual readers into subscribers you can market to directly, whenever you want."
+    icon: "fa6-solid:envelope-circle-check"
+  - title: "Content that compounds"
+    description: "Unlike ads that stop working when you stop paying, blog posts keep driving traffic for years."
+    icon: "fa6-solid:coins"
+  - title: "Publish with confidence"
+    description: "An intuitive CMS means you can write and publish polished articles in minutes, not hours."
+    icon: "fa6-solid:feather-pointed"
+  - title: "Outrank your competition"
+    description: "SEO-optimized architecture and fast load times help you beat slower, bloated competitor sites."
+    icon: "fa6-solid:trophy"
+---
+import ContentSection from "@/layouts/ContentSection.astro";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro"
+import {
+  query,
+} from "@/utils/query";
+
+<ContentSection
+  heading={{
+    title: "Your expertise deserves a platform",
+    before: "Stop leaving traffic on the table.",
+    text: "Start building authority",
+    after: "with a blog that works.",
+    description:
+      "Most blogs fail because they're built on bloated platforms with zero SEO strategy. We build lean, fast, search-optimized blogs that actually get found."
+  }}
+  primaryCTA={{
+    text: "Get Your Free Quote",
+    href: "#services-quote-hero",
+    rightIcon: "lu:arrow-right"
+  }}
+  secondaryCTA={{
+    text: "See our work",
+    href: "#services-projects"
+  }}
+  sidebar={{
+    icon: frontmatter.icon,
+    title: "Built to grow with you",
+    eyebrow: "Why our blogs win",
+    description:
+      "We don't just build pretty blogs. We engineer content systems that compound over time, driving more traffic month after month.",
+    footIcon: "📈",
+    footTitle: "Content that compounds",
+    footDescription:
+      "Every article you publish becomes a permanent asset working to bring in new readers.",
+    features: frontmatter.features
+  }}
+>
+  <div slot="text" class="space-y-6 text-lg text-muted">
+    <p>
+      You have valuable expertise. Your potential customers are searching for answers you can provide. But if your content is buried on a slow, poorly-structured site, they'll never find you. They'll find your competitors instead.
+    </p>
+    <p>
+      We build blogs engineered for organic growth. That means lightning-fast load times that keep readers engaged. Clean architecture that search engines understand. And a publishing workflow so simple you'll actually use it. No more excuses for not hitting publish.
+    </p>
+    <p>
+      Whether you're starting fresh or migrating years of existing content, we handle the technical complexity so you can focus on what you do best: sharing your knowledge and growing your audience.
+    </p>
+  </div>
+
+  <div slot="quick-facts" class="grid gap-4 md:grid-cols-3">
+    <div class="p-4 rounded-2xl border border-muted/20 bg-bg">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">Timeline</p>
+      <p class="text-heading font-semibold">3-4 weeks to launch</p>
+    </div>
+    <div class="p-4 rounded-2xl border border-muted/20 bg-bg">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">What's included</p>
+      <p class="text-heading font-semibold">Design, CMS, SEO setup</p>
+    </div>
+    <div class="p-4 rounded-2xl border border-muted/20 bg-bg">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">After launch</p>
+      <p class="text-heading font-semibold">Training + ongoing support</p>
+    </div>
+  </div>
+
+  <ul slot="proof-points" class="space-y-3">
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Full SEO foundation: structured data, sitemaps, optimized images, and fast hosting included.
+      </p>
+    </li>
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Easy-to-use CMS with training so you can publish confidently from day one.
+      </p>
+    </li>
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Email capture and newsletter integration to build your subscriber list automatically.
+      </p>
+    </li>
+    <li class="flex items-start gap-3">
+      <span aria-hidden="true" class="text-accent mt-1">✓</span>
+      <p class="text-sm text-muted">
+        Content migration support if you're moving from WordPress, Medium, or another platform.
+      </p>
+    </li>
+  </ul>
+
+  <div slot="bottom-section">
+    <ContentRenderer
+      query={query("stats")}
+      variant="StatsVariant"
+    />
+  </div>
+</ContentSection>

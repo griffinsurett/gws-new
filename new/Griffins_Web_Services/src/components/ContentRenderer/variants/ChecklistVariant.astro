@@ -1,0 +1,122 @@
+---
+// src/components/ContentRenderer/variants/ChecklistVariant.astro
+/**
+ * Checklist Variant - Dual column checklist with checkmarks
+ * Features: Displays items in a two-column grid with checkmark icons
+ * Great for showing capabilities, features, or included items
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import type { HeadingContent } from "@/content/schema";
+import SectionHeader from "@/components/SectionHeader.astro";
+import IconListItem from "@/components/LoopComponents/IconListItem";
+import Button from "@/components/Button/Button";
+import { shouldShowCollectionCTA } from "../utils/helpers";
+import { toArray } from "@/utils/array";
+
+interface Props extends BaseVariantProps {
+  columns?: 1 | 2 | 3;
+  ctaHref?: string;
+  ctaText?: string;
+  heading?: string | HeadingContent | null;
+}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "outer-section bg-bg",
+  columns = 2,
+  collectionUrl,
+  collectionTitle,
+  id,
+  showButtonSection = true,
+  ctaHref,
+  ctaText,
+  heading: headingValue,
+} = Astro.props as Props;
+
+const safeItems = toArray(items);
+
+// Column class mapping
+const columnClasses: Record<number, string> = {
+  1: "grid-cols-1",
+  2: "grid-cols-1 md:grid-cols-2",
+  3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+};
+
+// Heading normalization
+const normalizedHeading = headingValue ?? title;
+const isSegmentedHeading =
+  typeof normalizedHeading === "object" && normalizedHeading !== null;
+const headingString =
+  typeof normalizedHeading === "string"
+    ? normalizedHeading
+    : isSegmentedHeading
+    ? normalizedHeading.text ?? ""
+    : undefined;
+const segmentedHeading = isSegmentedHeading ? normalizedHeading : undefined;
+const headingPayload = segmentedHeading ?? headingString;
+const showHeader = Boolean(title || headingPayload || description);
+
+const showCTA =
+  showButtonSection &&
+  shouldShowCollectionCTA(collectionUrl, safeItems.length) &&
+  (ctaText || title || collectionTitle) &&
+  (ctaHref || collectionUrl);
+---
+
+<section id={id} class={`relative ${className}`.trim()}>
+  <div class="inner-section">
+    {showHeader && (
+      <SectionHeader
+        title={title}
+        heading={headingPayload}
+        description={description}
+        className="text-section"
+      />
+    )}
+
+    {safeItems.length > 0 && (
+      <ul class={`grid ${columnClasses[columns]} gap-5 mt-8 list-none`}>
+        {safeItems.map((item) => {
+          const itemIcon = item.icon || item.data?.icon || "lu:check";
+          return (
+            <li>
+              <IconListItem
+                client:visible
+                data={{
+                  icon: itemIcon,
+                  title: item.title,
+                  description: item.description,
+                }}
+                layout="horizontal"
+                alignment="left"
+                iconClassName="icon-small card-icon-color"
+                iconSize="sm"
+                titleTag="span"
+                titleClassName="font-medium text-heading"
+                descriptionClassName="text-sm text-muted mt-1"
+                descriptionTag="span"
+                className="gap-4 items-start"
+                containerClassName="flex flex-col"
+              />
+            </li>
+          );
+        })}
+      </ul>
+    )}
+
+    {showCTA && (
+      <div class="buttons-section-center">
+        <Button
+          href={ctaHref ?? collectionUrl}
+          rightIcon="lu:arrow-right"
+          variant="secondary"
+        >
+          {ctaText ?? `View All ${(title ?? collectionTitle ?? "").trim()}`}
+        </Button>
+      </div>
+    )}
+  </div>
+</section>

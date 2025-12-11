@@ -33,94 +33,104 @@ const handleSubmit = async (values: any) => {
     successMessage="Thank you for contacting us! We'll get back to you soon."
     errorMessage="There was an error submitting your form. Please try again."
     resetOnSuccess={true}
-    className="w-full"
+    className="group section-box card-bg outer-card-transition md:mx-5 lg:mx-10 xl:mx-15 flex flex-col relative overflow-hidden"
   >
-    <div class="flex flex-col lg:flex-row justify-between gap-2 mb-4">
+    <div class="inner-card-style inner-card-transition inner-card-color" aria-hidden="true"></div>
+
+    <div class="relative z-10 grid gap-4 md:grid-cols-2">
       <Input
+        client:idle
         name="firstName"
         label="First Name"
         type="text"
         required={true}
         minLength={2}
-        placeholder="First Name"
-        containerClassName="mb-0 flex-1"
-        inputClassName="w-full px-4 py-3 card-bg border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+        placeholder="Full Name *"
+        containerClassName="md:col-span-1"
+        showLabel={false}
       />
 
       <Input
+        client:idle
         name="lastName"
         label="Last Name"
         type="text"
         required={true}
         minLength={2}
-        placeholder="Last Name"
-        containerClassName="mb-0 flex-1"
-        inputClassName="w-full px-4 py-3 card-bg border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
+        placeholder="Last Name *"
+        containerClassName="md:col-span-1"
+        showLabel={false}
+      />
+
+      <Input
+        client:idle
+        name="email"
+        label="Email"
+        type="email"
+        required={true}
+        placeholder="Email Address *"
+        containerClassName="md:col-span-1"
+        showLabel={false}
+      />
+
+      <Input
+        client:idle
+        name="phone"
+        label="Phone Number"
+        type="tel"
+        required={true}
+        pattern="[0-9]{10,}"
+        title="Please enter at least 10 digits"
+        placeholder="Phone Number *"
+        containerClassName="md:col-span-1"
+        showLabel={false}
+      />
+
+      <Input
+        client:idle
+        name="company"
+        label="Company Name"
+        type="text"
+        placeholder="Company Name"
+        containerClassName="md:col-span-2"
+        showLabel={false}
+      />
+
+      <Textarea
+        client:idle
+        name="message"
+        label="Your Message"
+        required={true}
+        minLength={10}
+        placeholder="Tell us about your project, goals, and any specific requirements..."
+        rows={5}
+        containerClassName="md:col-span-2"
+        showLabel={false}
       />
     </div>
-
-    <Input
-      name="email"
-      label="Email"
-      type="email"
-      required={true}
-      placeholder="me@website.com"
-      containerClassName="mb-4"
-      inputClassName="w-full px-4 py-3 card-bg border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-    />
-
-    <Input
-      name="phone"
-      label="Phone Number"
-      type="tel"
-      required={true}
-      pattern="[0-9]{10,}"
-      title="Please enter at least 10 digits"
-      placeholder="012-345-6789"
-      containerClassName="mb-4"
-      inputClassName="w-full px-4 py-3 card-bg border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-    />
-
-    <Input
-      name="company"
-      label="Company Name"
-      type="text"
-      placeholder="LLC or whatever you trade as"
-      containerClassName="mb-4"
-      inputClassName="w-full px-4 py-3 card-bg border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
-    />
-
-    <Textarea
-      name="message"
-      label="Your Message"
-      required={true}
-      minLength={10}
-      placeholder="Write your message here..."
-      rows={5}
-      containerClassName="mb-4"
-      textareaClassName="w-full px-4 py-3 card-bg border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark resize-vertical"
-    />
 
     <Checkbox
       name="privacy"
       required
-      containerClassName="mb-6"
-      checkboxClassName="w-4 h-4 text-MainDark border-surface rounded"
+      containerClassName="relative z-10 flex items-center gap-2 md:col-span-2 my-4"
+      labelClassName="flex items-start gap-2 text-sm text-text"
+      checkboxClassName="h-4 w-4 rounded border-muted/60 accent-primary"
     >
       I have read and agree to the{" "}
-      <Button
-        client:load
-        variant="link"
+      <a
         href="/privacy-policy"
         target="_blank"
         rel="noopener noreferrer"
+        class="link-base link-md"
       >
         Privacy Policy
-      </Button>
+      </a>
     </Checkbox>
 
-    <Button client:load variant="primary" type="submit" className="w-full mx-auto">
-      Submit Form
-    </Button>
+    <div class="text-center relative z-10 pt-4">
+      <Button variant="primary" type="submit" className="w-full md:w-auto">
+        Submit Form
+      </Button>
+    </div>
   </FormWrapper>
 </div>

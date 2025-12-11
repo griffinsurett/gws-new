@@ -9,7 +9,7 @@
  * 3. Prepares entries with resolved references and proper URLs
  * 4. Generates unique IDs for sections (with auto-incrementing for duplicates)
  * 5. Delegates rendering to specialized variant components
- * 
+ *
  * ID GENERATION:
  * - Single collection: {collection}-{url-slug} (e.g., "blog-home")
  * - Multi-collection: {coll1-coll2}-{url-slug} (e.g., "blog-portfolio-about")
@@ -17,7 +17,7 @@
  * - Manual override: Pass `id` prop to skip auto-generation
  *
  * USAGE PATTERNS:
- * 
+ *
  * Single-collection (auto-populates title/description from _meta.mdx):
  *   <ContentRenderer query={query('blog').limit(5)} variant="BlogVariant" />
  *
@@ -28,14 +28,14 @@
  *     title="Recent Updates"
  *     description="Latest content"
  *   />
- * 
+ *
  * Static content (no query):
  *   <ContentRenderer
  *     items={[...]}
- *     variant="GridVariant"
+ *     variant="CardVariant"
  *     title="Features"
  *   />
- * 
+ *
  * Manual ID override:
  *   <ContentRenderer
  *     query={query('services')}
@@ -61,12 +61,13 @@ const variantComponents = await getVariantComponents();
 // PROPS: Extract and organize component props
 // ============================================================================
 const {
-  query: queryProp,              // Query object for fetching collection items
-  variant = "GridVariant",       // Which variant to render (defaults to GridVariant)
-  title: titleOverride,          // Manual title override
+  query: queryProp, // Query object for fetching collection items
+  variant = "CardVariant", // Which variant to render (defaults to CardVariant)
+  title: titleOverride, // Manual title override
   description: descriptionOverride, // Manual description override
-  id: manualId,                  // Manual ID override (skips auto-generation)
-  ...restProps                   // All other props (passed to variant)
+  heading: headingOverride, // Manual heading override (supports segmented headings)
+  id: manualId, // Manual ID override (skips auto-generation)
+  ...restProps // All other props (passed to variant)
 } = Astro.props as SectionProps;
 
 // ============================================================================
@@ -78,7 +79,7 @@ if (queryProp) {
   // ──────────────────────────────────────────────────────────────────────────
   // QUERY MODE: Execute query and prepare items
   // ──────────────────────────────────────────────────────────────────────────
-  
+
   // Execute the query to get entries
   const result = await queryProp.get();
 
@@ -92,7 +93,7 @@ if (queryProp) {
     // ═══════════════════════════════════════════════════════════════════════
     // When querying a single collection, we can automatically populate
     // title, description, and "View All" link from the collection's _meta.mdx
-    
+
     // Load collection metadata from _meta.mdx
     const meta = getCollectionMeta(queryCollection);
 
@@ -103,7 +104,7 @@ if (queryProp) {
     const preparedItems = await prepareCollectionEntries(
       result.entries,
       queryCollection,
-      meta
+      meta,
     );
 
     // Check if we're currently ON the collection's index page
@@ -117,17 +118,20 @@ if (queryProp) {
     // Build data object with automatic metadata
     data = {
       items: preparedItems,
-      
+
       // Use manual override if provided, otherwise use meta title
       // (but not on the collection page itself to avoid redundancy)
       title: titleOverride ?? (isOnCollectionPage ? undefined : meta.title),
-      
+
       // Same logic for description
       description:
         descriptionOverride ??
         (isOnCollectionPage ? undefined : meta.description),
+      heading:
+        headingOverride ??
+        (isOnCollectionPage ? undefined : meta.heading),
       featuredImage: meta.featuredImage,
-      
+
       // Only show "View All" link if:
       // 1. Collection has a page (hasPage: true in _meta.mdx)
       // 2. We're not already on the collection page
@@ -135,12 +139,12 @@ if (queryProp) {
         shouldCollectionHavePage(meta) && !isOnCollectionPage
           ? collectionIndexPath
           : undefined,
-      
+
       // Collection title for "View All" button text
       collectionTitle:
         meta.title ||
         queryCollection.charAt(0).toUpperCase() + queryCollection.slice(1),
-      
+
       // Spread any additional props (columns, gap, etc.)
       ...restProps,
     };
@@ -150,7 +154,7 @@ if (queryProp) {
     // ═══════════════════════════════════════════════════════════════════════
     // When querying multiple collections, we can't automatically determine
     // which _meta.mdx to use, so title/description must be provided manually
-    
+
     // Prepare each entry using the same logic as single-collection
     // This ensures proper handling of:
     // - rootPath (items at /slug vs /collection/slug)
@@ -163,7 +167,7 @@ if (queryProp) {
 
         // Use the same prepareEntry logic as single-collection
         return await prepareEntry(entry, collection, meta);
-      })
+      }),
     );
 
     // Build data object - requires manual title/description
@@ -171,6 +175,7 @@ if (queryProp) {
       items: preparedItems,
       title: titleOverride,
       description: descriptionOverride,
+      heading: headingOverride,
       // No collectionUrl or collectionTitle for multi-collection
       ...restProps,
     };
@@ -179,7 +184,7 @@ if (queryProp) {
     if (!titleOverride || !descriptionOverride) {
       console.warn(
         `[ContentRenderer] Multi-collection query used without title/description. ` +
-          `Please provide these props manually when querying multiple collections.`
+          `Please provide these props manually when querying multiple collections.`,
       );
     }
   }
@@ -188,7 +193,13 @@ if (queryProp) {
   // STATIC MODE: No query, using manually provided items
   // ──────────────────────────────────────────────────────────────────────────
   // Useful for hero sections, featured content, or any non-collection data
-  data = restProps.items ? restProps : { items: [], ...restProps };
+  data = {
+    items: restProps.items ?? [],
+    title: titleOverride,
+    description: descriptionOverride,
+    heading: headingOverride,
+    ...restProps,
+  };
 }
 
 // Skip rendering entirely if there are no items to show
@@ -225,12 +236,14 @@ data.id = variantId;
 // Get the variant component or throw error if not found
 const VariantComponent = variantComponents[variant];
 if (!VariantComponent) {
-  const availableVariants = Object.keys(variantComponents).join(', ');
+  const availableVariants = Object.keys(variantComponents).join(", ");
   throw new Error(
-    `Variant "${variant}" not found. Available variants: ${availableVariants}`
+    `Variant "${variant}" not found. Available variants: ${availableVariants}`,
   );
 }
 ---
 
-<!-- Render the selected variant with all prepared data -->
-<VariantComponent {...data} />
+<!-- Render the selected variant with all prepared data and pass through slot content -->
+<VariantComponent {...data}>
+  <slot />
+</VariantComponent>

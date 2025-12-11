@@ -1,0 +1,94 @@
+---
+// src/components/LoopTemplates/CardRenderer.astro
+import FeatureCard from "@/components/LoopComponents/FeatureCard";
+import type { FeatureCardData, FeatureCardProps } from "@/components/LoopComponents/FeatureCard";
+
+type ColumnCount = 1 | 2 | 3 | 4;
+
+interface Props {
+  items?: FeatureCardData[];
+  columns?: ColumnCount;
+  className?: string;
+  getCardClassName?: (item: FeatureCardData, index: number) => string;
+  getRingDuration?: (item: FeatureCardData, index: number) => number;
+  featureCardProps?: Partial<FeatureCardProps>;
+  getFeatureCardProps?: (item: FeatureCardData, index: number) => Partial<FeatureCardProps>;
+}
+
+const {
+  items = [],
+  columns = 3,
+  className = "",
+  getCardClassName,
+  getRingDuration,
+  featureCardProps = {},
+  getFeatureCardProps,
+} = Astro.props as Props;
+
+const safeItems = Array.isArray(items) ? (items as FeatureCardData[]) : [];
+
+const columnClasses: Record<ColumnCount, string> = {
+  1: "grid grid-cols-1 gap-8",
+  2: "grid grid-cols-1 md:grid-cols-2 gap-8",
+  3: "max-3-secondary",
+  4: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8",
+};
+
+const resolveClassName = (item: FeatureCardData, index: number): string => {
+  if (typeof getCardClassName === "function") return getCardClassName(item, index);
+  const record = item as Record<string, any>;
+  return [record?.class, record?.className].filter(Boolean).join(" ");
+};
+
+const resolveRingDuration = (item: FeatureCardData, index: number): number => {
+  if (typeof getRingDuration === "function") return getRingDuration(item, index);
+  const record = item as Record<string, any>;
+  return typeof record?.ringDuration === "number" ? record.ringDuration : 800;
+};
+
+const resolveFeatureCardProps = (item: FeatureCardData, index: number) => {
+  const dynamicProps = typeof getFeatureCardProps === "function" ? getFeatureCardProps(item, index) : {};
+  return {
+    ...featureCardProps,
+    ...dynamicProps,
+  };
+};
+---
+
+{
+  safeItems.length > 0 && (
+    <ul class={`${columnClasses[columns]} list-none ${className}`.trim()}>
+      {safeItems.map((item, index) => (
+        <li class="h-full">
+          {
+            (() => {
+              const mergedProps = resolveFeatureCardProps(item, index);
+              const {
+                className: overrideClassName,
+                ringDuration: overrideRingDuration,
+                data: _ignoredData,
+                ...restFeatureCardProps
+              } = mergedProps ?? {};
+              const resolvedClassName = [resolveClassName(item, index), overrideClassName]
+                .filter(Boolean)
+                .join(" ");
+              const resolvedRingDuration =
+                typeof overrideRingDuration === "number"
+                  ? overrideRingDuration
+                  : resolveRingDuration(item, index);
+              return (
+                <FeatureCard
+                  client:visible
+                  data={item}
+                  ringDuration={resolvedRingDuration}
+                  className={resolvedClassName}
+                  {...restFeatureCardProps}
+                />
+              );
+            })()
+          }
+        </li>
+      ))}
+    </ul>
+  )
+}

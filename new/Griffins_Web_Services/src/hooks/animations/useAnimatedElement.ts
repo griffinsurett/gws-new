@@ -1,1 +1,0 @@
-export { useAnimatedElement } from "./useViewAnimation";

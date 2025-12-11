@@ -1,8 +1,11 @@
 // src/components/Button/utils.tsx
-import { isValidElement, type ReactNode } from 'react';
-import Icon from '@/components/Icon';
+import { isValidElement, lazy, Suspense, type ReactNode } from 'react';
 import type { IconSize } from '@/utils/icons/iconLoader';
 import type { ButtonSize } from './Button';
+
+// Lazy load Icon to prevent icons chunk from loading until actually needed
+// This breaks the dependency chain so buttons without icons don't pull in the icons chunk
+const LazyIcon = lazy(() => import('@/components/Icon'));
 
 function mapButtonSizeToIconSize(size?: ButtonSize): IconSize {
   return size ?? 'md';
@@ -16,14 +19,20 @@ export function renderButtonIcon(
 
   const iconSize = mapButtonSizeToIconSize(size);
   if (isValidElement(icon)) return icon;
-  if (typeof icon === 'string') return <Icon icon={icon} size={iconSize} />;
+  if (typeof icon === 'string') {
+    return (
+      <Suspense fallback={null}>
+        <LazyIcon icon={icon} size={iconSize} />
+      </Suspense>
+    );
+  }
   return null;
 }
 
 const BUTTON_SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'px-6 py-3 text-base',
-  md: 'px-8 py-4 text-lg',
-  lg: 'px-10 py-5 text-xl',
+  sm: 'btn-sm',
+  md: 'btn-md',
+  lg: 'btn-lg',
 };
 
 export function getButtonBaseClasses(size?: ButtonSize): string {

@@ -4,7 +4,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useVisibility } from "../hooks/animations/useVisibility";
-import { useScrollInteraction } from "../hooks/animations/useInteractions";
+import { useScrollInteraction } from "@/hooks/interactions/useScrollInteraction";
 
 // Helper: run after the browser is idle (fallback to setTimeout)
 const onIdle = (cb) => {
@@ -76,21 +76,26 @@ export default function OptimizedLottie({
     resettingToStartRef.current = false;
   }, []);
 
-  // Detect if page can scroll (affects "auto" trigger)
+  // Detect if page can scroll (affects "auto" trigger) - deferred to avoid forced reflow
   useEffect(() => {
-    const el = document.documentElement;
-    setPageScrollable((el?.scrollHeight || 0) > (window.innerHeight || 0) + 1);
+    // Use requestIdleCallback to avoid blocking initial render
+    const check = () => {
+      const el = document.documentElement;
+      setPageScrollable((el?.scrollHeight || 0) > (window.innerHeight || 0) + 1);
+    };
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(check, { timeout: 500 });
+    } else {
+      setTimeout(check, 100);
+    }
   }, []);
 
-  // Resolve effective trigger
+  // Resolve effective trigger - avoid getBoundingClientRect during render
   const effectiveTrigger = useMemo(() => {
+    // For explicit triggers, return immediately without layout queries
     if (trigger === "scroll" || trigger === "visible" || trigger === "load") return trigger;
 
-    // "auto": above the fold → "load"; below → "scroll"
-    if (typeof window !== "undefined" && containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      return rect.top < window.innerHeight ? "load" : "scroll";
-    }
+    // "auto" mode: default to "scroll" initially, will update after idle check
     return pageScrollable ? "scroll" : "load";
   }, [trigger, pageScrollable]);
 

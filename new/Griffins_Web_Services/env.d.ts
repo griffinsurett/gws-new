@@ -1,5 +1,7 @@
 /// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
+/// <reference types="react" />
+/// <reference types="react-dom" />
 
 interface ImportMetaEnv {
   readonly PUBLIC_SITE_DOMAIN: string;
@@ -9,4 +11,9 @@ interface ImportMetaEnv {
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
+}
+
+declare module "*.mp4" {
+  const src: string;
+  export default src;
 }

@@ -1,0 +1,83 @@
+---
+/**
+ * CSS-Only Animated Counter
+ *
+ * Uses CSS @property and counter() for zero-JS number animation.
+ * Best for integers in above-the-fold content where React hydration would delay LCP.
+ *
+ * Limitations:
+ * - Integers only (no decimals)
+ * - Static end value (can't change dynamically)
+ * - Browser support: Chrome 85+, Firefox 128+, Safari 16.4+
+ */
+interface Props {
+  start?: number;
+  end: number;
+  duration?: number;
+  prefix?: string;
+  suffix?: string;
+  className?: string;
+}
+
+const {
+  start = 0,
+  end,
+  duration = 2000,
+  prefix = "",
+  suffix = "",
+  className = "",
+} = Astro.props;
+
+const durationSec = duration / 1000;
+const uniqueId = `counter-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<span class={`css-counter ${className}`.trim()} data-counter={uniqueId}>
+  {prefix && <span class="counter-prefix">{prefix}</span>}
+  <span class="counter-value" style={`--start: ${start}; --end: ${end}; --duration: ${durationSec}s;`}></span>
+  {suffix && <span class="counter-suffix">{suffix}</span>}
+</span>
+
+<style>
+  @property --num {
+    syntax: '<integer>';
+    initial-value: 0;
+    inherits: false;
+  }
+
+  .css-counter {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.1em;
+  }
+
+  .counter-value {
+    --num: var(--start, 0);
+    animation: countUp var(--duration, 2s) ease-out forwards;
+    counter-reset: num var(--num);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .counter-value::after {
+    content: counter(num);
+  }
+
+  @keyframes countUp {
+    from {
+      --num: var(--start, 0);
+    }
+    to {
+      --num: var(--end, 100);
+    }
+  }
+
+  /* Fallback for browsers without @property support - show end value immediately */
+  @supports not (background: paint(something)) {
+    .counter-value::after {
+      content: none;
+    }
+    .counter-value::before {
+      content: attr(data-end);
+    }
+  }
+</style>

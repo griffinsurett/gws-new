@@ -110,10 +110,10 @@ export const collections = {
   "projects": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({
-        client: z.string(),
+        client: z.string().optional(),
         projectUrl: z.string().url().optional(),
         technologies: z.array(z.string()).default([]),
-        category: z.string(),
+        category: z.string().optional(),
       }),
   }),
 
@@ -130,7 +130,26 @@ export const collections = {
       baseSchema({ image }).extend({
         price: z.string().optional(),
         featured: z.boolean().optional(),
-        features: z.array(z.string()).default([]),
+        features: z
+          .array(
+            z.union([
+              z.string(),
+              z.object({
+                title: z.string(),
+                description: z.string().optional(),
+              }),
+            ]),
+          )
+          .default([]),
+        benefits: z
+          .array(
+            z.object({
+              title: z.string(),
+              description: z.string().optional(),
+              icon: z.string().optional(),
+            }),
+          )
+          .default([]),
       }),
   }),
 
@@ -139,6 +158,7 @@ export const collections = {
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         features: z.array(z.string()).default([]),
+        solutions: refSchema("solutions"),
       }),
   }),
 
@@ -158,7 +178,12 @@ export const collections = {
   "stats": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({
-        stat: z.string(),
+        stat: z.string().optional(),
+        statValue: z.number().optional(),
+        statStart: z.number().optional(),
+        statPrefix: z.string().optional(),
+        statSuffix: z.string().optional(),
+        statAnimate: z.boolean().optional(),
         icon: z.string().optional(),
         highlight: z.boolean().optional(),
       }),
@@ -171,4 +196,5 @@ export const collections = {
         highlight: z.boolean().optional(),
       }),
   }),
+
 };

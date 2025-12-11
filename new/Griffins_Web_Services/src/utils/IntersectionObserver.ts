@@ -7,7 +7,7 @@ interface IntersectionObserverOptions {
   onExit?: (entry: IntersectionObserverEntry) => void;
 }
 
-export function useIntersectionObserver(
+export function createIntersectionObserver(
   element: Element,
   {
     threshold = 0.1,

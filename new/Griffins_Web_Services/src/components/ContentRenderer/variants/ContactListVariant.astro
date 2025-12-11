@@ -1,0 +1,109 @@
+---
+// src/components/ContentRenderer/variants/ContactListVariant.astro
+/**
+ * Contact List Variant
+ *
+ * Slimmed down list presentation of contact links (phone, email, etc.)
+ * Mirrors ListVariant spacing but decorates each entry with its icon + prefix.
+ */
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import DividerHeading from "@/components/DividerHeading/DividerHeading";
+import Button from "@/components/Button/Button";
+import Icon from "@/components/Icon";
+import { normalizeContactLinks } from "@/utils/contactLinks";
+import { shouldShowCollectionCTA } from "../utils/helpers";
+import { toArray } from "@/utils/array";
+
+interface Props extends BaseVariantProps {
+  ctaHref?: string;
+  ctaText?: string;
+}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "",
+  collectionUrl,
+  collectionTitle,
+  id,
+  showButtonSection = true,
+  ctaHref,
+  ctaText,
+  showHeadingDivider = false,
+  showHeadingSection = true,
+} = Astro.props as Props;
+
+const safeItems = toArray(items);
+const contactLinks = normalizeContactLinks(safeItems);
+---
+
+<section id={id} class={`${className}`}>
+  {showHeadingSection && (title || description) && (
+    <DividerHeading
+      title={title}
+      showDivider={showHeadingDivider}
+      className="mb-4"
+      headingClassName="h4 text-heading"
+    />
+  )}
+
+  {contactLinks.length > 0 && (
+    <ul class="flex flex-col gap-3 list-none">
+      {contactLinks.map((link) => {
+        const href = link.url;
+        const displayValue = link.displayTitle || link.title;
+        const supportingText = link.description;
+        const iconName = link.icon;
+        return (
+          <li class="py-2" data-contact-id={link.id}>
+            {href ? (
+              <a
+                href={href}
+                class="flex items-center gap-3 group hover:text-primary transition-colors"
+              >
+                <span class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-bg transition-colors">
+                  <Icon
+                    icon={iconName}
+                    size="md"
+                    className="w-5 h-5"
+                  />
+                </span>
+                <span class="flex flex-col">
+                  <span class="text-heading font-semibold">
+                    {displayValue}
+                  </span>
+                  {supportingText && (
+                    <span class="text-sm text-text/70 uppercase tracking-wide">
+                      {supportingText}
+                    </span>
+                  )}
+                </span>
+              </a>
+            ) : (
+              <div class="flex items-center gap-3">
+                <span class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                  <Icon
+                    icon={iconName}
+                    size="md"
+                    className="w-5 h-5"
+                  />
+                </span>
+                <div class="flex flex-col">
+                  <span class="text-heading font-semibold">
+                    {displayValue}
+                  </span>
+                  {supportingText && (
+                    <span class="text-sm text-text/70 uppercase tracking-wide">
+                      {supportingText}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  )}
+</section>

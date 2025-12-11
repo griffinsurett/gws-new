@@ -1,0 +1,70 @@
+---
+// src/components/Video/Video.astro
+/**
+ * Astro Video wrapper - generates poster at build time, passes to React.
+ */
+import VideoClient from "./Video";
+import { generateVideoPoster } from "@/utils/videoThumbnails";
+
+interface Props {
+  src: string;
+  poster?: string;
+  alt?: string;
+  class?: string;
+  aspectClass?: string;
+  videoClass?: string;
+  showPlayButton?: boolean;
+  lazy?: boolean;
+  muted?: boolean;
+  autoplay?: boolean;
+  controls?: boolean;
+  loop?: boolean;
+  playsInline?: boolean;
+  timecodeSeconds?: number;
+}
+
+const {
+  src,
+  poster: manualPoster,
+  alt = "Video preview",
+  class: className = "",
+  aspectClass = "aspect-video",
+  videoClass = "",
+  showPlayButton = true,
+  lazy = true,
+  muted = true,
+  autoplay = false,
+  controls = true,
+  loop = false,
+  playsInline = true,
+  timecodeSeconds = 0,
+} = Astro.props;
+
+// Generate poster at build time if not provided
+let posterSrc = manualPoster;
+let placeholderSrc: string | undefined;
+
+if (!posterSrc) {
+  const generated = await generateVideoPoster(src, { timecodeSeconds, width: 1600 });
+  posterSrc = generated.src;
+  placeholderSrc = generated.placeholderSrc;
+}
+---
+
+<VideoClient
+  client:visible
+  src={src}
+  poster={posterSrc}
+  placeholderSrc={placeholderSrc}
+  alt={alt}
+  className={className}
+  aspectClass={aspectClass}
+  videoClass={videoClass}
+  showPlayButton={showPlayButton}
+  lazy={lazy}
+  muted={muted}
+  autoplay={autoplay}
+  controls={controls}
+  loop={loop}
+  playsInline={playsInline}
+/>

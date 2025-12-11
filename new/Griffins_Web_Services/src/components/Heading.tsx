@@ -1,4 +1,11 @@
 import type { HTMLAttributes, ReactNode } from "react";
+import type * as ReactNamespace from "react";
+import type { HeadingContent } from "@/content/schema";
+
+type HeadingTag = Extract<
+  keyof ReactNamespace.JSX.IntrinsicElements,
+  keyof HTMLElementTagNameMap
+>;
 
 interface HeadingSegmentProps {
   id?: string;
@@ -7,7 +14,8 @@ interface HeadingSegmentProps {
 }
 
 interface HeadingProps extends HTMLAttributes<HTMLElement> {
-  tagName?: keyof JSX.IntrinsicElements;
+  className?: string;
+  tagName?: HeadingTag;
   before?: ReactNode;
   text?: ReactNode;
   after?: ReactNode;
@@ -20,6 +28,7 @@ interface HeadingProps extends HTMLAttributes<HTMLElement> {
   beforeProps?: HeadingSegmentProps;
   textProps?: HeadingSegmentProps;
   afterProps?: HeadingSegmentProps;
+  segmented?: HeadingContent | null;
   children?: ReactNode;
 }
 
@@ -38,6 +47,7 @@ export default function Heading({
   beforeProps,
   textProps,
   afterProps,
+  segmented,
   children,
   ...props
 }: HeadingProps) {
@@ -51,6 +61,8 @@ export default function Heading({
 
   const isPropBased =
     before !== undefined || text !== undefined || after !== undefined;
+  const hasSegmented =
+    segmented !== undefined && segmented !== null;
 
   const mergeProps = (
     idFromProp: string | undefined,
@@ -68,19 +80,43 @@ export default function Heading({
     };
   };
 
-  const TagComponent = Tag as keyof JSX.IntrinsicElements;
+  const TagComponent = Tag as HeadingTag;
 
   return (
-    <TagComponent className={finalClassName} {...props}>
-      {isPropBased ? (
+    <TagComponent className={`${finalClassName} capitalize`} {...props}>
+      {hasSegmented ? (
         <>
-          {before !== undefined && (
+          {segmented?.before !== undefined && (
             <span {...mergeProps(beforeId, beforeClass, beforeProps)}>
-              {before}
+              {`${segmented.before} `}
             </span>
           )}
+          {segmented?.text !== undefined && (
+            <span {...mergeProps(textId, textClass, textProps)}>
+              {`${segmented.text} `}
+            </span>
+          )}
+          {segmented?.after !== undefined && (
+            <span {...mergeProps(afterId, afterClass, afterProps)}>
+              {segmented.after}
+            </span>
+          )}
+        </>
+      ) : isPropBased ? (
+        <>
+          {before !== undefined && (
+            <>
+              <span {...mergeProps(beforeId, beforeClass, beforeProps)}>
+                {before}
+              </span>
+              {" "}
+            </>
+          )}
           {text !== undefined && (
-            <span {...mergeProps(textId, textClass, textProps)}>{text}</span>
+            <>
+              <span {...mergeProps(textId, textClass, textProps)}>{text}</span>
+              {" "}
+            </>
           )}
           {after !== undefined && (
             <span {...mergeProps(afterId, afterClass, afterProps)}>

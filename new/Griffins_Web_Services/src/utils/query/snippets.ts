@@ -196,8 +196,72 @@ export const siblings = (
 // RELATIONAL QUERIES
 // ============================================================================
 
-// TODO: Items that reference a specific entry
-// export const referencedBy = (collection: CollectionKey, targetCollection: string, targetId: string) => {}
+/**
+ * Filter function for matching a reference field to a target ID.
+ * Handles both single refs and arrays of refs.
+ */
+const matchesRef = (fieldValue: any, targetNormalized: string): boolean => {
+  if (!fieldValue) return false;
+
+  if (Array.isArray(fieldValue)) {
+    return fieldValue.some((ref: any) => {
+      const id = typeof ref === "string" ? ref : ref?.id || ref?.slug || "";
+      return normalizeId(id) === targetNormalized;
+    });
+  }
+
+  const id = typeof fieldValue === "string" ? fieldValue : fieldValue?.id || fieldValue?.slug || "";
+  return normalizeId(id) === targetNormalized;
+};
+
+/**
+ * Items from a collection that reference a specific entry via a field.
+ *
+ * Example: Get capabilities related to the "blogs" solution
+ * related("capabilities", "solutions", "blogs")
+ *
+ * @param collection - The collection to query (e.g., "capabilities")
+ * @param field - The reference field name (e.g., "solutions")
+ * @param targetId - The ID of the target entry (e.g., "blogs")
+ */
+export const related = (
+  collection: CollectionKey,
+  field: string,
+  targetId: string
+) => {
+  const targetNormalized = normalizeId(targetId);
+
+  return query(collection)
+    .where((entry) => matchesRef((entry.data as any)[field], targetNormalized))
+    .orderBy(sortByOrder());
+};
+
+/**
+ * Root-level items (no parent) that reference a specific entry via a field.
+ *
+ * Example: Get root capabilities related to the "blogs" solution
+ * relatedRoots("capabilities", "solutions", "blogs")
+ *
+ * @param collection - The collection to query (e.g., "capabilities")
+ * @param field - The reference field name (e.g., "solutions")
+ * @param targetId - The ID of the target entry (e.g., "blogs")
+ */
+export const relatedRoots = (
+  collection: CollectionKey,
+  field: string,
+  targetId: string
+) => {
+  const targetNormalized = normalizeId(targetId);
+
+  return query(collection)
+    .where((entry) => {
+      const data = entry.data as any;
+      // Must have no parent AND match the reference
+      const hasNoParent = !data.parent || (Array.isArray(data.parent) && data.parent.length === 0);
+      return hasNoParent && matchesRef(data[field], targetNormalized);
+    })
+    .orderBy(sortByOrder());
+};
 
 // TODO: Items with references to any entry in target collection
 // export const withReferencesTo = (collection: CollectionKey, targetCollection: CollectionKey) => {}

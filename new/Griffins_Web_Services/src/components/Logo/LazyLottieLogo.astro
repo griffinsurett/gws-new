@@ -1,0 +1,122 @@
+---
+/**
+ * LazyLottieLogo - Defers React/Lottie loading until first scroll
+ *
+ * Shows a static image initially, then loads the React LottieLogo component
+ * only when the user starts scrolling. This keeps React out of the critical path.
+ */
+import { Image } from "astro:assets";
+import POSTER_SRC from "@/assets/GWS-animated.png";
+
+export interface Props {
+  alt?: string;
+  loading?: "lazy" | "eager";
+  trigger?: "scroll" | "visible" | "load";
+  className?: string;
+  mediaClasses?: string;
+}
+
+const {
+  alt = "Logo",
+  loading = "eager",
+  trigger = "scroll",
+  className = "",
+  mediaClasses = "",
+} = Astro.props;
+
+const LOGO_WIDTHS = [45, 80, 90];
+const LOGO_SIZES = "(min-width: 1024px) 45px, 40px";
+---
+
+<div
+  class={`lazy-lottie-container ${className}`}
+  data-lazy-lottie
+  data-trigger={trigger}
+  data-alt={alt}
+  data-media-classes={mediaClasses}
+>
+  {/* Static fallback - always visible until Lottie loads */}
+  <div class={`${mediaClasses} relative`}>
+    <Image
+      src={POSTER_SRC}
+      alt={alt}
+      loading={loading}
+      decoding="async"
+      format="webp"
+      widths={LOGO_WIDTHS}
+      sizes={LOGO_SIZES}
+      quality={90}
+      class={mediaClasses}
+      fetchpriority={loading === "eager" ? "high" : "low"}
+    />
+  </div>
+</div>
+
+<script>
+  // Only load LottieLogo after first scroll (when trigger="scroll")
+  // This keeps React completely out of the critical path
+
+  let hasLoaded = false;
+
+  function loadLottie() {
+    if (hasLoaded) return;
+    hasLoaded = true;
+
+    // Remove scroll listener
+    window.removeEventListener('scroll', loadLottie, { capture: true });
+    window.removeEventListener('wheel', loadLottie, { capture: true });
+    window.removeEventListener('touchmove', loadLottie, { capture: true });
+
+    // Dynamically import and render the React component
+    import('./LottieLogo').then(({ default: LottieLogo }) => {
+      import('react').then((React) => {
+        import('react-dom/client').then(({ createRoot }) => {
+          const containers = document.querySelectorAll('[data-lazy-lottie]');
+
+          containers.forEach((container) => {
+            const trigger = container.getAttribute('data-trigger') || 'scroll';
+            const alt = container.getAttribute('data-alt') || 'Logo';
+            const mediaClasses = container.getAttribute('data-media-classes') || '';
+
+            // Get the existing image to use as fallback
+            const existingImage = container.querySelector('img');
+            const fallbackHtml = existingImage?.outerHTML || '';
+
+            // Create React root and render
+            const root = createRoot(container);
+            root.render(
+              React.createElement(LottieLogo, {
+                alt,
+                trigger,
+                className: 'logo-class',
+                mediaClasses,
+                children: React.createElement('div', {
+                  dangerouslySetInnerHTML: { __html: fallbackHtml }
+                })
+              })
+            );
+          });
+        });
+      });
+    });
+  }
+
+  // Check if we should load immediately or wait for scroll
+  const containers = document.querySelectorAll('[data-lazy-lottie]');
+  const firstContainer = containers[0];
+  const trigger = firstContainer?.getAttribute('data-trigger');
+
+  if (trigger === 'load') {
+    // Load immediately after idle
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => loadLottie(), { timeout: 2000 });
+    } else {
+      setTimeout(loadLottie, 100);
+    }
+  } else {
+    // Wait for first scroll/wheel/touch
+    window.addEventListener('scroll', loadLottie, { capture: true, passive: true, once: true });
+    window.addEventListener('wheel', loadLottie, { capture: true, passive: true, once: true });
+    window.addEventListener('touchmove', loadLottie, { capture: true, passive: true, once: true });
+  }
+</script>
